@@ -2,7 +2,7 @@
 
 void AirMonitorController::init()
 {
-    alarmController.init();
+    buzzerDriver.init();
 }
 
 void AirMonitorController::update()

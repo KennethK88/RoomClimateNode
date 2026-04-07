@@ -1,21 +1,16 @@
 #include "AlarmController.h"
 
-void AlarmController::init()
-{
-    buzzerDriver.initBuzzer();
-}
-
 void AlarmController::updateAlarm(SystemState systemState)
 {
     if(systemState == SystemState::Warning) 
     {
         alarmActive = true;
-        buzzerDriver.activateBuzzer();
+        alarmOutput.activate();
     }
     else 
     {
         alarmActive = false;
-        buzzerDriver.deactivateBuzzer();
+        alarmOutput.deactivate();
     }
 }
 

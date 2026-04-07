@@ -5,6 +5,7 @@
 #include "StateMachine.h"
 #include "DisplayController.h"
 #include "AlarmController.h"
+#include "BuzzerDriver.h"
 
 class AirMonitorController
 {
@@ -14,10 +15,11 @@ class AirMonitorController
         ThresholdEvaluator thresholdEvaluator;
         DisplayController displayController;
         StateMachine stateMachine;
+        BuzzerDriver buzzerDriver;
         AlarmController alarmController;
 
     public:
-        AirMonitorController() = default;
+        AirMonitorController() : alarmController(buzzerDriver) {}
         void init();
         void update();
 };

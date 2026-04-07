@@ -1,16 +1,15 @@
 #pragma once
 #include "SystemState.h"
-#include "BuzzerDriver.h"
+#include "IAlarmOutput.h"
 
 class AlarmController
 {
     private:
         bool alarmActive = false;
-        BuzzerDriver buzzerDriver;
+        IAlarmOutput& alarmOutput;
 
     public:
-        AlarmController() = default;
-        void init();
+        AlarmController(IAlarmOutput& alarmOutput) : alarmOutput(alarmOutput) {};
         void updateAlarm(SystemState systemState);
         bool isAlarmActive() const;
 };
