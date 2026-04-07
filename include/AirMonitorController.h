@@ -6,6 +6,8 @@
 #include "DisplayController.h"
 #include "AlarmController.h"
 #include "BuzzerDriver.h"
+#include "LedDriver.h"
+#include "CompositeAlarmOutput.h"
 
 class AirMonitorController
 {
@@ -16,10 +18,12 @@ class AirMonitorController
         DisplayController displayController;
         StateMachine stateMachine;
         BuzzerDriver buzzerDriver;
+        LedDriver ledDriver;
+        CompositeAlarmOutput compositeAlarmOutput;
         AlarmController alarmController;
 
     public:
-        AirMonitorController() : alarmController(buzzerDriver) {}
+        AirMonitorController() : alarmController(compositeAlarmOutput) {}
         void init();
         void update();
 };
