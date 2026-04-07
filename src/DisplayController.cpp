@@ -1,5 +1,6 @@
 #include "DisplayController.h"
 #include <iostream> // TODO: iostream entfernen, wenn Schnittstellen in updateDisplay() ersetzt wurden
+#include <Arduino.h>
 
 static const char* convertSystemStateToString(SystemState systemState)
 {
@@ -19,8 +20,8 @@ static const char* convertSystemStateToString(SystemState systemState)
 void DisplayController::updateDisplay(const Measurements& measurements, SystemState systemState)
 {
     // TODO: std::cout durch Schnittstellen ersetzen
-    std::cout << measurements.temperature << " °C\n";
-    std::cout << measurements.humidity << " %\n";
-    std::cout << measurements.co << " ppm\n";
-    std::cout << convertSystemStateToString(systemState) << "\n";
+    Serial.println(measurements.temperature);
+    Serial.println(measurements.humidity);
+    Serial.println(measurements.co);
+    Serial.println(convertSystemStateToString(systemState));
 }

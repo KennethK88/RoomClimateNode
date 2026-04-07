@@ -18,5 +18,6 @@ class AirMonitorController
 
     public:
         AirMonitorController() = default;
+        void init();
         void update();
 };

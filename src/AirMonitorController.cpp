@@ -1,5 +1,10 @@
 #include "AirMonitorController.h"
 
+void AirMonitorController::init()
+{
+    alarmController.init();
+}
+
 void AirMonitorController::update()
 {
     Measurements measurements = sensorCoordinator.readAllSensors();

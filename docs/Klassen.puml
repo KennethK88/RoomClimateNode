@@ -1,0 +1,128 @@
+@startuml
+title Luftüberwachung – Klassendiagramm (bereinigt)
+
+' ===== Klassen =====
+class TemperatureSensor
+{
+    -currentTemperature : float
+    +TemperatureSensor()
+    +readTemperature() : void
+    +getTemperature() : float
+}
+class HumiditySensor
+{
+    -currentHumidity : float
+    +HumiditySensor()
+    +readHumidity() : void
+    +getHumidity() : float
+}
+class COSensor
+{
+    -currentCO : float
+    +COSensor()
+    +readCO() : void
+    +getCO() : float
+}
+
+class SensorCoordinator
+{
+    -tempSens : TemperatureSensor
+    -humSens : HumiditySensor
+    -coSens : COSensor
+    +SensorCoordinator()
+    +readAllSensors() : Measurements
+}
+
+class SensorValidator
+{
+    +SensorValidator()
+    +validateAllSensors() : ValidationResult   
+} 
+
+class ThresholdEvaluator
+{
+    +ThresholdEvaluator()
+    +evaluateAllSensors() : ThresholdResult
+}
+
+class StateMachine
+{
+    +StateMachine()
+    +calculateState() : SystemState
+}
+class DisplayController
+{
+    +DisplayController()
+    +updateDisplay() : void
+}
+
+class AlarmController
+{
+    -alarmActive : bool
+    -buzzerDriver : BuzzerDriver
+    +AlarmController()
+    +init();
+    +updateAlarm() : void
+    +isAlarmActive() : bool
+}
+
+class AirMonitorController
+{
+    -sensorCoordinator : SensorCoordinator
+    -sensorValidator : SensorValidator
+    -thresholdEvaluator : ThresholdEvaluator
+    -displayController : DisplayController
+    -stateMachine : StateMachine
+    -alarmController : AlarmController
+    +AirMonitorController()
+    +init()
+    +update() : void
+}
+
+class BuzzerDriver
+{
+    +BuzzerDriver()
+    +initBuzzer() : void
+    +activateBuzzer() : void
+    +deactivateBuzzer() : void
+}
+
+struct Measurements
+struct ValidationResult
+struct ThresholdResult
+struct SystemState
+
+' ===== Besitz / feste Abhängigkeiten =====
+AirMonitorController --> SensorCoordinator
+AirMonitorController --> SensorValidator
+AirMonitorController --> ThresholdEvaluator
+AirMonitorController --> StateMachine
+AirMonitorController --> DisplayController
+AirMonitorController --> AlarmController
+
+SensorCoordinator --> TemperatureSensor
+SensorCoordinator --> HumiditySensor
+SensorCoordinator --> COSensor
+
+AlarmController --> BuzzerDriver
+
+' ===== Nutzung / Datenfluss =====
+SensorValidator ..> Measurements
+SensorValidator ..> ValidationResult
+
+ThresholdEvaluator ..> Measurements
+ThresholdEvaluator ..> ValidationResult
+ThresholdEvaluator ..> ThresholdResult
+
+StateMachine ..> ValidationResult
+StateMachine ..> ThresholdResult
+StateMachine ..> SystemState
+
+SensorCoordinator ..> Measurements
+
+DisplayController ..> Measurements
+DisplayController ..> SystemState
+
+AlarmController ..> SystemState
+
+@enduml
