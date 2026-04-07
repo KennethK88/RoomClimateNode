@@ -59,9 +59,8 @@ class DisplayController
 class AlarmController
 {
     -alarmActive : bool
-    -buzzerDriver : BuzzerDriver
-    +AlarmController()
-    +init();
+    -alarmOutput : IAlarmOutput&
+    +AlarmController(IAlarmOutput&)
     +updateAlarm() : void
     +isAlarmActive() : bool
 }
@@ -73,18 +72,45 @@ class AirMonitorController
     -thresholdEvaluator : ThresholdEvaluator
     -displayController : DisplayController
     -stateMachine : StateMachine
+    -buzzerDriver : BuzzerDriver
+    -ledDriver : LedDriver
+    -compositeAlarmOutput : CompositeAlarmOutput
     -alarmController : AlarmController
     +AirMonitorController()
-    +init()
+    +init() : void
     +update() : void
 }
 
 class BuzzerDriver
 {
     +BuzzerDriver()
-    +initBuzzer() : void
-    +activateBuzzer() : void
-    +deactivateBuzzer() : void
+    +init() : void
+    +activate() : void
+    +deactivate() : void
+}
+
+class LedDriver
+{
+    +LedDriver()
+    +init() : void
+    +activate() : void
+    +deactivate() : void
+}
+
+interface IAlarmOutput
+{
+    +~IAlarmOutput()
+    +activate() : void
+    +deactivate() : void
+}
+
+class CompositeAlarmOutput
+{
+    -alarmOutputs : std::vector<IAlarmOutput*>
+    +CompositeAlarmOutput()
+    +add() : void
+    +activate() : void
+    +deactivate() : void
 }
 
 struct Measurements
@@ -98,13 +124,16 @@ AirMonitorController --> SensorValidator
 AirMonitorController --> ThresholdEvaluator
 AirMonitorController --> StateMachine
 AirMonitorController --> DisplayController
+AirMonitorController --> BuzzerDriver
+AirMonitorController --> LedDriver
+AirMonitorController --> CompositeAlarmOutput
 AirMonitorController --> AlarmController
 
 SensorCoordinator --> TemperatureSensor
 SensorCoordinator --> HumiditySensor
 SensorCoordinator --> COSensor
 
-AlarmController --> BuzzerDriver
+CompositeAlarmOutput --> "0..*" IAlarmOutput
 
 ' ===== Nutzung / Datenfluss =====
 SensorValidator ..> Measurements
@@ -124,5 +153,10 @@ DisplayController ..> Measurements
 DisplayController ..> SystemState
 
 AlarmController ..> SystemState
+AlarmController ..> IAlarmOutput
+
+IAlarmOutput <|.. BuzzerDriver
+IAlarmOutput <|.. LedDriver
+IAlarmOutput <|.. CompositeAlarmOutput
 
 @enduml

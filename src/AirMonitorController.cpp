@@ -10,10 +10,10 @@ void AirMonitorController::init()
 
 void AirMonitorController::update()
 {
-    Measurements measurements = sensorCoordinator.readAllSensors();
-    ValidationResult validationResult = sensorValidator.validateAllSensors(measurements);
-    ThresholdResult thresholdResult = thresholdEvaluator.evaluateAllSensors(measurements, validationResult);
-    SystemState systemState = stateMachine.calculateState(validationResult, thresholdResult);
+    const Measurements measurements = sensorCoordinator.readAllSensors();
+    const ValidationResult validationResult = sensorValidator.validateAllSensors(measurements);
+    const ThresholdResult thresholdResult = thresholdEvaluator.evaluateAllSensors(measurements, validationResult);
+    const SystemState systemState = stateMachine.calculateState(validationResult, thresholdResult);
     displayController.updateDisplay(measurements, systemState);
     alarmController.updateAlarm(systemState);
 }
