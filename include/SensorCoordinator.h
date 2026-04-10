@@ -1,6 +1,6 @@
 #pragma once
 #include "TemperatureSensor.h"
-#include "HumiditySensor.h"
+#include "SimulatedHumiditySensor.h"
 #include "COSensor.h"
 #include "Measurements.h"
 
@@ -10,7 +10,7 @@ class SensorCoordinator
 {
     private:
         TemperatureSensor tempSens;
-        HumiditySensor humSens;
+        SimulatedHumiditySensor humSens;
         COSensor coSens;
 
     public:

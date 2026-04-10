@@ -2,7 +2,7 @@
 
 void HumiditySensor::readHumidity()
 {
-    currentHumidity = 20.0f; // TODO: Dummywert ersetzen
+    currentHumidity = 35.0f; // TODO: Dummywert ersetzen
 }
 
 float HumiditySensor::getHumidity() const
