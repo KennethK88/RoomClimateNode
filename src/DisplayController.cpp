@@ -1,5 +1,4 @@
 #include "DisplayController.h"
-#include <iostream> // TODO: iostream entfernen, wenn Schnittstellen in updateDisplay() ersetzt wurden
 #include <Arduino.h>
 
 static const char* convertSystemStateToString(SystemState systemState)
@@ -17,11 +16,35 @@ static const char* convertSystemStateToString(SystemState systemState)
     }
 }
 
+static void formatLine(float value, signed char width, unsigned char precision, char* bufferValue, char* bufferLine, size_t bufferLineSize, const char* formatText)
+{
+    dtostrf(value, width, precision, bufferValue);
+    snprintf(bufferLine, bufferLineSize, formatText, bufferValue);
+}
+
 void DisplayController::updateDisplay(const Measurements& measurements, SystemState systemState)
 {
-    // TODO: std::cout durch Schnittstellen ersetzen
-    Serial.println(measurements.temperature);
-    Serial.println(measurements.humidity);
-    Serial.println(measurements.co);
-    Serial.println(convertSystemStateToString(systemState));
+    // TODO: char Größen optimieren
+    char temperature[10];
+    char temperatureLine[20];
+
+    char humidity[10];
+    char humidityLine[20];
+
+    char co[10];
+    char coLine[20];
+
+    char statusLine[20];
+
+    formatLine(measurements.temperature, 6, 1, temperature, temperatureLine, sizeof(temperatureLine), "T: %s C");
+    formatLine(measurements.humidity, 5, 0, humidity, humidityLine, sizeof(humidityLine), "F: %s %%");
+    formatLine(measurements.co, 4, 0, co, coLine, sizeof(coLine), "CO: %s ppm");
+    snprintf(statusLine, sizeof(statusLine), "Status: %s", convertSystemStateToString(systemState));
+
+    displayOutput.clear();
+    displayOutput.writeLine(0, temperatureLine);
+    displayOutput.writeLine(1, humidityLine);
+    displayOutput.writeLine(2, coLine);
+    displayOutput.writeLine(3, statusLine);
+    displayOutput.display();
 }

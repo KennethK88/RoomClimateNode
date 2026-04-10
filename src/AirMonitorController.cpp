@@ -6,6 +6,7 @@ void AirMonitorController::init()
     compositeAlarmOutput.add(&ledDriver);
     buzzerDriver.init();
     ledDriver.init();
+    oledDriver.init();
 }
 
 void AirMonitorController::update()

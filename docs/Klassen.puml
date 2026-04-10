@@ -52,8 +52,9 @@ class StateMachine
 }
 class DisplayController
 {
-    +DisplayController()
-    +updateDisplay() : void
+    -displayOutput : IDisplayOutput&
+    +DisplayController(IDisplayOutput&)
+    +updateDisplay(const Measurements&, SystemState) : void
 }
 
 class AlarmController
@@ -61,7 +62,7 @@ class AlarmController
     -alarmActive : bool
     -alarmOutput : IAlarmOutput&
     +AlarmController(IAlarmOutput&)
-    +updateAlarm() : void
+    +updateAlarm(SystemState) : void
     +isAlarmActive() : bool
 }
 
@@ -70,6 +71,7 @@ class AirMonitorController
     -sensorCoordinator : SensorCoordinator
     -sensorValidator : SensorValidator
     -thresholdEvaluator : ThresholdEvaluator
+    -oledDriver : OledDriver
     -displayController : DisplayController
     -stateMachine : StateMachine
     -buzzerDriver : BuzzerDriver
@@ -108,9 +110,27 @@ class CompositeAlarmOutput
 {
     -alarmOutputs : std::vector<IAlarmOutput*>
     +CompositeAlarmOutput()
-    +add() : void
+    +add(IAlarmOutput*) : void
     +activate() : void
     +deactivate() : void
+}
+
+interface IDisplayOutput
+{
+    +~IDisplayOutput()
+    +clear() : void
+    +writeLine(int line, const char* text) : void
+    +display() : void
+}
+
+class OledDriver
+{
+    -oled : U8g2
+    +OledDriver()
+    +init() : void
+    +clear() : void
+    +writeLineint(line, const char* text) : void
+    +display() : void
 }
 
 struct Measurements
@@ -128,6 +148,7 @@ AirMonitorController --> BuzzerDriver
 AirMonitorController --> LedDriver
 AirMonitorController --> CompositeAlarmOutput
 AirMonitorController --> AlarmController
+AirMonitorController --> OledDriver
 
 SensorCoordinator --> TemperatureSensor
 SensorCoordinator --> HumiditySensor
@@ -151,6 +172,7 @@ SensorCoordinator ..> Measurements
 
 DisplayController ..> Measurements
 DisplayController ..> SystemState
+DisplayController ..> IDisplayOutput
 
 AlarmController ..> SystemState
 AlarmController ..> IAlarmOutput
@@ -158,5 +180,7 @@ AlarmController ..> IAlarmOutput
 IAlarmOutput <|.. BuzzerDriver
 IAlarmOutput <|.. LedDriver
 IAlarmOutput <|.. CompositeAlarmOutput
+
+IDisplayOutput <|.. OledDriver
 
 @enduml
