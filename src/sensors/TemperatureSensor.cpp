@@ -1,11 +1,11 @@
 #include "sensors/TemperatureSensor.h"
 
-void TemperatureSensor::readTemperature()
+void TemperatureSensor::readValue()
 {
     currentTemperature = 20.0f; // TODO: Dummywert ersetzen
 }
 
-float TemperatureSensor::getTemperature() const
+float TemperatureSensor::getValue() const
 {
     return currentTemperature;
 }

@@ -6,30 +6,30 @@ class TemperatureSensor
 {
     -currentTemperature : float
     +TemperatureSensor()
-    +readTemperature() : void
-    +getTemperature() : float
+    +readValue() : void
+    +getValue() : float
 }
 class HumiditySensor
 {
     -currentHumidity : float
     +HumiditySensor()
-    +readHumidity() : void
-    +getHumidity() : float
+    +readValue() : void
+    +getValue() : float
 }
 class COSensor
 {
     -currentCO : float
     +COSensor()
-    +readCO() : void
-    +getCO() : float
+    +readValue() : void
+    +getValue() : float
 }
 
 class SensorCoordinator
 {
-    -tempSens : TemperatureSensor
-    -humSens : HumiditySensor
-    -coSens : COSensor
-    +SensorCoordinator()
+    -tempSens : ISensor&
+    -humSens : ISensor&
+    -coSens : ISensor&
+    +SensorCoordinator(ISensor&, ISensor&, ISensor&)
     +readAllSensors() : Measurements
 }
 
@@ -78,6 +78,9 @@ class AirMonitorController
     -ledDriver : LedDriver
     -compositeAlarmOutput : CompositeAlarmOutput
     -alarmController : AlarmController
+    -temperatureSensor : TemperatureSensor
+    -humiditySensor : HumiditySensor
+    -coSensor : COSensor
     +AirMonitorController()
     +init() : void
     +update() : void
@@ -133,26 +136,34 @@ class OledDriver
     +display() : void
 }
 
+interface ISensor
+{
+    +~ISensor()
+    +readValue() : void
+    +getValue() : float
+}
+
 struct Measurements
 struct ValidationResult
 struct ThresholdResult
 struct SystemState
 
 ' ===== Besitz / feste Abhängigkeiten =====
+AirMonitorController --> TemperatureSensor
+AirMonitorController --> HumiditySensor
+AirMonitorController --> COSensor
 AirMonitorController --> SensorCoordinator
 AirMonitorController --> SensorValidator
 AirMonitorController --> ThresholdEvaluator
-AirMonitorController --> StateMachine
+AirMonitorController --> OledDriver
 AirMonitorController --> DisplayController
+AirMonitorController --> StateMachine
 AirMonitorController --> BuzzerDriver
 AirMonitorController --> LedDriver
 AirMonitorController --> CompositeAlarmOutput
 AirMonitorController --> AlarmController
-AirMonitorController --> OledDriver
 
-SensorCoordinator --> TemperatureSensor
-SensorCoordinator --> HumiditySensor
-SensorCoordinator --> COSensor
+SensorCoordinator --> "3" ISensor
 
 CompositeAlarmOutput --> "0..*" IAlarmOutput
 
@@ -182,5 +193,9 @@ IAlarmOutput <|.. LedDriver
 IAlarmOutput <|.. CompositeAlarmOutput
 
 IDisplayOutput <|.. OledDriver
+
+ISensor <|.. TemperatureSensor
+ISensor <|.. HumiditySensor
+ISensor <|.. COSensor
 
 @enduml

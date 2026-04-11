@@ -1,12 +1,12 @@
 #include "sensors/COSensor.h"
 
-void COSensor::readCO()
+void COSensor::readValue()
 {
-    currentCO = 20.0f; // FIXME: Dummywert ersetzen
+    currentCO = 20.0f; // TODO: Dummywert ersetzen
 }
 
 
-float COSensor::getCO() const
+float COSensor::getValue() const
 {
     return currentCO;
 }
