@@ -1,8 +1,8 @@
 #pragma once
-#include "TemperatureSensor.h"
-#include "SimulatedHumiditySensor.h"
-#include "COSensor.h"
-#include "Measurements.h"
+#include "sensors/TemperatureSensor.h"
+#include "sensors/SimulatedHumiditySensor.h"
+#include "sensors/COSensor.h"
+#include "data/Measurements.h"
 
 //TODO: Als Interface umsetzen?
 

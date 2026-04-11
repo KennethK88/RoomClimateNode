@@ -1,4 +1,4 @@
-#include "TemperatureSensor.h"
+#include "sensors/TemperatureSensor.h"
 
 void TemperatureSensor::readTemperature()
 {

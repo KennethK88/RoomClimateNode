@@ -1,4 +1,4 @@
-#include "SimulatedTemperatureSensor.h"
+#include "sensors/SimulatedTemperatureSensor.h"
 
 void SimulatedTemperatureSensor::readTemperature()
 {

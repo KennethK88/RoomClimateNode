@@ -1,7 +1,7 @@
 #pragma once
-#include "ThresholdResult.h"
-#include "ValidationResult.h"
-#include "SystemState.h"
+#include "data/ThresholdResult.h"
+#include "data/ValidationResult.h"
+#include "utils/SystemState.h"
 
 class StateMachine
 {

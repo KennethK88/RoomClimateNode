@@ -1,7 +1,7 @@
 #pragma once
-#include "CommonSensorConstants.h"
-#include "Measurements.h"
-#include "ValidationResult.h"
+#include "utils/CommonSensorConstants.h"
+#include "data/Measurements.h"
+#include "data/ValidationResult.h"
 
 class SensorValidator
 {

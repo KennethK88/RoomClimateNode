@@ -1,6 +1,6 @@
-#include "BuzzerDriver.h"
+#include "alarm/BuzzerDriver.h"
 #include <Arduino.h>
-#include "HardwareConfig.h"
+#include "utils/HardwareConfig.h"
 
 void BuzzerDriver::init()
 {

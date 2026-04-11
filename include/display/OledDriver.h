@@ -1,5 +1,5 @@
 #pragma once
-#include "IDisplayOutput.h"
+#include "display/IDisplayOutput.h"
 #include <U8g2lib.h>
 
 class OledDriver : public IDisplayOutput

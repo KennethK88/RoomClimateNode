@@ -1,5 +1,5 @@
 #pragma once
-#include "CommonSensorConstants.h"
+#include "utils/CommonSensorConstants.h"
 
 class TemperatureSensor
 {

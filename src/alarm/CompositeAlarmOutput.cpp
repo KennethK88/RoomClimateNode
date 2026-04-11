@@ -1,4 +1,4 @@
-#include "CompositeAlarmOutput.h"
+#include "alarm/CompositeAlarmOutput.h"
 
 void CompositeAlarmOutput::add(IAlarmOutput* alarmOutput)
 {

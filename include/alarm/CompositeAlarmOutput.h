@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "IAlarmOutput.h"
+#include "alarm/IAlarmOutput.h"
 
 class CompositeAlarmOutput : public IAlarmOutput
 {

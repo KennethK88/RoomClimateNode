@@ -1,5 +1,5 @@
 #pragma once
-#include "IAlarmOutput.h"
+#include "alarm/IAlarmOutput.h"
 
 class BuzzerDriver : public IAlarmOutput
 {

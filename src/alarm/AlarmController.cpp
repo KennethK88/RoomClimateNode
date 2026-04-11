@@ -1,4 +1,4 @@
-#include "AlarmController.h"
+#include "alarm/AlarmController.h"
 
 void AlarmController::updateAlarm(SystemState systemState)
 {

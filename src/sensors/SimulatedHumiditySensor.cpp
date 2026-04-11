@@ -1,4 +1,4 @@
-#include "SimulatedHumiditySensor.h"
+#include "sensors/SimulatedHumiditySensor.h"
 
 void SimulatedHumiditySensor::readHumidity()
 {

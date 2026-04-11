@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include "AirMonitorController.h"
+#include "controller/AirMonitorController.h"
 
 AirMonitorController airMonitorController;
 

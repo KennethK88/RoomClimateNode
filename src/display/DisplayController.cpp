@@ -1,4 +1,4 @@
-#include "DisplayController.h"
+#include "display/DisplayController.h"
 #include <Arduino.h>
 
 static const char* convertSystemStateToString(SystemState systemState)

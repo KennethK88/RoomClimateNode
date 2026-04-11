@@ -1,14 +1,14 @@
 #pragma once
-#include "SensorCoordinator.h"
-#include "SensorValidator.h"
-#include "ThresholdEvaluator.h"
-#include "StateMachine.h"
-#include "DisplayController.h"
-#include "AlarmController.h"
-#include "BuzzerDriver.h"
-#include "LedDriver.h"
-#include "CompositeAlarmOutput.h"
-#include "OledDriver.h"
+#include "sensors/SensorCoordinator.h"
+#include "evaluation/SensorValidator.h"
+#include "evaluation/ThresholdEvaluator.h"
+#include "evaluation/StateMachine.h"
+#include "display/DisplayController.h"
+#include "alarm/AlarmController.h"
+#include "alarm/BuzzerDriver.h"
+#include "alarm/LedDriver.h"
+#include "alarm/CompositeAlarmOutput.h"
+#include "display/OledDriver.h"
 
 class AirMonitorController
 {
