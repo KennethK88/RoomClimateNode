@@ -1,7 +1,7 @@
 #pragma once
 #include "sensors/TemperatureSensor.h"
-#include "sensors/SimulatedHumiditySensor.h"
-#include "sensors/COSensor.h"
+#include "sensors/HumiditySensor.h"
+#include "sensors/SimulatedCOSensor.h"
 #include "data/Measurements.h"
 
 //TODO: Als Interface umsetzen?
@@ -10,8 +10,8 @@ class SensorCoordinator
 {
     private:
         TemperatureSensor tempSens;
-        SimulatedHumiditySensor humSens;
-        COSensor coSens;
+        HumiditySensor humSens;
+        SimulatedCOSensor coSens;
 
     public:
         SensorCoordinator() = default;
