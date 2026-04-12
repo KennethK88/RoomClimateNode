@@ -5,7 +5,7 @@
 class COSensor : public ISensor
 {
     private:
-        float currentCO = SensorConstants::CO_NOT_INITIALIZED; // TODO: Anderer Startwert?
+        float currentCO = SensorConstants::CO_NOT_INITIALIZED;
 
     public:
         COSensor() = default;

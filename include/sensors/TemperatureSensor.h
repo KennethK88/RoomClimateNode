@@ -5,7 +5,7 @@
 class TemperatureSensor : public ISensor
 {
     private:
-        float currentTemperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED; // TODO: Anderer Startwert?
+        float currentTemperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
 
     public:
         TemperatureSensor() = default;

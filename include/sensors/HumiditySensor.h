@@ -5,7 +5,7 @@
 class HumiditySensor : public ISensor
 {
     private:
-        float currentHumidity=SensorConstants::HUMIDITY_NOT_INITIALIZED; // TODO: Anderer Startwert?
+        float currentHumidity=SensorConstants::HUMIDITY_NOT_INITIALIZED;
 
     public:
         HumiditySensor() = default;
