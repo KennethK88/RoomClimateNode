@@ -1,3 +1,4 @@
+#ifndef PIO_UNIT_TESTING
 #include <Arduino.h>
 #include <Wire.h>
 #include "controller/AirMonitorController.h"
@@ -17,3 +18,6 @@ void loop()
   delay(1000);
   //Serial.println("Läuft");
 }
+
+// TODO: main verschieben wg. Tests
+#endif
