@@ -1,6 +1,6 @@
 #pragma once
 #include "data/ThresholdResults.h"
-#include "data/ValidationResults.h"
+#include <ValidationResults.h>
 #include "utils/SystemState.h"
 
 class StateMachine

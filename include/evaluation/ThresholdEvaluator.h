@@ -1,6 +1,6 @@
 #pragma once
-#include "data/ValidationResults.h"
-#include "data/Measurements.h"
+#include <ValidationResults.h>
+#include <Measurements.h>
 #include "data/ThresholdResults.h"
 #include <CommonSensorConstants.h>
 
