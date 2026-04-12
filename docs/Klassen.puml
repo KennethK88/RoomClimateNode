@@ -42,7 +42,7 @@ class SensorValidator
 class ThresholdEvaluator
 {
     +ThresholdEvaluator()
-    +evaluateAllSensors() : ThresholdResult
+    +evaluateAllSensors() : ThresholdResults
 }
 
 class StateMachine
@@ -145,7 +145,7 @@ interface ISensor
 
 struct Measurements
 struct ValidationResult
-struct ThresholdResult
+struct ThresholdResults
 struct SystemState
 
 ' ===== Besitz / feste Abhängigkeiten =====
@@ -173,10 +173,10 @@ SensorValidator ..> ValidationResult
 
 ThresholdEvaluator ..> Measurements
 ThresholdEvaluator ..> ValidationResult
-ThresholdEvaluator ..> ThresholdResult
+ThresholdEvaluator ..> ThresholdResults
 
 StateMachine ..> ValidationResult
-StateMachine ..> ThresholdResult
+StateMachine ..> ThresholdResults
 StateMachine ..> SystemState
 
 SensorCoordinator ..> Measurements

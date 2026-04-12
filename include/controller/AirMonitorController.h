@@ -35,3 +35,5 @@ class AirMonitorController
         void init();
         void update();
 };
+
+// TODO: AirMonitorController aufteilen

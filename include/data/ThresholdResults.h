@@ -1,6 +1,6 @@
 #pragma once
 
-struct ThresholdResult
+struct ThresholdResults
 {
         bool temperatureTooHigh = false;
         bool humidityTooHigh = false;
@@ -9,5 +9,3 @@ struct ThresholdResult
         bool temperatureTooLow = false;
         bool humidityTooLow = false;
 };
-
-//FIXME: ThresholdResults?

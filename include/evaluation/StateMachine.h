@@ -1,5 +1,5 @@
 #pragma once
-#include "data/ThresholdResult.h"
+#include "data/ThresholdResults.h"
 #include "data/ValidationResult.h"
 #include "utils/SystemState.h"
 
@@ -7,5 +7,5 @@ class StateMachine
 {
     public:
         StateMachine() = default;
-        SystemState calculateState(const ValidationResult& validationResult, const ThresholdResult& thresholdResult);
+        SystemState calculateState(const ValidationResult& validationResult, const ThresholdResults& thresholdResult);
 };
