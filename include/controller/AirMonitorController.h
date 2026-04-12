@@ -1,6 +1,6 @@
 #pragma once
 #include "sensors/SensorCoordinator.h"
-#include "evaluation/SensorValidator.h"
+#include <SensorValidator.h>
 #include "evaluation/ThresholdEvaluator.h"
 #include "evaluation/StateMachine.h"
 #include "display/DisplayController.h"

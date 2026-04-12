@@ -2,7 +2,7 @@
 #include "data/ValidationResults.h"
 #include "data/Measurements.h"
 #include "data/ThresholdResults.h"
-#include "utils/CommonSensorConstants.h"
+#include <CommonSensorConstants.h>
 
 class ThresholdEvaluator
 {

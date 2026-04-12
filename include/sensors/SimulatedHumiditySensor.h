@@ -1,5 +1,5 @@
 #pragma once
-#include "utils/CommonSensorConstants.h"
+#include <CommonSensorConstants.h>
 
 class SimulatedHumiditySensor
 {

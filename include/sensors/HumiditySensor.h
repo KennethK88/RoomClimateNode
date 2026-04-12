@@ -1,5 +1,5 @@
 #pragma once
-#include "utils/CommonSensorConstants.h"
+#include <CommonSensorConstants.h>
 #include "sensors/ISensor.h"
 
 class HumiditySensor : public ISensor
