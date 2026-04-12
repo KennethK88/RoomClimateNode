@@ -1,6 +1,6 @@
 #include "evaluation/StateMachine.h"
 
-SystemState StateMachine::calculateState(const ValidationResult& validationResult, const ThresholdResults& thresholdResult)
+SystemState StateMachine::calculateState(const ValidationResults& validationResult, const ThresholdResults& thresholdResult)
 {
     bool allValidationResultsOk = validationResult.temperatureValid && validationResult.humidityValid && validationResult.coValid;
     bool allThresholdResultsOk = !(thresholdResult.temperatureTooHigh || thresholdResult.temperatureTooLow ||

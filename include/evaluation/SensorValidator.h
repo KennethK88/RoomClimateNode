@@ -1,17 +1,17 @@
 #pragma once
 #include "utils/CommonSensorConstants.h"
 #include "data/Measurements.h"
-#include "data/ValidationResult.h"
+#include "data/ValidationResults.h"
 
 class SensorValidator
 {
     private:
-        void validateTemperature(const Measurements& measurements, ValidationResult& validationResult);
-        void validateHumidity(const Measurements& measurements, ValidationResult& validationResult);
-        void validateCo(const Measurements& measurements, ValidationResult& validationResult);
+        void validateTemperature(const Measurements& measurements, ValidationResults& validationResult);
+        void validateHumidity(const Measurements& measurements, ValidationResults& validationResult);
+        void validateCo(const Measurements& measurements, ValidationResults& validationResult);
 
     public:
         SensorValidator() = default;
-        ValidationResult validateAllSensors(const Measurements& measurements);
+        ValidationResults validateAllSensors(const Measurements& measurements);
 };
 

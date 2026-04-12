@@ -36,7 +36,7 @@ class SensorCoordinator
 class SensorValidator
 {
     +SensorValidator()
-    +validateAllSensors() : ValidationResult   
+    +validateAllSensors() : ValidationResults   
 } 
 
 class ThresholdEvaluator
@@ -144,7 +144,7 @@ interface ISensor
 }
 
 struct Measurements
-struct ValidationResult
+struct ValidationResults
 struct ThresholdResults
 struct SystemState
 
@@ -169,13 +169,13 @@ CompositeAlarmOutput --> "0..*" IAlarmOutput
 
 ' ===== Nutzung / Datenfluss =====
 SensorValidator ..> Measurements
-SensorValidator ..> ValidationResult
+SensorValidator ..> ValidationResults
 
 ThresholdEvaluator ..> Measurements
-ThresholdEvaluator ..> ValidationResult
+ThresholdEvaluator ..> ValidationResults
 ThresholdEvaluator ..> ThresholdResults
 
-StateMachine ..> ValidationResult
+StateMachine ..> ValidationResults
 StateMachine ..> ThresholdResults
 StateMachine ..> SystemState
 

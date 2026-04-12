@@ -5,7 +5,7 @@ static bool validateSensor(float value, float init, float min, float max)
     return ((value != init) && (value >= min) && (value <= max));
 }
 
-void SensorValidator::validateTemperature(const Measurements& measurements, ValidationResult& validationResult)
+void SensorValidator::validateTemperature(const Measurements& measurements, ValidationResults& validationResult)
 {
     validationResult.temperatureValid = validateSensor(measurements.temperature,
                                             SensorConstants::TEMPERATURE_NOT_INITIALIZED,
@@ -13,7 +13,7 @@ void SensorValidator::validateTemperature(const Measurements& measurements, Vali
                                             SensorConstants::TEMPERATURE_MAX_VALID);
 }
 
-void SensorValidator::validateHumidity(const Measurements& measurements, ValidationResult& validationResult) 
+void SensorValidator::validateHumidity(const Measurements& measurements, ValidationResults& validationResult) 
 {
     validationResult.humidityValid = validateSensor(measurements.humidity,
                                         SensorConstants::HUMIDITY_NOT_INITIALIZED,
@@ -21,7 +21,7 @@ void SensorValidator::validateHumidity(const Measurements& measurements, Validat
                                         SensorConstants::HUMIDITY_MAX_VALID);
 }
 
-void SensorValidator::validateCo(const Measurements& measurements, ValidationResult& validationResult)
+void SensorValidator::validateCo(const Measurements& measurements, ValidationResults& validationResult)
 {
     validationResult.coValid = validateSensor(measurements.co,
                                     SensorConstants::CO_NOT_INITIALIZED,
@@ -29,9 +29,9 @@ void SensorValidator::validateCo(const Measurements& measurements, ValidationRes
                                     SensorConstants::CO_MAX_VALID);
 }
 
-ValidationResult SensorValidator::validateAllSensors(const Measurements& measurements)
+ValidationResults SensorValidator::validateAllSensors(const Measurements& measurements)
 {
-    ValidationResult validationResult;
+    ValidationResults validationResult;
     validateTemperature(measurements, validationResult);
     validateHumidity(measurements, validationResult);
     validateCo(measurements, validationResult);

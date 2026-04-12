@@ -12,7 +12,7 @@ void AirMonitorController::init()
 void AirMonitorController::update()
 {
     const Measurements measurements = sensorCoordinator.readAllSensors();
-    const ValidationResult validationResult = sensorValidator.validateAllSensors(measurements);
+    const ValidationResults validationResult = sensorValidator.validateAllSensors(measurements);
     const ThresholdResults thresholdResult = thresholdEvaluator.evaluateAllSensors(measurements, validationResult);
     const SystemState systemState = stateMachine.calculateState(validationResult, thresholdResult);
     displayController.updateDisplay(measurements, systemState);
