@@ -1,0 +1,201 @@
+@startuml
+title Luftüberwachung – Klassendiagramm (bereinigt)
+
+' ===== Klassen =====
+class TemperatureSensor
+{
+    -currentTemperature : float
+    +TemperatureSensor()
+    +readValue() : void
+    +getValue() : float
+}
+class HumiditySensor
+{
+    -currentHumidity : float
+    +HumiditySensor()
+    +readValue() : void
+    +getValue() : float
+}
+class COSensor
+{
+    -currentCO : float
+    +COSensor()
+    +readValue() : void
+    +getValue() : float
+}
+
+class SensorCoordinator
+{
+    -tempSens : ISensor&
+    -humSens : ISensor&
+    -coSens : ISensor&
+    +SensorCoordinator(ISensor&, ISensor&, ISensor&)
+    +readAllSensors() : Measurements
+}
+
+class SensorValidator
+{
+    +SensorValidator()
+    +validateAllSensors() : ValidationResults   
+} 
+
+class ThresholdEvaluator
+{
+    +ThresholdEvaluator()
+    +evaluateAllSensors() : ThresholdResults
+}
+
+class StateMachine
+{
+    +StateMachine()
+    +calculateState() : SystemState
+}
+class DisplayController
+{
+    -displayOutput : IDisplayOutput&
+    +DisplayController(IDisplayOutput&)
+    +updateDisplay(const Measurements&, SystemState) : void
+}
+
+class AlarmController
+{
+    -alarmActive : bool
+    -alarmOutput : IAlarmOutput&
+    +AlarmController(IAlarmOutput&)
+    +updateAlarm(SystemState) : void
+    +isAlarmActive() : bool
+}
+
+class AirMonitorController
+{
+    -sensorCoordinator : SensorCoordinator
+    -sensorValidator : SensorValidator
+    -thresholdEvaluator : ThresholdEvaluator
+    -oledDriver : OledDriver
+    -displayController : DisplayController
+    -stateMachine : StateMachine
+    -buzzerDriver : BuzzerDriver
+    -ledDriver : LedDriver
+    -compositeAlarmOutput : CompositeAlarmOutput
+    -alarmController : AlarmController
+    -temperatureSensor : TemperatureSensor
+    -humiditySensor : HumiditySensor
+    -coSensor : COSensor
+    +AirMonitorController()
+    +init() : void
+    +update() : void
+}
+
+class BuzzerDriver
+{
+    +BuzzerDriver()
+    +init() : void
+    +activate() : void
+    +deactivate() : void
+}
+
+class LedDriver
+{
+    +LedDriver()
+    +init() : void
+    +activate() : void
+    +deactivate() : void
+}
+
+interface IAlarmOutput
+{
+    +~IAlarmOutput()
+    +activate() : void
+    +deactivate() : void
+}
+
+class CompositeAlarmOutput
+{
+    -alarmOutputs : std::vector<IAlarmOutput*>
+    +CompositeAlarmOutput()
+    +add(IAlarmOutput*) : void
+    +activate() : void
+    +deactivate() : void
+}
+
+interface IDisplayOutput
+{
+    +~IDisplayOutput()
+    +clear() : void
+    +writeLine(int line, const char* text) : void
+    +display() : void
+}
+
+class OledDriver
+{
+    -oled : U8g2
+    +OledDriver()
+    +init() : void
+    +clear() : void
+    +writeLineint(line, const char* text) : void
+    +display() : void
+}
+
+interface ISensor
+{
+    +~ISensor()
+    +readValue() : void
+    +getValue() : float
+}
+
+struct Measurements
+struct ValidationResults
+struct ThresholdResults
+struct SystemState
+
+' ===== Besitz / feste Abhängigkeiten =====
+AirMonitorController --> TemperatureSensor
+AirMonitorController --> HumiditySensor
+AirMonitorController --> COSensor
+AirMonitorController --> SensorCoordinator
+AirMonitorController --> SensorValidator
+AirMonitorController --> ThresholdEvaluator
+AirMonitorController --> OledDriver
+AirMonitorController --> DisplayController
+AirMonitorController --> StateMachine
+AirMonitorController --> BuzzerDriver
+AirMonitorController --> LedDriver
+AirMonitorController --> CompositeAlarmOutput
+AirMonitorController --> AlarmController
+
+SensorCoordinator --> "3" ISensor
+
+CompositeAlarmOutput --> "0..*" IAlarmOutput
+
+' ===== Nutzung / Datenfluss =====
+SensorValidator ..> Measurements
+SensorValidator ..> ValidationResults
+
+ThresholdEvaluator ..> Measurements
+ThresholdEvaluator ..> ValidationResults
+ThresholdEvaluator ..> ThresholdResults
+
+StateMachine ..> ValidationResults
+StateMachine ..> ThresholdResults
+StateMachine ..> SystemState
+
+SensorCoordinator ..> Measurements
+
+DisplayController ..> Measurements
+DisplayController ..> SystemState
+DisplayController ..> IDisplayOutput
+
+AlarmController ..> SystemState
+AlarmController ..> IAlarmOutput
+
+IAlarmOutput <|.. BuzzerDriver
+IAlarmOutput <|.. LedDriver
+IAlarmOutput <|.. CompositeAlarmOutput
+
+IDisplayOutput <|.. OledDriver
+
+ISensor <|.. TemperatureSensor
+ISensor <|.. HumiditySensor
+ISensor <|.. COSensor
+
+@enduml
