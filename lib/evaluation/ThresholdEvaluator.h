@@ -1,7 +1,7 @@
 #pragma once
 #include <ValidationResults.h>
 #include <Measurements.h>
-#include "data/ThresholdResults.h"
+#include <ThresholdResults.h>
 #include <CommonSensorConstants.h>
 
 class ThresholdEvaluator

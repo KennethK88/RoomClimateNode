@@ -1,4 +1,4 @@
-#include "evaluation/ThresholdEvaluator.h"
+#include <ThresholdEvaluator.h>
 
 static bool evaluateSensorTooHigh(float value, float max, bool valid)
 {

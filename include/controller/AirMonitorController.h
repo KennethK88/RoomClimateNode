@@ -1,7 +1,7 @@
 #pragma once
 #include "sensors/SensorCoordinator.h"
 #include <SensorValidator.h>
-#include "evaluation/ThresholdEvaluator.h"
+#include <ThresholdEvaluator.h>
 #include "evaluation/StateMachine.h"
 #include "display/DisplayController.h"
 #include "alarm/AlarmController.h"

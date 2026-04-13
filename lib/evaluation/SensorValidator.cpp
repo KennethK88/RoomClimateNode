@@ -1,4 +1,4 @@
-#include "SensorValidator.h"
+#include <SensorValidator.h>
 
 static bool validateSensor(float value, float init, float min, float max)
 {

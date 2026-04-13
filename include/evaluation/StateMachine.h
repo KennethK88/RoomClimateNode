@@ -1,5 +1,5 @@
 #pragma once
-#include "data/ThresholdResults.h"
+#include <ThresholdResults.h>
 #include <ValidationResults.h>
 #include "utils/SystemState.h"
 
