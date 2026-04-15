@@ -8,6 +8,7 @@ void AirMonitorController::init()
     ledDriver.init();
     oledDriver.init();
     thermistorDriver.init();
+    humidityDriver.init();
 }
 
 void AirMonitorController::update()

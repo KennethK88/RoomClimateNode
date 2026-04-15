@@ -15,7 +15,7 @@ void setup()
 void loop()
 {
   airMonitorController.update();
-  delay(1000);
+  delay(5000);
   //Serial.println("Läuft");
 }
 

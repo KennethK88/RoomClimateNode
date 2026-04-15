@@ -6,14 +6,15 @@ class TemperatureSensor
 {
     -currentTemperature : float
     -thermistorDriver : ThermistorDriver&
-    +TemperatureSensor(&ThermistorDriver)
+    +TemperatureSensor(ThermistorDriver&)
     +readTemperature() : void
     +getTemperature() : float
 }
 class HumiditySensor
 {
     -currentHumidity : float
-    +HumiditySensor()
+    -humidityDriver : HumidityDriver&
+    +HumiditySensor(HumidityDriver&)
     +readHumidity() : void
     +getHumidity() : float
 }
@@ -28,9 +29,9 @@ class COSensor
 class SensorCoordinator
 {
     -tempSens : TemperatureSensor&
-    -humSens : HumiditySensor
+    -humSens : HumiditySensor&
     -coSens : COSensor
-    +SensorCoordinator(TemperatureSensor&)
+    +SensorCoordinator(TemperatureSensor&, HumiditySensor&)
     +readAllSensors() : Measurements
 }
 
@@ -70,7 +71,9 @@ class AlarmController
 class AirMonitorController
 {
     -thermistorDriver : ThermistorDriver
+    -humidityDriver : HumidityDriver
     -temperatureSensor : TemperatureSensor
+    -humiditySensor : HumiditySensor
     -sensorCoordinator : SensorCoordinator
     -sensorValidator : SensorValidator
     -thresholdEvaluator : ThresholdEvaluator
@@ -145,6 +148,14 @@ class ThermistorDriver
     +getTemperature() : float
 }
 
+class HumidityDriver
+{
+    -dht : DHT
+    +HumidityDriver()
+    +init() : void
+    +getHumidity() : float
+}
+
 struct Measurements
 struct ValidationResults
 struct ThresholdResults
@@ -152,7 +163,9 @@ struct SystemState
 
 ' ===== Besitz / feste Abhängigkeiten =====
 AirMonitorController --> ThermistorDriver
+AirMonitorController --> HumidityDriver
 AirMonitorController --> TemperatureSensor
+AirMonitorController --> HumiditySensor
 AirMonitorController --> SensorCoordinator
 AirMonitorController --> SensorValidator
 AirMonitorController --> ThresholdEvaluator
@@ -169,6 +182,7 @@ SensorCoordinator --> HumiditySensor
 SensorCoordinator --> COSensor
 
 TemperatureSensor --> ThermistorDriver
+HumiditySensor --> HumidityDriver
 
 CompositeAlarmOutput --> "0..*" IAlarmOutput
 

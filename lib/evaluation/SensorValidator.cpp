@@ -19,6 +19,7 @@ void SensorValidator::validateHumidity(const Measurements& measurements, Validat
                                         SensorConstants::HUMIDITY_NOT_INITIALIZED,
                                         SensorConstants::HUMIDITY_MIN_VALID,
                                         SensorConstants::HUMIDITY_MAX_VALID);
+                                        // TODO: NaN abfangen
 }
 
 void SensorValidator::validateCo(const Measurements& measurements, ValidationResults& validationResult)
