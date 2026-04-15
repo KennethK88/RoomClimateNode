@@ -1,5 +1,6 @@
 #include <unity.h>
 #include <SensorValidator.h>
+#include <cmath>
 
 void test_all_sensors_not_initialized_should_be_invalid()
 {
@@ -92,6 +93,25 @@ void test_temperature_equals_min_valid_should_be_valid()
     
     // Assert
     TEST_ASSERT_TRUE(validationResults.temperatureValid);
+    TEST_ASSERT_TRUE(validationResults.humidityValid);
+    TEST_ASSERT_TRUE(validationResults.coValid);
+}
+
+void test_temperature_equals_nan_should_be_invalid()
+{
+    // Arrange
+    SensorValidator sensorValidator;
+    Measurements measurements;
+
+    measurements.temperature = NAN;
+    measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
+    measurements.co = SensorConstants::CO_DUMMY_VALID;
+
+    // Act
+    ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
+    
+    // Assert
+    TEST_ASSERT_FALSE(validationResults.temperatureValid);
     TEST_ASSERT_TRUE(validationResults.humidityValid);
     TEST_ASSERT_TRUE(validationResults.coValid);
 }
@@ -191,6 +211,25 @@ void test_humidity_equals_min_valid_should_be_valid()
     TEST_ASSERT_TRUE(validationResults.coValid);
 }
 
+void test_humidity_equals_nan_should_be_invalid()
+{
+    // Arrange
+    SensorValidator sensorValidator;
+    Measurements measurements;
+
+    measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
+    measurements.humidity = NAN;
+    measurements.co = SensorConstants::CO_DUMMY_VALID;
+
+    // Act
+    ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
+    
+    // Assert
+    TEST_ASSERT_TRUE(validationResults.temperatureValid);
+    TEST_ASSERT_FALSE(validationResults.humidityValid);
+    TEST_ASSERT_TRUE(validationResults.coValid);
+}
+
 void test_humidity_below_min_valid_should_be_invalid()
 {
     // Arrange
@@ -284,6 +323,25 @@ void test_co_equals_min_valid_should_be_valid()
     TEST_ASSERT_TRUE(validationResults.temperatureValid);
     TEST_ASSERT_TRUE(validationResults.humidityValid);
     TEST_ASSERT_TRUE(validationResults.coValid);
+}
+
+void test_co_equals_nan_should_be_invalid()
+{
+    // Arrange
+    SensorValidator sensorValidator;
+    Measurements measurements;
+
+    measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
+    measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
+    measurements.co = NAN;
+
+    // Act
+    ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
+    
+    // Assert
+    TEST_ASSERT_TRUE(validationResults.temperatureValid);
+    TEST_ASSERT_TRUE(validationResults.humidityValid);
+    TEST_ASSERT_FALSE(validationResults.coValid);
 }
 
 void test_co_below_min_valid_should_be_invalid()
