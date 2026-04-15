@@ -1,8 +1,8 @@
 #include "sensors/TemperatureSensor.h"
 
-void TemperatureSensor::readTemperature(ThermistorDriver& thermistorDriver)
+void TemperatureSensor::readTemperature()
 {
-    currentTemperature = thermistorDriver.getTemperature(); // TODO: Interface einziehen
+    currentTemperature = 20.0f; // TODO: Dummywert ersetzen
 }
 
 float TemperatureSensor::getTemperature() const

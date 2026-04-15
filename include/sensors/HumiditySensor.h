@@ -1,14 +1,13 @@
 #pragma once
 #include <CommonSensorConstants.h>
-#include "sensors/ISensor.h"
 
-class HumiditySensor : public ISensor
+class HumiditySensor
 {
     private:
-        float currentHumidity=SensorConstants::HUMIDITY_NOT_INITIALIZED;
+        float currentHumidity = SensorConstants::HUMIDITY_NOT_INITIALIZED; // TODO: Anderer Startwert?
 
     public:
-        HumiditySensor() = default;
-        void readValue() override;
-        float getValue() const override;
+        HumiditySensor()=default;
+        void readHumidity();
+        float getHumidity() const;
 };

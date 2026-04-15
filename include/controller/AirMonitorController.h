@@ -9,16 +9,10 @@
 #include "alarm/LedDriver.h"
 #include "alarm/CompositeAlarmOutput.h"
 #include "display/OledDriver.h"
-#include "sensors/TemperatureSensor.h"
-#include "sensors/HumiditySensor.h"
-#include "sensors/COSensor.h"
 
 class AirMonitorController
 {
     private:
-        TemperatureSensor temperatureSensor;
-        HumiditySensor humiditySensor;
-        COSensor coSensor;
         SensorCoordinator sensorCoordinator;
         SensorValidator sensorValidator;
         ThresholdEvaluator thresholdEvaluator;
@@ -31,7 +25,7 @@ class AirMonitorController
         AlarmController alarmController;
 
     public:
-        AirMonitorController() : sensorCoordinator(temperatureSensor, humiditySensor, coSensor), displayController(oledDriver), alarmController(compositeAlarmOutput) {}
+        AirMonitorController() : displayController(oledDriver), alarmController(compositeAlarmOutput) {}
         void init();
         void update();
 };

@@ -1,11 +1,11 @@
 #include "sensors/HumiditySensor.h"
 
-void HumiditySensor::readValue()
+void HumiditySensor::readHumidity()
 {
     currentHumidity = 35.0f; // TODO: Dummywert ersetzen
 }
 
-float HumiditySensor::getValue() const
+float HumiditySensor::getHumidity() const
 {
     return currentHumidity;
 }

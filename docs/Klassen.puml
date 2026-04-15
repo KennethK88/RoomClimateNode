@@ -6,30 +6,30 @@ class TemperatureSensor
 {
     -currentTemperature : float
     +TemperatureSensor()
-    +readValue() : void
-    +getValue() : float
+    +readTemperature() : void
+    +getTemperature() : float
 }
 class HumiditySensor
 {
     -currentHumidity : float
     +HumiditySensor()
-    +readValue() : void
-    +getValue() : float
+    +readHumidity() : void
+    +getHumidity() : float
 }
 class COSensor
 {
     -currentCO : float
     +COSensor()
-    +readValue() : void
-    +getValue() : float
+    +readCO() : void
+    +getCO() : float
 }
 
 class SensorCoordinator
 {
-    -tempSens : ISensor&
-    -humSens : ISensor&
-    -coSens : ISensor&
-    +SensorCoordinator(ISensor&, ISensor&, ISensor&)
+    -tempSens : TemperatureSensor
+    -humSens : HumiditySensor
+    -coSens : COSensor
+    +SensorCoordinator()
     +readAllSensors() : Measurements
 }
 
@@ -136,22 +136,12 @@ class OledDriver
     +display() : void
 }
 
-interface ISensor
-{
-    +~ISensor()
-    +readValue() : void
-    +getValue() : float
-}
-
 struct Measurements
 struct ValidationResults
 struct ThresholdResults
 struct SystemState
 
 ' ===== Besitz / feste Abhängigkeiten =====
-AirMonitorController --> TemperatureSensor
-AirMonitorController --> HumiditySensor
-AirMonitorController --> COSensor
 AirMonitorController --> SensorCoordinator
 AirMonitorController --> SensorValidator
 AirMonitorController --> ThresholdEvaluator
@@ -163,7 +153,9 @@ AirMonitorController --> LedDriver
 AirMonitorController --> CompositeAlarmOutput
 AirMonitorController --> AlarmController
 
-SensorCoordinator --> "3" ISensor
+SensorCoordinator --> TemperatureSensor
+SensorCoordinator --> HumiditySensor
+SensorCoordinator --> COSensor
 
 CompositeAlarmOutput --> "0..*" IAlarmOutput
 
@@ -193,9 +185,5 @@ IAlarmOutput <|.. LedDriver
 IAlarmOutput <|.. CompositeAlarmOutput
 
 IDisplayOutput <|.. OledDriver
-
-ISensor <|.. TemperatureSensor
-ISensor <|.. HumiditySensor
-ISensor <|.. COSensor
 
 @enduml

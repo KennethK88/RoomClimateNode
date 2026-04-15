@@ -1,15 +1,13 @@
 #pragma once
 #include <CommonSensorConstants.h>
-#include "sensors/ISensor.h"
 
-class COSensor : public ISensor
+class COSensor
 {
     private:
-        float currentCO = SensorConstants::CO_NOT_INITIALIZED;
+        float currentCO = SensorConstants::CO_NOT_INITIALIZED; // TODO: Anderer Startwert?
 
     public:
         COSensor() = default;
-        void readValue() override;
-        float getValue() const override;
+        void readCO();
+        float getCO() const;
 };
-

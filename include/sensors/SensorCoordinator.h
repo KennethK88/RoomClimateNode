@@ -1,16 +1,19 @@
 #pragma once
-#include "sensors/ISensor.h"
 #include "sensors/TemperatureSensor.h"
+#include "sensors/HumiditySensor.h"
+#include "sensors/COSensor.h"
 #include <Measurements.h>
+
+//TODO: Als Interface umsetzen?
 
 class SensorCoordinator
 {
     private:
         TemperatureSensor tempSens;
-        ISensor& humSens;
-        ISensor& coSens;
+        HumiditySensor humSens;
+        COSensor coSens;
 
     public:
-        SensorCoordinator(TemperatureSensor tempSens, ISensor& humSens, ISensor& coSens) : tempSens(tempSens), humSens(humSens), coSens(coSens) {}
+        SensorCoordinator() = default;
         Measurements readAllSensors();
 };

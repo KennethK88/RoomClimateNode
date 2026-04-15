@@ -4,10 +4,10 @@ Measurements SensorCoordinator::readAllSensors()
 {
     Measurements measurements;
     tempSens.readTemperature();
-    humSens.readValue();
-    coSens.readValue();
+    humSens.readHumidity();
+    coSens.readCO();
     measurements.temperature = tempSens.getTemperature();
-    measurements.humidity = humSens.getValue();
-    measurements.co = coSens.getValue();
+    measurements.humidity = humSens.getHumidity();
+    measurements.co = coSens.getCO();
     return measurements;
 }
