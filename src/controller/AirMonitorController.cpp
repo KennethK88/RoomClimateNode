@@ -7,6 +7,7 @@ void AirMonitorController::init()
     buzzerDriver.init();
     ledDriver.init();
     oledDriver.init();
+    thermistorDriver.init();
 }
 
 void AirMonitorController::update()

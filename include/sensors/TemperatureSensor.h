@@ -6,9 +6,10 @@ class TemperatureSensor
 {
     private:
         float currentTemperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
+        ThermistorDriver& thermistorDriver;
 
     public:
-        TemperatureSensor() = default;
-        void readTemperature(ThermistorDriver& thermistorDriver);
+        TemperatureSensor(ThermistorDriver& thermistorDriver) : thermistorDriver(thermistorDriver) {}
+        void readTemperature();
         float getTemperature() const;
 };

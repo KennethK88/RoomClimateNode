@@ -1,4 +1,6 @@
 #pragma once
+#include "sensors/ThermistorDriver.h"
+#include "sensors/TemperatureSensor.h"
 #include "sensors/SensorCoordinator.h"
 #include <SensorValidator.h>
 #include <ThresholdEvaluator.h>
@@ -13,6 +15,8 @@
 class AirMonitorController
 {
     private:
+        ThermistorDriver thermistorDriver;
+        TemperatureSensor temperatureSensor;
         SensorCoordinator sensorCoordinator;
         SensorValidator sensorValidator;
         ThresholdEvaluator thresholdEvaluator;
@@ -25,7 +29,7 @@ class AirMonitorController
         AlarmController alarmController;
 
     public:
-        AirMonitorController() : displayController(oledDriver), alarmController(compositeAlarmOutput) {}
+        AirMonitorController() : temperatureSensor(thermistorDriver), sensorCoordinator(temperatureSensor), displayController(oledDriver), alarmController(compositeAlarmOutput) {}
         void init();
         void update();
 };

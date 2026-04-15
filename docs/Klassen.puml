@@ -5,7 +5,8 @@ title Luftüberwachung – Klassendiagramm (bereinigt)
 class TemperatureSensor
 {
     -currentTemperature : float
-    +TemperatureSensor()
+    -thermistorDriver : ThermistorDriver&
+    +TemperatureSensor(&ThermistorDriver)
     +readTemperature() : void
     +getTemperature() : float
 }
@@ -26,10 +27,10 @@ class COSensor
 
 class SensorCoordinator
 {
-    -tempSens : TemperatureSensor
+    -tempSens : TemperatureSensor&
     -humSens : HumiditySensor
     -coSens : COSensor
-    +SensorCoordinator()
+    +SensorCoordinator(TemperatureSensor&)
     +readAllSensors() : Measurements
 }
 
@@ -68,6 +69,8 @@ class AlarmController
 
 class AirMonitorController
 {
+    -thermistorDriver : ThermistorDriver
+    -temperatureSensor : TemperatureSensor
     -sensorCoordinator : SensorCoordinator
     -sensorValidator : SensorValidator
     -thresholdEvaluator : ThresholdEvaluator
@@ -78,9 +81,6 @@ class AirMonitorController
     -ledDriver : LedDriver
     -compositeAlarmOutput : CompositeAlarmOutput
     -alarmController : AlarmController
-    -temperatureSensor : TemperatureSensor
-    -humiditySensor : HumiditySensor
-    -coSensor : COSensor
     +AirMonitorController()
     +init() : void
     +update() : void
@@ -132,8 +132,17 @@ class OledDriver
     +OledDriver()
     +init() : void
     +clear() : void
-    +writeLineint(line, const char* text) : void
+    +writeLine(int, const char*) : void
     +display() : void
+}
+
+class ThermistorDriver
+{
+    -readRawValue() : int
+    -convertRawValueToTemperature(int) : float
+    +ThermistorDriver()
+    +init() : void
+    +getTemperature() : float
 }
 
 struct Measurements
@@ -142,6 +151,8 @@ struct ThresholdResults
 struct SystemState
 
 ' ===== Besitz / feste Abhängigkeiten =====
+AirMonitorController --> ThermistorDriver
+AirMonitorController --> TemperatureSensor
 AirMonitorController --> SensorCoordinator
 AirMonitorController --> SensorValidator
 AirMonitorController --> ThresholdEvaluator
@@ -156,6 +167,8 @@ AirMonitorController --> AlarmController
 SensorCoordinator --> TemperatureSensor
 SensorCoordinator --> HumiditySensor
 SensorCoordinator --> COSensor
+
+TemperatureSensor --> ThermistorDriver
 
 CompositeAlarmOutput --> "0..*" IAlarmOutput
 

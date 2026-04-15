@@ -4,16 +4,14 @@
 #include "sensors/COSensor.h"
 #include <Measurements.h>
 
-//TODO: Als Interface umsetzen?
-
 class SensorCoordinator
 {
     private:
-        TemperatureSensor tempSens;
+        TemperatureSensor& tempSens;
         HumiditySensor humSens;
         COSensor coSens;
 
     public:
-        SensorCoordinator() = default;
+        SensorCoordinator(TemperatureSensor& tempSens) : tempSens(tempSens) {}
         Measurements readAllSensors();
 };

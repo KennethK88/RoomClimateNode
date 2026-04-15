@@ -2,7 +2,7 @@
 
 void TemperatureSensor::readTemperature()
 {
-    currentTemperature = 20.0f; // TODO: Dummywert ersetzen
+    currentTemperature = thermistorDriver.getTemperature();
 }
 
 float TemperatureSensor::getTemperature() const
