@@ -1,8 +1,9 @@
 #include <SensorValidator.h>
+#include <cmath>
 
 static bool validateSensor(float value, float init, float min, float max)
 {
-    return ((value != init) && (value >= min) && (value <= max));
+    return ((value != init) && (value >= min) && (value <= max) && !std::isnan(value));
 }
 
 void SensorValidator::validateTemperature(const Measurements& measurements, ValidationResults& validationResult)
@@ -19,7 +20,6 @@ void SensorValidator::validateHumidity(const Measurements& measurements, Validat
                                         SensorConstants::HUMIDITY_NOT_INITIALIZED,
                                         SensorConstants::HUMIDITY_MIN_VALID,
                                         SensorConstants::HUMIDITY_MAX_VALID);
-                                        // TODO: NaN abfangen
 }
 
 void SensorValidator::validateCo(const Measurements& measurements, ValidationResults& validationResult)
