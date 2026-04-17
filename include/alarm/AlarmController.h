@@ -1,5 +1,5 @@
 #pragma once
-#include "utils/SystemState.h"
+#include <SystemState.h>
 #include "alarm/IAlarmOutput.h"
 
 class AlarmController
