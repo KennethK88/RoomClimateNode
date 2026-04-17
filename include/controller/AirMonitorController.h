@@ -6,7 +6,7 @@
 #include "sensors/SensorCoordinator.h"
 #include <SensorValidator.h>
 #include <ThresholdEvaluator.h>
-#include "evaluation/StateMachine.h"
+#include <StateMachine.h>
 #include "display/DisplayController.h"
 #include "alarm/AlarmController.h"
 #include "alarm/BuzzerDriver.h"
