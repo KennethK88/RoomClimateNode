@@ -1,5 +1,5 @@
 #pragma once
-#include "alarm/IAlarmOutput.h"
+#include <IAlarmOutput.h>
 
 class LedDriver : public IAlarmOutput
 {
