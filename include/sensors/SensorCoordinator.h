@@ -1,7 +1,7 @@
 #pragma once
 #include "sensors/TemperatureSensor.h"
 #include "sensors/HumiditySensor.h"
-#include "sensors/COSensor.h"
+#include <COSensor.h>
 #include <Measurements.h>
 
 class SensorCoordinator
