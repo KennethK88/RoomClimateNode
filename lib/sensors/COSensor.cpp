@@ -1,4 +1,4 @@
-#include "sensors/COSensor.h"
+#include <COSensor.h>
 
 void COSensor::readCO()
 {
