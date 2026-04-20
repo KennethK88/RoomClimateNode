@@ -1,45 +1,39 @@
 #include "display/DisplayController.h"
-#include <Arduino.h>
+#include <cstdio>
+#include <cmath>
+#include <cstddef>
 
-static const char* convertSystemStateToString(SystemState systemState)
+namespace
 {
-    switch(systemState)
+    constexpr size_t LINE_SIZE = 25;
+
+    const char* convertSystemStateToString(SystemState systemState)
     {
-        case SystemState::Normal:
-            return "Normal";
-        case SystemState::Warning:
-            return "Warning";
-        case SystemState::Error:
-            return "Error";
-        default:
-            return "Unknown";
+        switch(systemState)
+        {
+            case SystemState::Normal:
+                return "Normal";
+            case SystemState::Warning:
+                return "Warning";
+            case SystemState::Error:
+                return "Error";
+            default:
+                return "Unknown";
+        }
     }
-}
-
-static void formatLine(float value, signed char width, unsigned char precision, char* bufferValue, char* bufferLine, size_t bufferLineSize, const char* formatText)
-{
-    dtostrf(value, width, precision, bufferValue);
-    snprintf(bufferLine, bufferLineSize, formatText, bufferValue);
 }
 
 void DisplayController::updateDisplay(const Measurements& measurements, SystemState systemState)
 {
-    // TODO: char Größen optimieren
-    char temperature[10];
-    char temperatureLine[20];
+    char temperatureLine[LINE_SIZE];
+    char humidityLine[LINE_SIZE];
+    char coLine[LINE_SIZE];
+    char statusLine[LINE_SIZE];
 
-    char humidity[10];
-    char humidityLine[20];
-
-    char co[10];
-    char coLine[20];
-
-    char statusLine[20];
-
-    formatLine(measurements.temperature, 6, 1, temperature, temperatureLine, sizeof(temperatureLine), "T: %s C");
-    formatLine(measurements.humidity, 5, 0, humidity, humidityLine, sizeof(humidityLine), "F: %s %%");
-    formatLine(measurements.co, 4, 0, co, coLine, sizeof(coLine), "CO: %s ppm");
-    snprintf(statusLine, sizeof(statusLine), "Status: %s", convertSystemStateToString(systemState));
+    std::snprintf(temperatureLine, LINE_SIZE, "T: %d C", static_cast<int>(std::round(measurements.temperature)));
+    std::snprintf(humidityLine, LINE_SIZE, "F: %d %%", static_cast<int>(std::round(measurements.humidity)));
+    std::snprintf(coLine, LINE_SIZE, "CO: %d ppm", static_cast<int>(std::round(measurements.co)));
+    std::snprintf(statusLine, LINE_SIZE, "Status: %s", convertSystemStateToString(systemState));
 
     displayOutput.clear();
     displayOutput.writeLine(0, temperatureLine);
