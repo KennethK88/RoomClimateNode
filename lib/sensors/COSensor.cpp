@@ -2,7 +2,7 @@
 
 void COSensor::readCO()
 {
-    currentCO = 20.0f; // FIXME: Dummywert ersetzen
+    currentCO = sensorDriver.getValue(); // FIXME: Dummywert ersetzen
 }
 
 
