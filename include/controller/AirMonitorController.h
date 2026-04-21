@@ -3,6 +3,7 @@
 #include "sensors/HumidityDriver.h"
 #include "sensors/TemperatureSensor.h"
 #include "sensors/HumiditySensor.h"
+#include <COSensor.h>
 #include "sensors/SensorCoordinator.h"
 #include <SensorValidator.h>
 #include <ThresholdEvaluator.h>
@@ -21,6 +22,7 @@ class AirMonitorController
         HumidityDriver humidityDriver;
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
+        COSensor coSensor;
         SensorCoordinator sensorCoordinator;
         SensorValidator sensorValidator;
         ThresholdEvaluator thresholdEvaluator;
@@ -33,7 +35,7 @@ class AirMonitorController
         AlarmController alarmController;
 
     public:
-        AirMonitorController() : temperatureSensor(thermistorDriver), humiditySensor(humidityDriver), sensorCoordinator(temperatureSensor, humiditySensor), displayController(oledDriver), alarmController(compositeAlarmOutput) {}
+        AirMonitorController() : temperatureSensor(thermistorDriver), humiditySensor(humidityDriver), sensorCoordinator(temperatureSensor, humiditySensor, coSensor), displayController(oledDriver), alarmController(compositeAlarmOutput) {}
         void init();
         void update();
 };

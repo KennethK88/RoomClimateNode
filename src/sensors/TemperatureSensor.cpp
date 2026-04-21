@@ -2,7 +2,7 @@
 
 void TemperatureSensor::readTemperature()
 {
-    currentTemperature = thermistorDriver.getTemperature();
+    currentTemperature = sensorDriver.getValue();
 }
 
 float TemperatureSensor::getTemperature() const

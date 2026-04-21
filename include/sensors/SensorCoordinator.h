@@ -9,9 +9,9 @@ class SensorCoordinator
     private:
         TemperatureSensor& tempSens;
         HumiditySensor& humSens;
-        COSensor coSens;
+        COSensor& coSens;
 
     public:
-        SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens) : tempSens(tempSens), humSens(humSens) {}
+        SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens, COSensor& coSens) : tempSens(tempSens), humSens(humSens), coSens(coSens) {}
         Measurements readAllSensors();
 };

@@ -5,7 +5,7 @@ void HumidityDriver::init()
     dht.begin();
 }
 
-float HumidityDriver::getHumidity()
+float HumidityDriver::getValue()
 {
     return dht.readHumidity();
 }

@@ -1,15 +1,15 @@
 #pragma once
 #include <CommonSensorConstants.h>
-#include "sensors/ThermistorDriver.h"
+#include "sensors/ISensorDriver.h"
 
 class TemperatureSensor
 {
     private:
         float currentTemperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
-        ThermistorDriver& thermistorDriver;
+        ISensorDriver& sensorDriver;
 
     public:
-        TemperatureSensor(ThermistorDriver& thermistorDriver) : thermistorDriver(thermistorDriver) {}
+        TemperatureSensor(ISensorDriver& sensorDriver) : sensorDriver(sensorDriver) {}
         void readTemperature();
         float getTemperature() const;
 };

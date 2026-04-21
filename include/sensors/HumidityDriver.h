@@ -1,15 +1,16 @@
 #pragma once
 #include <DHT.h>
 #include "utils/HardwareConfig.h"
+#include "sensors/ISensorDriver.h"
 
 
-class HumidityDriver
+class HumidityDriver : public ISensorDriver
 {
     private:
         DHT dht{HardwareConfig::HUMIDITY_DRIVER_DIGITAL_IN_PIN, HardwareConfig::HUMIDITY_DRIVER_TYPE};
 
     public:
         HumidityDriver() = default;
-        void init();
-        float getHumidity();
+        void init() override;
+        float getValue() override;
 };

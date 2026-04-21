@@ -2,7 +2,7 @@
 
 void HumiditySensor::readHumidity()
 {
-    currentHumidity = humidityDriver.getHumidity();
+    currentHumidity = sensorDriver.getValue();
 }
 
 float HumiditySensor::getHumidity() const
