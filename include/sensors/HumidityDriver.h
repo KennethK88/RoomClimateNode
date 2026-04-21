@@ -1,7 +1,7 @@
 #pragma once
 #include <DHT.h>
 #include "utils/HardwareConfig.h"
-#include "sensors/ISensorDriver.h"
+#include <ISensorDriver.h>
 
 
 class HumidityDriver : public ISensorDriver

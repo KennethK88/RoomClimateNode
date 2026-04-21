@@ -1,5 +1,5 @@
 #pragma once
-#include "sensors/ISensorDriver.h"
+#include <ISensorDriver.h>
 
 class ThermistorDriver : public ISensorDriver
 {

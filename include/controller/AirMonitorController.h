@@ -1,8 +1,8 @@
 #pragma once
 #include "sensors/ThermistorDriver.h"
 #include "sensors/HumidityDriver.h"
-#include "sensors/TemperatureSensor.h"
-#include "sensors/HumiditySensor.h"
+#include <TemperatureSensor.h>
+#include <HumiditySensor.h>
 #include <COSensor.h>
 #include "sensors/SensorCoordinator.h"
 #include <SensorValidator.h>

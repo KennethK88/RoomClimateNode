@@ -1,6 +1,6 @@
 #pragma once
 #include <CommonSensorConstants.h>
-#include "sensors/ISensorDriver.h"
+#include <ISensorDriver.h>
 
 class TemperatureSensor
 {

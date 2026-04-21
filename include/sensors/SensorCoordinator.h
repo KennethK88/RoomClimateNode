@@ -1,6 +1,6 @@
 #pragma once
-#include "sensors/TemperatureSensor.h"
-#include "sensors/HumiditySensor.h"
+#include <TemperatureSensor.h>
+#include <HumiditySensor.h>
 #include <COSensor.h>
 #include <Measurements.h>
 
