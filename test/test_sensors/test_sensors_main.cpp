@@ -23,7 +23,7 @@ int main() {
     // COSensor
     RUN_TEST(test_co_sensor_not_initialized_value_should_be_not_initialized);
     RUN_TEST(test_co_sensor_initialized_value_should_be_equal_to_driver_value);
-    RUN_TEST(test_co_sensor_initialized_value_changes_should_be_equal_to_driver_value)
+    RUN_TEST(test_co_sensor_initialized_value_changes_should_be_equal_to_driver_value);
 
     return UNITY_END();
 }
