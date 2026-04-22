@@ -1,6 +1,7 @@
 #pragma once
 #include "sensors/ThermistorDriver.h"
 #include "sensors/HumidityDriver.h"
+#include "sensors/CODriver.h"
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
 #include <COSensor.h>
@@ -20,6 +21,7 @@ class AirMonitorController
     private:
         ThermistorDriver thermistorDriver;
         HumidityDriver humidityDriver;
+        CODriver coDriver;
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
         COSensor coSensor;
@@ -35,7 +37,7 @@ class AirMonitorController
         AlarmController alarmController;
 
     public:
-        AirMonitorController() : temperatureSensor(thermistorDriver), humiditySensor(humidityDriver), sensorCoordinator(temperatureSensor, humiditySensor, coSensor), displayController(oledDriver), alarmController(compositeAlarmOutput) {}
+        AirMonitorController() : temperatureSensor(thermistorDriver), humiditySensor(humidityDriver), coSensor(coDriver), sensorCoordinator(temperatureSensor, humiditySensor, coSensor), displayController(oledDriver), alarmController(compositeAlarmOutput) {}
         void init();
         void update();
 };
