@@ -8,7 +8,7 @@ class FakeSensorDriver : public ISensorDriver
 {
     public:
         float currentDriverValue = 0.0f;
-        void init() override;
+        void init() override {}
         float getValue() override {return currentDriverValue;}
 };
 
