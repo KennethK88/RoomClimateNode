@@ -5,7 +5,7 @@
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
 #include <COSensor.h>
-#include "sensors/SensorCoordinator.h"
+#include <SensorCoordinator.h>
 #include <SensorValidator.h>
 #include <ThresholdEvaluator.h>
 #include <StateMachine.h>
