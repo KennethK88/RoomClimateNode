@@ -4,7 +4,11 @@ name: PlatformIO Native Tests and Build
 # Wann soll Workflow gestartet werden?
 on:
   push:
-    branches: ["Kenneth_CI_Workflow_Native_Tests"]
+    branches:
+    - "**"
+  pull_request:
+    branches:
+    - "**"
     
 # Was soll passieren?
 jobs:
