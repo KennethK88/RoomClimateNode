@@ -32,7 +32,7 @@ float ThermistorDriver::convertRawValueToTemperature(int rawValue)
     return tempK - 273.15; // Celsius
 }
 
-float ThermistorDriver::getTemperature()
+float ThermistorDriver::getValue()
 {
     int rawValue = readRawValue();
     return convertRawValueToTemperature(rawValue);

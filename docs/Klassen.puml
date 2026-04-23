@@ -5,31 +5,33 @@ title Luftüberwachung – Klassendiagramm (bereinigt)
 class TemperatureSensor
 {
     -currentTemperature : float
-    +TemperatureSensor()
-    +readValue() : void
-    +getValue() : float
+    -thermistorDriver : ThermistorDriver&
+    +TemperatureSensor(ThermistorDriver&)
+    +readTemperature() : void
+    +getTemperature() : float
 }
 class HumiditySensor
 {
     -currentHumidity : float
-    +HumiditySensor()
-    +readValue() : void
-    +getValue() : float
+    -humidityDriver : HumidityDriver&
+    +HumiditySensor(HumidityDriver&)
+    +readHumidity() : void
+    +getHumidity() : float
 }
 class COSensor
 {
     -currentCO : float
     +COSensor()
-    +readValue() : void
-    +getValue() : float
+    +readCO() : void
+    +getCO() : float
 }
 
 class SensorCoordinator
 {
-    -tempSens : ISensor&
-    -humSens : ISensor&
-    -coSens : ISensor&
-    +SensorCoordinator(ISensor&, ISensor&, ISensor&)
+    -tempSens : TemperatureSensor&
+    -humSens : HumiditySensor&
+    -coSens : COSensor
+    +SensorCoordinator(TemperatureSensor&, HumiditySensor&)
     +readAllSensors() : Measurements
 }
 
@@ -68,6 +70,10 @@ class AlarmController
 
 class AirMonitorController
 {
+    -thermistorDriver : ThermistorDriver
+    -humidityDriver : HumidityDriver
+    -temperatureSensor : TemperatureSensor
+    -humiditySensor : HumiditySensor
     -sensorCoordinator : SensorCoordinator
     -sensorValidator : SensorValidator
     -thresholdEvaluator : ThresholdEvaluator
@@ -78,9 +84,6 @@ class AirMonitorController
     -ledDriver : LedDriver
     -compositeAlarmOutput : CompositeAlarmOutput
     -alarmController : AlarmController
-    -temperatureSensor : TemperatureSensor
-    -humiditySensor : HumiditySensor
-    -coSensor : COSensor
     +AirMonitorController()
     +init() : void
     +update() : void
@@ -132,15 +135,25 @@ class OledDriver
     +OledDriver()
     +init() : void
     +clear() : void
-    +writeLineint(line, const char* text) : void
+    +writeLine(int, const char*) : void
     +display() : void
 }
 
-interface ISensor
+class ThermistorDriver
 {
-    +~ISensor()
-    +readValue() : void
-    +getValue() : float
+    -readRawValue() : int
+    -convertRawValueToTemperature(int) : float
+    +ThermistorDriver()
+    +init() : void
+    +getTemperature() : float
+}
+
+class HumidityDriver
+{
+    -dht : DHT
+    +HumidityDriver()
+    +init() : void
+    +getHumidity() : float
 }
 
 struct Measurements
@@ -149,9 +162,10 @@ struct ThresholdResults
 struct SystemState
 
 ' ===== Besitz / feste Abhängigkeiten =====
+AirMonitorController --> ThermistorDriver
+AirMonitorController --> HumidityDriver
 AirMonitorController --> TemperatureSensor
 AirMonitorController --> HumiditySensor
-AirMonitorController --> COSensor
 AirMonitorController --> SensorCoordinator
 AirMonitorController --> SensorValidator
 AirMonitorController --> ThresholdEvaluator
@@ -163,7 +177,12 @@ AirMonitorController --> LedDriver
 AirMonitorController --> CompositeAlarmOutput
 AirMonitorController --> AlarmController
 
-SensorCoordinator --> "3" ISensor
+SensorCoordinator --> TemperatureSensor
+SensorCoordinator --> HumiditySensor
+SensorCoordinator --> COSensor
+
+TemperatureSensor --> ThermistorDriver
+HumiditySensor --> HumidityDriver
 
 CompositeAlarmOutput --> "0..*" IAlarmOutput
 
@@ -193,9 +212,5 @@ IAlarmOutput <|.. LedDriver
 IAlarmOutput <|.. CompositeAlarmOutput
 
 IDisplayOutput <|.. OledDriver
-
-ISensor <|.. TemperatureSensor
-ISensor <|.. HumiditySensor
-ISensor <|.. COSensor
 
 @enduml

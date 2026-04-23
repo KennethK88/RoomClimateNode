@@ -1,16 +1,17 @@
 #pragma once
-#include "sensors/ISensor.h"
-#include "sensors/TemperatureSensor.h"
+#include <TemperatureSensor.h>
+#include <HumiditySensor.h>
+#include <COSensor.h>
 #include <Measurements.h>
 
 class SensorCoordinator
 {
     private:
-        TemperatureSensor tempSens;
-        ISensor& humSens;
-        ISensor& coSens;
+        TemperatureSensor& tempSens;
+        HumiditySensor& humSens;
+        COSensor& coSens;
 
     public:
-        SensorCoordinator(TemperatureSensor tempSens, ISensor& humSens, ISensor& coSens) : tempSens(tempSens), humSens(humSens), coSens(coSens) {}
+        SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens, COSensor& coSens) : tempSens(tempSens), humSens(humSens), coSens(coSens) {}
         Measurements readAllSensors();
 };

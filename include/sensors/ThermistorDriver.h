@@ -1,6 +1,7 @@
 #pragma once
+#include <ISensorDriver.h>
 
-class ThermistorDriver
+class ThermistorDriver : public ISensorDriver
 {
     private: 
         int readRawValue();
@@ -8,6 +9,6 @@ class ThermistorDriver
     
     public:
         ThermistorDriver() = default;
-        void init();
-        float getTemperature();
+        void init() override;
+        float getValue() override;
 };

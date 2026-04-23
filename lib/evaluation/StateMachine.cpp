@@ -1,4 +1,4 @@
-#include "evaluation/StateMachine.h"
+#include <StateMachine.h>
 
 SystemState StateMachine::calculateState(const ValidationResults& validationResult, const ThresholdResults& thresholdResult)
 {

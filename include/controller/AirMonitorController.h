@@ -1,21 +1,27 @@
 #pragma once
+#include "sensors/ThermistorDriver.h"
+#include "sensors/HumidityDriver.h"
+#include "sensors/CODriver.h"
+#include <TemperatureSensor.h>
+#include <HumiditySensor.h>
+#include <COSensor.h>
 #include "sensors/SensorCoordinator.h"
 #include <SensorValidator.h>
 #include <ThresholdEvaluator.h>
-#include "evaluation/StateMachine.h"
-#include "display/DisplayController.h"
-#include "alarm/AlarmController.h"
+#include <StateMachine.h>
+#include <DisplayController.h>
+#include <AlarmController.h>
 #include "alarm/BuzzerDriver.h"
 #include "alarm/LedDriver.h"
 #include "alarm/CompositeAlarmOutput.h"
 #include "display/OledDriver.h"
-#include "sensors/TemperatureSensor.h"
-#include "sensors/HumiditySensor.h"
-#include "sensors/COSensor.h"
 
 class AirMonitorController
 {
     private:
+        ThermistorDriver thermistorDriver;
+        HumidityDriver humidityDriver;
+        CODriver coDriver;
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
         COSensor coSensor;
@@ -31,7 +37,7 @@ class AirMonitorController
         AlarmController alarmController;
 
     public:
-        AirMonitorController() : sensorCoordinator(temperatureSensor, humiditySensor, coSensor), displayController(oledDriver), alarmController(compositeAlarmOutput) {}
+        AirMonitorController() : temperatureSensor(thermistorDriver), humiditySensor(humidityDriver), coSensor(coDriver), sensorCoordinator(temperatureSensor, humiditySensor, coSensor), displayController(oledDriver), alarmController(compositeAlarmOutput) {}
         void init();
         void update();
 };

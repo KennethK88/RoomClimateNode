@@ -1,7 +1,7 @@
 #pragma once
 #include <Measurements.h>
-#include "utils/SystemState.h"
-#include "display/IDisplayOutput.h"
+#include <SystemState.h>
+#include <IDisplayOutput.h>
 
 class DisplayController
 {
