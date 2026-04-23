@@ -20,4 +20,7 @@ void loop()
 }
 
 // TODO: main verschieben wg. Tests
+// FEATURE: Abstandssensor integrieren -> Screen off
+// FEATURE: Weitere Status LEDs integrieren
+// FEATURE: Über Photoresistor OLED Helligkeit regulieren
 #endif
