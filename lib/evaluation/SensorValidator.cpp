@@ -30,11 +30,20 @@ void SensorValidator::validateCo(const Measurements& measurements, ValidationRes
                                     SensorConstants::CO_MAX_VALID);
 }
 
+void SensorValidator::validateDistance(const Measurements& measurements, ValidationResults& validationResult)
+{
+    validationResult.distanceValid = validateSensor(measurements.distance,
+                                    SensorConstants::DISTANCE_NOT_INITIALIZED,
+                                    SensorConstants::DISTANCE_MIN_VALID,
+                                    SensorConstants::DISTANCE_MAX_VALID);
+}
+
 ValidationResults SensorValidator::validateAllSensors(const Measurements& measurements)
 {
     ValidationResults validationResult;
     validateTemperature(measurements, validationResult);
     validateHumidity(measurements, validationResult);
     validateCo(measurements, validationResult);
+    validateDistance(measurements, validationResult);
     return validationResult;
 }
