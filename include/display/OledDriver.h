@@ -13,4 +13,6 @@ class OledDriver : public IDisplayOutput
         void clear() override;
         void writeLine(int line, const char* text) override;
         void display() override;
+        void sleepOn() override;
+        void sleepOff() override;
 };

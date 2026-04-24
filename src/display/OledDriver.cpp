@@ -27,3 +27,13 @@ void OledDriver::display()
 {
     oled.sendBuffer();
 }
+
+void OledDriver::sleepOn()
+{
+    oled.sleepOn();
+}
+
+void OledDriver::sleepOff()
+{
+    oled.sleepOff();
+}
