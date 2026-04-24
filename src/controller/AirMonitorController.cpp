@@ -10,14 +10,16 @@ void AirMonitorController::init()
     thermistorDriver.init();
     humidityDriver.init();
     coDriver.init();
+    distanceDriver.init();
 }
 
 void AirMonitorController::update()
 {
     const Measurements measurements = sensorCoordinator.readAllSensors();
-    const ValidationResults validationResult = sensorValidator.validateAllSensors(measurements);
-    const ThresholdResults thresholdResult = thresholdEvaluator.evaluateAllSensors(measurements, validationResult);
-    const SystemState systemState = stateMachine.calculateState(validationResult, thresholdResult);
-    displayController.updateDisplay(measurements, systemState);
+    const ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
+    const ThresholdResults thresholdResults = thresholdEvaluator.evaluateAllSensors(measurements, validationResults);
+    const SystemState systemState = stateMachine.calculateState(validationResults, thresholdResults);
+    const bool displayActive = displayPolicy.isDisplayActive(measurements, validationResults);
+    displayController.updateDisplay(measurements, systemState, displayActive);
     alarmController.updateAlarm(systemState);
 }
