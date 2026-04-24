@@ -3,6 +3,7 @@
 #include <HumiditySensor.h>
 #include <COSensor.h>
 #include <Measurements.h>
+#include <DistanceSensor.h>
 
 class SensorCoordinator
 {
@@ -10,8 +11,10 @@ class SensorCoordinator
         TemperatureSensor& tempSens;
         HumiditySensor& humSens;
         COSensor& coSens;
+        DistanceSensor& distanceSens;
+        
 
     public:
-        SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens, COSensor& coSens) : tempSens(tempSens), humSens(humSens), coSens(coSens) {}
+        SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens, COSensor& coSens, DistanceSensor& distanceSens) : tempSens(tempSens), humSens(humSens), coSens(coSens), distanceSens(distanceSens) {}
         Measurements readAllSensors();
 };
