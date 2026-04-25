@@ -41,6 +41,14 @@ void test_co_equals_nan_should_be_invalid();
 void test_co_below_min_valid_should_be_invalid();
 void test_co_above_max_valid_should_be_invalid();
 
+// Distance
+void test_distance_not_initialized_should_be_invalid();
+void test_distance_equals_max_valid_should_be_valid();
+void test_distance_equals_min_valid_should_be_valid();
+void test_distance_equals_nan_should_be_invalid();
+void test_distance_below_min_valid_should_be_invalid();
+void test_distance_above_max_valid_should_be_invalid();
+
 // ThresholdEvaluator
 // Temperature
 void test_temperature_valid_and_within_thresholds_should_not_trigger_any_threshold_flags();
@@ -109,6 +117,14 @@ int main() {
     RUN_TEST(test_co_equals_nan_should_be_invalid);
     RUN_TEST(test_co_below_min_valid_should_be_invalid);
     RUN_TEST(test_co_above_max_valid_should_be_invalid);
+
+    // Distance
+    RUN_TEST(test_distance_not_initialized_should_be_invalid);
+    RUN_TEST(test_distance_equals_max_valid_should_be_valid);
+    RUN_TEST(test_distance_equals_min_valid_should_be_valid);
+    RUN_TEST(test_distance_equals_nan_should_be_invalid);
+    RUN_TEST(test_distance_below_min_valid_should_be_invalid);
+    RUN_TEST(test_distance_above_max_valid_should_be_invalid);
 
     // ThresholdEvaluator
     // Temperature
