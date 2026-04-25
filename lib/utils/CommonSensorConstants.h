@@ -30,4 +30,5 @@ constexpr float DISTANCE_NOT_INITIALIZED = -100.0f;
 constexpr float DISTANCE_MIN_VALID = 0.0f;
 constexpr float DISTANCE_MAX_VALID = 100.0f;
 constexpr float DISTANCE_ON_OFF_THRESHOLD = 30.0f;
+constexpr float DISTANCE_DUMMY_VALID = 50.0f;
 }
