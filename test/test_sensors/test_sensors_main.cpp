@@ -27,6 +27,11 @@ void test_humidity_sensor_not_initialized_value_should_be_not_initialized();
 void test_humidity_sensor_initialized_value_should_be_equal_to_driver_value();
 void test_humidity_sensor_initialized_value_changes_should_be_equal_to_driver_value();
 
+// Sensor Coordinator
+void test_read_all_sensors_should_propagate_driver_values_to_measurements();
+void test_read_all_sensors_should_propagate_updated_driver_values_to_measurements();
+
+
 int main() {
     UNITY_BEGIN();
 
@@ -44,6 +49,10 @@ int main() {
     RUN_TEST(test_humidity_sensor_not_initialized_value_should_be_not_initialized);
     RUN_TEST(test_humidity_sensor_initialized_value_should_be_equal_to_driver_value);
     RUN_TEST(test_humidity_sensor_initialized_value_changes_should_be_equal_to_driver_value);
+
+    // Sensor Coordinator
+    RUN_TEST(test_read_all_sensors_should_propagate_driver_values_to_measurements);
+    RUN_TEST(test_read_all_sensors_should_propagate_updated_driver_values_to_measurements);
 
     return UNITY_END();
 }
