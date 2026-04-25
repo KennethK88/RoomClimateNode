@@ -6,10 +6,10 @@
 class SensorValidator
 {
     private:
-        void validateTemperature(const Measurements& measurements, ValidationResults& validationResult);
-        void validateHumidity(const Measurements& measurements, ValidationResults& validationResult);
-        void validateCo(const Measurements& measurements, ValidationResults& validationResult);
-        void validateDistance(const Measurements& measurements, ValidationResults& validationResult);
+        void validateTemperature(const Measurements& measurements, ValidationResults& validationResults);
+        void validateHumidity(const Measurements& measurements, ValidationResults& validationResults);
+        void validateCo(const Measurements& measurements, ValidationResults& validationResults);
+        void validateDistance(const Measurements& measurements, ValidationResults& validationResults);
 
     public:
         SensorValidator() = default;

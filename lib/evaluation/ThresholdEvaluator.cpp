@@ -10,38 +10,38 @@ static bool evaluateSensorTooLow(float value, float min, bool valid)
     return ((value <= min) && valid);
 }
 
-void ThresholdEvaluator::evaluateTemperatureTooHigh(const Measurements& measurements, const ValidationResults& validationResult, ThresholdResults& thresholdResult)
+void ThresholdEvaluator::evaluateTemperatureTooHigh(const Measurements& measurements, const ValidationResults& validationResults, ThresholdResults& thresholdResult)
 {
-    thresholdResult.temperatureTooHigh = evaluateSensorTooHigh(measurements.temperature, SensorConstants::TEMPERATURE_MAX_THRESHOLD, validationResult.temperatureValid);
+    thresholdResult.temperatureTooHigh = evaluateSensorTooHigh(measurements.temperature, SensorConstants::TEMPERATURE_MAX_THRESHOLD, validationResults.temperatureValid);
 }
 
-void ThresholdEvaluator::evaluateHumidityTooHigh(const Measurements& measurements, const ValidationResults& validationResult, ThresholdResults& thresholdResult)
+void ThresholdEvaluator::evaluateHumidityTooHigh(const Measurements& measurements, const ValidationResults& validationResults, ThresholdResults& thresholdResult)
 {
-    thresholdResult.humidityTooHigh = evaluateSensorTooHigh(measurements.humidity, SensorConstants::HUMIDITY_MAX_THRESHOLD, validationResult.humidityValid);
+    thresholdResult.humidityTooHigh = evaluateSensorTooHigh(measurements.humidity, SensorConstants::HUMIDITY_MAX_THRESHOLD, validationResults.humidityValid);
 }
 
-void ThresholdEvaluator::evaluateCoTooHigh(const Measurements& measurements, const ValidationResults& validationResult, ThresholdResults& thresholdResult)
+void ThresholdEvaluator::evaluateCoTooHigh(const Measurements& measurements, const ValidationResults& validationResults, ThresholdResults& thresholdResult)
 {
-    thresholdResult.coTooHigh = evaluateSensorTooHigh(measurements.co, SensorConstants::CO_MAX_THRESHOLD, validationResult.coValid);
+    thresholdResult.coTooHigh = evaluateSensorTooHigh(measurements.co, SensorConstants::CO_MAX_THRESHOLD, validationResults.coValid);
 }
 
-void ThresholdEvaluator::evaluateTemperatureTooLow(const Measurements& measurements, const ValidationResults& validationResult, ThresholdResults& thresholdResult)
+void ThresholdEvaluator::evaluateTemperatureTooLow(const Measurements& measurements, const ValidationResults& validationResults, ThresholdResults& thresholdResult)
 {
-    thresholdResult.temperatureTooLow = evaluateSensorTooLow(measurements.temperature, SensorConstants::TEMPERATURE_MIN_THRESHOLD, validationResult.temperatureValid);
+    thresholdResult.temperatureTooLow = evaluateSensorTooLow(measurements.temperature, SensorConstants::TEMPERATURE_MIN_THRESHOLD, validationResults.temperatureValid);
 }
 
-void ThresholdEvaluator::evaluateHumidityTooLow(const Measurements& measurements, const ValidationResults& validationResult, ThresholdResults& thresholdResult)
+void ThresholdEvaluator::evaluateHumidityTooLow(const Measurements& measurements, const ValidationResults& validationResults, ThresholdResults& thresholdResult)
 {
-    thresholdResult.humidityTooLow = evaluateSensorTooLow(measurements.humidity, SensorConstants::HUMIDITY_MIN_THRESHOLD, validationResult.humidityValid);    
+    thresholdResult.humidityTooLow = evaluateSensorTooLow(measurements.humidity, SensorConstants::HUMIDITY_MIN_THRESHOLD, validationResults.humidityValid);    
 }
     
-ThresholdResults ThresholdEvaluator::evaluateAllSensors(const Measurements& measurements, const ValidationResults& validationResult)
+ThresholdResults ThresholdEvaluator::evaluateAllSensors(const Measurements& measurements, const ValidationResults& validationResults)
 {
     ThresholdResults thresholdResult;
-    evaluateTemperatureTooHigh(measurements, validationResult, thresholdResult);
-    evaluateHumidityTooHigh(measurements, validationResult, thresholdResult);
-    evaluateCoTooHigh(measurements, validationResult, thresholdResult);
-    evaluateTemperatureTooLow(measurements, validationResult, thresholdResult);
-    evaluateHumidityTooLow(measurements, validationResult, thresholdResult);
+    evaluateTemperatureTooHigh(measurements, validationResults, thresholdResult);
+    evaluateHumidityTooHigh(measurements, validationResults, thresholdResult);
+    evaluateCoTooHigh(measurements, validationResults, thresholdResult);
+    evaluateTemperatureTooLow(measurements, validationResults, thresholdResult);
+    evaluateHumidityTooLow(measurements, validationResults, thresholdResult);
     return thresholdResult;
 }
