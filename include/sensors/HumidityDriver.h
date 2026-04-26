@@ -7,7 +7,7 @@
 class HumidityDriver : public ISensorDriver
 {
     private:
-        DHT dht{HardwareConfig::HUMIDITY_DRIVER_DIGITAL_IN_PIN, HardwareConfig::HUMIDITY_DRIVER_TYPE};
+        DHT dht{HardwareConfig::HUMIDITY_DRIVER_PIN, HardwareConfig::HUMIDITY_DRIVER_TYPE};
 
     public:
         HumidityDriver() = default;

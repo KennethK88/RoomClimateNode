@@ -4,15 +4,15 @@
 
 void LedDriver::init()
 {
-    pinMode(HardwareConfig::LED_PIN, OUTPUT);
+    pinMode(HardwareConfig::LED_DIGITAL_PIN, OUTPUT);
 }
 
 void LedDriver::activate()
 {
-    digitalWrite(HardwareConfig::LED_PIN, HIGH);
+    digitalWrite(HardwareConfig::LED_DIGITAL_PIN, HIGH);
 }
 
 void LedDriver::deactivate()
 {
-    digitalWrite(HardwareConfig::LED_PIN, LOW);
+    digitalWrite(HardwareConfig::LED_DIGITAL_PIN, LOW);
 }
