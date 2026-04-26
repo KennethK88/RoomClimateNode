@@ -7,5 +7,5 @@ class StateMachine
 {
     public:
         StateMachine() = default;
-        SystemState calculateState(const ValidationResults& validationResult, const ThresholdResults& thresholdResult);
+        SystemState calculateState(const ValidationResults& validationResults, const ThresholdResults& thresholdResult);
 };

@@ -23,8 +23,16 @@ namespace
     }
 }
 
-void DisplayController::updateDisplay(const Measurements& measurements, SystemState systemState)
+void DisplayController::updateDisplay(const Measurements& measurements, SystemState systemState, bool displayActive)
 {
+    if (!displayActive)
+    {
+        displayOutput.sleepOn();
+        return;
+    }
+    
+    displayOutput.sleepOff();
+    
     char temperatureLine[LINE_SIZE];
     char humidityLine[LINE_SIZE];
     char coLine[LINE_SIZE];

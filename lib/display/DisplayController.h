@@ -7,8 +7,9 @@ class DisplayController
 {
     private: 
         IDisplayOutput& displayOutput;
+    
 
     public:
-        DisplayController(IDisplayOutput& displayOutput) : displayOutput(displayOutput) {};
-        void updateDisplay(const Measurements& measurements, SystemState systemState);
+        DisplayController(IDisplayOutput& displayOutput) : displayOutput(displayOutput) {}
+        void updateDisplay(const Measurements& measurements, SystemState systemState, bool displayActive);
 };

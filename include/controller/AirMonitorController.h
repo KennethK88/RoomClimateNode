@@ -2,10 +2,13 @@
 #include "sensors/ThermistorDriver.h"
 #include "sensors/HumidityDriver.h"
 #include "sensors/CODriver.h"
+#include "sensors/DistanceDriver.h"
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
 #include <COSensor.h>
+#include <DistanceSensor.h>
 #include <SensorCoordinator.h>
+#include <DisplayPolicy.h>
 #include <SensorValidator.h>
 #include <ThresholdEvaluator.h>
 #include <StateMachine.h>
@@ -22,10 +25,13 @@ class AirMonitorController
         ThermistorDriver thermistorDriver;
         HumidityDriver humidityDriver;
         CODriver coDriver;
+        DistanceDriver distanceDriver;
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
         COSensor coSensor;
+        DistanceSensor distanceSensor;
         SensorCoordinator sensorCoordinator;
+        DisplayPolicy displayPolicy;
         SensorValidator sensorValidator;
         ThresholdEvaluator thresholdEvaluator;
         OledDriver oledDriver;
@@ -37,7 +43,9 @@ class AirMonitorController
         AlarmController alarmController;
 
     public:
-        AirMonitorController() : temperatureSensor(thermistorDriver), humiditySensor(humidityDriver), coSensor(coDriver), sensorCoordinator(temperatureSensor, humiditySensor, coSensor), displayController(oledDriver), alarmController(compositeAlarmOutput) {}
+        AirMonitorController() :    temperatureSensor(thermistorDriver), humiditySensor(humidityDriver), coSensor(coDriver), distanceSensor(distanceDriver),
+                                    sensorCoordinator(temperatureSensor, humiditySensor, coSensor, distanceSensor), 
+                                    displayController(oledDriver), alarmController(compositeAlarmOutput) {}
         void init();
         void update();
 };

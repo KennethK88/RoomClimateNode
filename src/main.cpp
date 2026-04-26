@@ -23,4 +23,5 @@ void loop()
 // FEATURE: Abstandssensor integrieren -> Screen off
 // FEATURE: Weitere Status LEDs integrieren
 // FEATURE: Über Photoresistor OLED Helligkeit regulieren
+// FIXME: Datentypen auf <cstdint> umbauen
 #endif
