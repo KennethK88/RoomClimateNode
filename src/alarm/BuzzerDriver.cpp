@@ -4,15 +4,15 @@
 
 void BuzzerDriver::init()
 {
-    pinMode(HardwareConfig::BUZZER_PIN, OUTPUT);
+    pinMode(HardwareConfig::BUZZER_DIGITAL_PIN, OUTPUT);
 }
 
 void BuzzerDriver::activate()
 {
-    digitalWrite(HardwareConfig::BUZZER_PIN, HIGH);
+    digitalWrite(HardwareConfig::BUZZER_DIGITAL_PIN, HIGH);
 }
 
 void BuzzerDriver::deactivate()
 {
-    digitalWrite(HardwareConfig::BUZZER_PIN, LOW);
+    digitalWrite(HardwareConfig::BUZZER_DIGITAL_PIN, LOW);
 }

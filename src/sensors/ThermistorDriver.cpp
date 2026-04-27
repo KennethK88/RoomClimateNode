@@ -4,12 +4,12 @@
 
 void ThermistorDriver::init()
 {
-    pinMode(HardwareConfig::THERMISTOR_ANALOG_IN_PIN_A0, INPUT);
+    pinMode(HardwareConfig::THERMISTOR_ANALOG_PIN, INPUT);
 }
 
 int ThermistorDriver::readRawValue()
 {
-    return analogRead(HardwareConfig::THERMISTOR_ANALOG_IN_PIN_A0); 
+    return analogRead(HardwareConfig::THERMISTOR_ANALOG_PIN); 
 }
 
 float ThermistorDriver::convertRawValueToTemperature(int rawValue)

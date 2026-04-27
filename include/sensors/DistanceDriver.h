@@ -3,7 +3,9 @@
 
 class DistanceDriver : public ISensorDriver
 {
-    private: 
+    private:
+        unsigned long readRawValue();
+        float convertRawValueToDistance(unsigned long rawValue); 
     
     public:
         DistanceDriver() = default;
