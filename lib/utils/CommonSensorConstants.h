@@ -31,4 +31,5 @@ constexpr float DISTANCE_MIN_VALID = 0.0f;
 constexpr float DISTANCE_MAX_VALID = 300.0f;
 constexpr float DISTANCE_ON_OFF_THRESHOLD = 75.0f;
 constexpr float DISTANCE_DUMMY_VALID = 50.0f;
+constexpr float DISTANCE_NO_OBJECT_DETECTED = 0.0f;
 }
