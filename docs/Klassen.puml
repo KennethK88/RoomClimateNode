@@ -5,33 +5,44 @@ title Luftüberwachung – Klassendiagramm (bereinigt)
 class TemperatureSensor
 {
     -currentTemperature : float
-    -thermistorDriver : ThermistorDriver&
-    +TemperatureSensor(ThermistorDriver&)
+    -sensorDriver : ISensorDriver&
+    +TemperatureSensor(ISensorDriver&)
     +readTemperature() : void
     +getTemperature() : float
 }
 class HumiditySensor
 {
     -currentHumidity : float
-    -humidityDriver : HumidityDriver&
-    +HumiditySensor(HumidityDriver&)
+    -sensorDriver : ISensorDriver&
+    +HumiditySensor(ISensorDriver&)
     +readHumidity() : void
     +getHumidity() : float
 }
 class COSensor
 {
     -currentCO : float
-    +COSensor()
+    -sensorDriver : ISensorDriver&
+    +COSensor(ISensorDriver&)
     +readCO() : void
     +getCO() : float
+}
+
+class DistanceSensor
+{
+    -currentDistance : float
+    -sensorDriver : ISensorDriver&
+    +DistanceSensor(ISensorDriver&)
+    +readDistance() : void
+    +getDistance() : float
 }
 
 class SensorCoordinator
 {
     -tempSens : TemperatureSensor&
     -humSens : HumiditySensor&
-    -coSens : COSensor
-    +SensorCoordinator(TemperatureSensor&, HumiditySensor&)
+    -coSens : COSensor&
+    -distanceSensor : DistanceSensor&
+    +SensorCoordinator(TemperatureSensor&, HumiditySensor&, COSensor&, DistanceSensor&)
     +readAllSensors() : Measurements
 }
 
@@ -56,7 +67,7 @@ class DisplayController
 {
     -displayOutput : IDisplayOutput&
     +DisplayController(IDisplayOutput&)
-    +updateDisplay(const Measurements&, SystemState) : void
+    +updateDisplay(const Measurements&, SystemState, bool displayActive) : void
 }
 
 class AlarmController
@@ -72,9 +83,14 @@ class AirMonitorController
 {
     -thermistorDriver : ThermistorDriver
     -humidityDriver : HumidityDriver
+    -coDriver : CODriver
+    -distanceDriver : DistanceDriver
     -temperatureSensor : TemperatureSensor
     -humiditySensor : HumiditySensor
+    -coSensor : COSensor
+    -distanceSensor : DistanceSensor
     -sensorCoordinator : SensorCoordinator
+    -displayPolicy : DisplayPolicy
     -sensorValidator : SensorValidator
     -thresholdEvaluator : ThresholdEvaluator
     -oledDriver : OledDriver
@@ -105,13 +121,6 @@ class LedDriver
     +deactivate() : void
 }
 
-interface IAlarmOutput
-{
-    +~IAlarmOutput()
-    +activate() : void
-    +deactivate() : void
-}
-
 class CompositeAlarmOutput
 {
     -alarmOutputs : std::vector<IAlarmOutput*>
@@ -119,14 +128,6 @@ class CompositeAlarmOutput
     +add(IAlarmOutput*) : void
     +activate() : void
     +deactivate() : void
-}
-
-interface IDisplayOutput
-{
-    +~IDisplayOutput()
-    +clear() : void
-    +writeLine(int line, const char* text) : void
-    +display() : void
 }
 
 class OledDriver
@@ -137,6 +138,8 @@ class OledDriver
     +clear() : void
     +writeLine(int, const char*) : void
     +display() : void
+    +sleepOn() : void
+    +sleepOff() : void
 }
 
 class ThermistorDriver
@@ -145,7 +148,7 @@ class ThermistorDriver
     -convertRawValueToTemperature(int) : float
     +ThermistorDriver()
     +init() : void
-    +getTemperature() : float
+    +getValue() : float
 }
 
 class HumidityDriver
@@ -153,20 +156,97 @@ class HumidityDriver
     -dht : DHT
     +HumidityDriver()
     +init() : void
-    +getHumidity() : float
+    +getValue() : float
 }
 
+class CODriver
+{
+    +CODriver()
+    +init() : void
+    +getValue() : float
+}
+
+class DistanceDriver
+{
+    -readRawValue() : unsigned long
+    -convertRawValueToDistance(unsigned long) : float
+    +DistanceDriver()
+    +init() : void
+    +getValue() : float
+}
+
+class DisplayPolicy
+{
+    -evaluateDisplayState(const Measurements&, const ValidationResults&) : bool
+    +DisplayPolicy()
+    +isDisplayActive(const Measurements&, const ValidationResults&) : bool
+}
+
+' ===== Interfaces =====
+
+interface IAlarmOutput
+{
+    +~IAlarmOutput()
+    +activate() : void
+    +deactivate() : void
+}
+
+
+interface IDisplayOutput
+{
+    +~IDisplayOutput()
+    +clear() : void
+    +writeLine(int line, const char* text) : void
+    +display() : void
+    +sleepOn() : void
+    +sleepOff() : void
+}
+
+
+interface ISensorDriver
+{
+    +~ISensorDriver()
+    +init() : void
+    +getValue() : float
+}
+
+' ===== Data Objects =====
+
 struct Measurements
+{
+  +temperature : float
+  +humidity : float
+  +co : float
+  +distance : float
+}
 struct ValidationResults
+{
+    +temperatureValid : bool
+    +humidityValid : bool
+    +coValid : bool
+    +distanceValid : bool 
+}
 struct ThresholdResults
+{
+    +temperatureTooHigh : bool
+    +humidityTooHigh : bool
+    +coTooHigh : bool
+    +temperatureTooLow : bool
+    +humidityTooLow : bool
+}
 struct SystemState
 
 ' ===== Besitz / feste Abhängigkeiten =====
 AirMonitorController --> ThermistorDriver
 AirMonitorController --> HumidityDriver
+AirMonitorController --> CODriver
+AirMonitorController --> DistanceDriver
 AirMonitorController --> TemperatureSensor
 AirMonitorController --> HumiditySensor
+AirMonitorController --> COSensor
+AirMonitorController --> DistanceSensor
 AirMonitorController --> SensorCoordinator
+AirMonitorController --> DisplayPolicy
 AirMonitorController --> SensorValidator
 AirMonitorController --> ThresholdEvaluator
 AirMonitorController --> OledDriver
@@ -180,9 +260,7 @@ AirMonitorController --> AlarmController
 SensorCoordinator --> TemperatureSensor
 SensorCoordinator --> HumiditySensor
 SensorCoordinator --> COSensor
-
-TemperatureSensor --> ThermistorDriver
-HumiditySensor --> HumidityDriver
+SensorCoordinator --> DistanceSensor
 
 CompositeAlarmOutput --> "0..*" IAlarmOutput
 
@@ -212,5 +290,18 @@ IAlarmOutput <|.. LedDriver
 IAlarmOutput <|.. CompositeAlarmOutput
 
 IDisplayOutput <|.. OledDriver
+
+TemperatureSensor ..> ISensorDriver
+HumiditySensor ..> ISensorDriver
+COSensor ..> ISensorDriver
+DistanceSensor ..> ISensorDriver
+
+ISensorDriver <|.. ThermistorDriver
+ISensorDriver <|.. HumidityDriver
+ISensorDriver <|.. CODriver
+ISensorDriver <|.. DistanceDriver
+
+DisplayPolicy ..> Measurements
+DisplayPolicy ..> ValidationResults
 
 @enduml
