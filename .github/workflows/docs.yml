@@ -1,0 +1,28 @@
+# Name des Workflows
+name: Deploy Documentation
+
+# Wann soll Workflow gestartet werden?
+on:
+  push:
+    branches: [main]
+
+# Was soll passieren?
+jobs:
+  # 1. Job: Documentation
+  documentation:
+    # Ubuntu VM
+    runs-on: ubuntu-latest
+    # Schritte des Workflows
+    steps:
+      # 1. Schritt: Checkout auf VM
+      - name: Checkout
+        uses: actions/checkout@v4
+      # 2. Schritt: Doxygen installieren
+      - name: Install Doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen
+      # 3. Schritt: Graphviz installieren
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+      # 4. Schritt: Doxygen ausführen
+      - name: Run Doxygen
+        run: doxygen docs/Doxyfile
