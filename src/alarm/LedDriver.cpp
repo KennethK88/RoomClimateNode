@@ -1,6 +1,6 @@
 #include "alarm/LedDriver.h"
 #include <Arduino.h>
-#include "utils/HardwareConfig.h"
+#include <HardwareConfig.h>
 
 void LedDriver::init()
 {

@@ -1,3 +1,4 @@
+#include <Arduino.h> 
 #include <unity.h>
 
 // Wird vor JEDEM Test aufgerufen
@@ -13,18 +14,22 @@ void tearDown()
 }
 
 // ThermistorDriver
-//void test_thermistor_temperature_not_nan_should_be_true();
-//void test_thermistor_temperature_top();
+void test_thermistor_temperature_not_nan_should_be_true();
+void test_thermistor_temperature_should_be_within_plausible_range();
 
-
-
-int main() {
-    //delay(10000);
+void setup()
+{  
+    delay(5000);
     UNITY_BEGIN();
 
     // ThermistorDriver
-    //RUN_TEST(test_thermistor_temperature_top);
-    TEST_ASSERT_TRUE(true);
+    RUN_TEST(test_thermistor_temperature_not_nan_should_be_true);
+    RUN_TEST(test_thermistor_temperature_should_be_within_plausible_range);
+    
+    UNITY_END();
+}
 
-    return UNITY_END();
+void loop()
+{
+    //
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "sensors/ThermistorDriver.h"
+#include <ThermistorDriver.h>
 #include "sensors/HumidityDriver.h"
 #include "sensors/CODriver.h"
 #include "sensors/DistanceDriver.h"

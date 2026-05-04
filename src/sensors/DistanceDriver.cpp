@@ -1,5 +1,5 @@
 #include "sensors/DistanceDriver.h"
-#include "utils/HardwareConfig.h"
+#include <HardwareConfig.h>
 
 namespace
 {

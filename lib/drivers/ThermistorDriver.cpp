@@ -1,5 +1,5 @@
-#include "sensors/ThermistorDriver.h"
-#include "utils/HardwareConfig.h"
+#include <ThermistorDriver.h>
+#include <HardwareConfig.h>
 #include <Arduino.h>
 
 void ThermistorDriver::init()

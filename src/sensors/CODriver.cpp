@@ -1,5 +1,5 @@
 #include "sensors/CODriver.h"
-#include "utils/HardwareConfig.h"
+#include <HardwareConfig.h>
 
 void CODriver::init()
 {
