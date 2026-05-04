@@ -1,4 +1,4 @@
-#include "sensors/ThermistorDriver.h"
+#include <ThermistorDriver.h>
 #include "utils/HardwareConfig.h"
 #include <Arduino.h>
 
