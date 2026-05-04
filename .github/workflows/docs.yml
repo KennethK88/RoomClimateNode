@@ -3,8 +3,13 @@ name: Deploy Documentation
 
 # Wann soll Workflow gestartet werden?
 on:
-  push:
-    branches: [main]
+  # Nur wenn Build und native Tests im main i.O.
+  workflow_run:
+    workflows: ["PlatformIO Native Tests and Build"]
+    types:
+      - completed
+    branches:
+      - main
   # Run Button fuer Workflow (Unabhaengigkeit von neuen Commits)
   workflow_dispatch:
 
@@ -26,6 +31,8 @@ on:
 jobs:
   # 1. Job: Documentation
   documentation:
+  # Job ausführen, wenn manuell getriggert oder Build und native Tests i.O.
+    if: ${{github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'}}
     # Ubuntu VM
     runs-on: ubuntu-latest
     # Umgebung für GitHub Pages Deployment
