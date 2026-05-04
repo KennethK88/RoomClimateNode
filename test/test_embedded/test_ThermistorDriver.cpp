@@ -1,5 +1,5 @@
 #include <unity.h>
-#include <sensors/ThermistorDriver.h>
+#include <ThermistorDriver.h>
 #include <cmath>
 
 void test_thermistor_temperature_not_nan_should_be_true()

@@ -14,26 +14,18 @@ void tearDown()
 }
 
 // ThermistorDriver
-// void test_thermistor_temperature_not_nan_should_be_true();
-// void test_thermistor_temperature_should_be_within_plausible_range();
-
-void test_calculator_addition() {
-    TEST_ASSERT_EQUAL(32, 32);
-}
+void test_thermistor_temperature_not_nan_should_be_true();
+void test_thermistor_temperature_should_be_within_plausible_range();
 
 void setup()
 {  
-    //Serial.begin(115200);
-    delay(2000);
-    //while (!Serial) { /* warten bis Serial Monitor geöffnet */};
-
+    delay(5000);
     UNITY_BEGIN();
 
     // ThermistorDriver
-    // RUN_TEST(test_thermistor_temperature_not_nan_should_be_true);
-    // RUN_TEST(test_thermistor_temperature_should_be_within_plausible_range);
-    RUN_TEST(test_calculator_addition);
-
+    RUN_TEST(test_thermistor_temperature_not_nan_should_be_true);
+    RUN_TEST(test_thermistor_temperature_should_be_within_plausible_range);
+    
     UNITY_END();
 }
 
