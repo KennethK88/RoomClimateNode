@@ -1,6 +1,6 @@
 #pragma once
 #include <DHT.h>
-#include "utils/HardwareConfig.h"
+#include <HardwareConfig.h>
 #include <ISensorDriver.h>
 
 /**
