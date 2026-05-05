@@ -14,12 +14,10 @@ void tearDown()
 }
 
 // ThermistorDriver
-void test_thermistor_temperature_not_nan_should_be_true();
-void test_thermistor_temperature_should_be_within_plausible_range();
+void test_thermistor_driver_should_measure_room_temperature_range();
 
 // DistanceDriver
-void test_distance_driver_distance_not_nan_should_be_true();
-void test_distance_driver_distance_should_be_within_plausible_range();
+void test_distance_driver_should_measure_distance_with_object_present();
 
 void setup()
 {  
@@ -27,12 +25,10 @@ void setup()
     UNITY_BEGIN();
 
     // ThermistorDriver
-    RUN_TEST(test_thermistor_temperature_not_nan_should_be_true);
-    RUN_TEST(test_thermistor_temperature_should_be_within_plausible_range);
+    RUN_TEST(test_thermistor_driver_should_measure_room_temperature_range);
 
     // DistanceDriver
-    RUN_TEST(test_distance_driver_distance_not_nan_should_be_true);
-    RUN_TEST(test_distance_driver_distance_should_be_within_plausible_range);
+    RUN_TEST(test_distance_driver_should_measure_distance_with_object_present);
 
     
     UNITY_END();
