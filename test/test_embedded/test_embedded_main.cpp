@@ -17,6 +17,10 @@ void tearDown()
 void test_thermistor_temperature_not_nan_should_be_true();
 void test_thermistor_temperature_should_be_within_plausible_range();
 
+// DistanceDriver
+void test_distance_driver_distance_not_nan_should_be_true();
+void test_distance_driver_distance_should_be_within_plausible_range();
+
 void setup()
 {  
     delay(5000);
@@ -25,6 +29,11 @@ void setup()
     // ThermistorDriver
     RUN_TEST(test_thermistor_temperature_not_nan_should_be_true);
     RUN_TEST(test_thermistor_temperature_should_be_within_plausible_range);
+
+    // DistanceDriver
+    RUN_TEST(test_distance_driver_distance_not_nan_should_be_true);
+    RUN_TEST(test_distance_driver_distance_should_be_within_plausible_range);
+
     
     UNITY_END();
 }
