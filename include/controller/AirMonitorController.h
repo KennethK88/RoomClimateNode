@@ -2,7 +2,7 @@
 #include <ThermistorDriver.h>
 #include "sensors/HumidityDriver.h"
 #include "sensors/CODriver.h"
-#include "sensors/DistanceDriver.h"
+#include <DistanceDriver.h>
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
 #include <COSensor.h>
