@@ -1,18 +1,17 @@
-#include "alarm/LedDriver.h"
+#include <LedDriver.h>
 #include <Arduino.h>
-#include <HardwareConfig.h>
 
 void LedDriver::init()
 {
-    pinMode(HardwareConfig::LED_DIGITAL_PIN, OUTPUT);
+    pinMode(pinNumber, OUTPUT);
 }
 
-void LedDriver::activate()
+void LedDriver::turnOn()
 {
-    digitalWrite(HardwareConfig::LED_DIGITAL_PIN, HIGH);
+    digitalWrite(pinNumber, HIGH);
 }
 
-void LedDriver::deactivate()
+void LedDriver::turnOff()
 {
-    digitalWrite(HardwareConfig::LED_DIGITAL_PIN, LOW);
+    digitalWrite(pinNumber, LOW);
 }

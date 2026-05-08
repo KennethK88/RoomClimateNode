@@ -1,44 +1,50 @@
 #pragma once
-#include <IAlarmOutput.h>
+#include <ILedOutput.h>
 
 /**
  * @file LedDriver.h
  * @class LedDriver
- * @brief Treiber zur Ansteuerung einer LED
- * 
- * Der LedDriver implementiert das IAlarmOutput-Interface und ermöglicht
- * die Aktivierung und Deaktivierung eines visuellen Alarmsignals.
- * 
- * Die Klasse kapselt den direkten Hardwarezugriff und wird typischerweise
- * über den AlarmController bzw. CompositeAlarmOutput angesteuert.
+ * @brief Hardware-Treiber zur Ansteuerung einer einzelnen LED
+ *
+ * Der LedDriver implementiert das Interface ILedOutput und steuert
+ * eine LED über einen digitalen GPIO-Pin an.
+ *
+ * Die konkrete Pinbelegung wird beim Erstellen des Drivers übergeben,
+ * wodurch dieselbe Klasse für unterschiedliche LEDs wiederverwendet
+ * werden kann.
  */
-class LedDriver : public IAlarmOutput
+class LedDriver : public ILedOutput
 {
+    private:
+
+        /**
+         * @brief GPIO-Pin der LED
+         */
+        int pinNumber; // aus HardwareConfig
+
     public:
 
         /**
          * @brief Konstruktor
+         *
+         * Erstellt einen LED-Treiber für den angegebenen GPIO-Pin.
+         *
+         * @param pinNumber GPIO-Pin der LED
          */
-        LedDriver() = default;
-
+        explicit LedDriver(int pinNumber) : pinNumber(pinNumber) {}
+        
         /**
-         * @brief Initialisiert die LED-Hardware
-         * 
-         * Konfiguriert den zugehörigen Pin als Ausgang.
+         * @brief Initialisiert den LED-Pin als Ausgang
          */
         void init();
-
+        
         /**
-         * @brief Aktiviert die LED
-         * 
-         * Schaltet die LED ein.
+         * @brief Schaltet die LED ein
          */
-        void activate() override;
-
+        void turnOn() override;
+        
         /**
-         * @brief Deaktiviert die LED
-         * 
-         * Schaltet die LED aus.
+         * @brief Schaltet die LED aus
          */
-        void deactivate() override;
+        void turnOff() override;
 };
