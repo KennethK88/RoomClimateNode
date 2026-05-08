@@ -27,6 +27,11 @@ void test_distance_valid_and_value_above_on_off_threshold_display_should_be_inac
 void test_distance_valid_no_object_detected_display_should_be_inactive();
 void test_distance_invalid_no_object_detected_display_should_be_active();
 
+// LedController
+void test_system_state_normal_only_normal_led_should_be_turned_on();
+void test_system_state_warning_only_warning_led_should_be_turned_on();
+void test_system_state_error_only_error_led_should_be_turned_on();
+
 int main() {
     UNITY_BEGIN();
 
@@ -44,6 +49,11 @@ int main() {
     RUN_TEST(test_distance_valid_and_value_above_on_off_threshold_display_should_be_inactive);
     RUN_TEST(test_distance_valid_no_object_detected_display_should_be_inactive);
     RUN_TEST(test_distance_invalid_no_object_detected_display_should_be_active);
+
+    // LedController
+    RUN_TEST(test_system_state_normal_only_normal_led_should_be_turned_on);
+    RUN_TEST(test_system_state_warning_only_warning_led_should_be_turned_on);
+    RUN_TEST(test_system_state_error_only_error_led_should_be_turned_on);
 
     return UNITY_END();
 }
