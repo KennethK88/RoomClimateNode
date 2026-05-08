@@ -15,9 +15,10 @@
 #include <DisplayController.h>
 #include <AlarmController.h>
 #include "alarm/BuzzerDriver.h"
-#include "alarm/LedDriver.h"
-#include "alarm/CompositeAlarmOutput.h"
+#include <LedDriver.h>
 #include "display/OledDriver.h"
+#include <HardwareConfig.h>
+#include <LedController.h>
 
 /**
  * @file AirMonitorController.h
@@ -35,7 +36,7 @@
  * - zyklisches Auslesen der Sensoren
  * - Validierung und Bewertung der Messwerte
  * - Berechnung des Systemzustands
- * - Aktualisierung von Display und Alarm
+ * - Aktualisierung von Display, Alarm und Status-LEDs
  *
  * @note Die fachliche Logik liegt bewusst in separaten Klassen wie
  * SensorValidator, ThresholdEvaluator, StateMachine und DisplayPolicy.
@@ -44,36 +45,42 @@
 class AirMonitorController
 {
     private:
+        // Driver
         ThermistorDriver thermistorDriver;
         HumidityDriver humidityDriver;
         CODriver coDriver;
         DistanceDriver distanceDriver;
+        BuzzerDriver buzzerDriver;
+        LedDriver ledDriverNormal{HardwareConfig::LED_NORMAL_DIGITAL_PIN};
+        LedDriver ledDriverWarning{HardwareConfig::LED_WARNING_DIGITAL_PIN};
+        LedDriver ledDriverError{HardwareConfig::LED_ERROR_DIGITAL_PIN};
+        OledDriver oledDriver;
+        // Sensoren
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
         COSensor coSensor;
         DistanceSensor distanceSensor;
+        // Logik
         SensorCoordinator sensorCoordinator;
         DisplayPolicy displayPolicy;
         SensorValidator sensorValidator;
         ThresholdEvaluator thresholdEvaluator;
-        OledDriver oledDriver;
         DisplayController displayController;
         StateMachine stateMachine;
-        BuzzerDriver buzzerDriver;
-        LedDriver ledDriver;
-        CompositeAlarmOutput compositeAlarmOutput;
         AlarmController alarmController;
+        LedController ledController;
 
     public:
 
         /**
          * @brief Konstruktor
          *
-         * Erstellt und verdrahtet alle benötigten Systemkomponenten.
+         * Erstellt und verdrahtet alle benötigten Systemkomponenten einschließlich
+         * Sensorik, Anzeige, Alarmierung und Status-LEDs.
          */
         AirMonitorController() :    temperatureSensor(thermistorDriver), humiditySensor(humidityDriver), coSensor(coDriver), distanceSensor(distanceDriver),
                                     sensorCoordinator(temperatureSensor, humiditySensor, coSensor, distanceSensor), 
-                                    displayController(oledDriver), alarmController(compositeAlarmOutput) {}
+                                    displayController(oledDriver), alarmController(buzzerDriver), ledController(ledDriverNormal, ledDriverWarning, ledDriverError) {}
         
         /**
          * @brief Initialisiert das Luftüberwachungssystem
@@ -87,8 +94,8 @@ class AirMonitorController
          * @brief Führt einen vollständigen Aktualisierungszyklus aus
          *
          * Liest alle Sensoren aus, validiert und bewertet die Messwerte,
-         * berechnet den aktuellen Systemzustand und aktualisiert Display
-         * sowie Alarm.
+         * berechnet den aktuellen Systemzustand und aktualisiert Display,
+         * Alarm sowie Status-LEDs.
          */
         void update();
 };

@@ -2,10 +2,10 @@
 
 void AirMonitorController::init()
 {
-    compositeAlarmOutput.add(&buzzerDriver);
-    compositeAlarmOutput.add(&ledDriver);
     buzzerDriver.init();
-    ledDriver.init();
+    ledDriverNormal.init();
+    ledDriverWarning.init();
+    ledDriverError.init();
     oledDriver.init();
     thermistorDriver.init();
     humidityDriver.init();
@@ -22,4 +22,5 @@ void AirMonitorController::update()
     const bool displayActive = displayPolicy.isDisplayActive(measurements, validationResults);
     displayController.updateDisplay(measurements, systemState, displayActive);
     alarmController.updateAlarm(systemState);
+    ledController.updateLeds(systemState);
 }
