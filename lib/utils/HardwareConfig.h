@@ -1,3 +1,4 @@
+#pragma once
 #include <Arduino.h>
 
 /**
@@ -19,9 +20,9 @@ namespace HardwareConfig
     constexpr int BUZZER_DIGITAL_PIN = PIN_D2;
 
     /**
-     * @brief Digitaler Ausgangspin für die LED
+     * @brief Digitaler Ausgangspin für die gelbe Warning-LED
      */
-    constexpr int LED_DIGITAL_PIN = PIN_D4;
+    constexpr int LED_WARNING_DIGITAL_PIN = PIN_D4;
 
     /**
      * @brief Analoger Eingangspin für den Thermistor
@@ -49,4 +50,14 @@ namespace HardwareConfig
      * @brief Echo-Pin für den Ultraschallsensor
      */
     constexpr int DISTANCE_DRIVER_ECHO_PIN = PIN_D10;
+
+    /**
+     * @brief Digitaler Ausgangspin für die grüne Normal-LED
+     */
+    constexpr int LED_NORMAL_DIGITAL_PIN = PIN_D5;
+
+    /**
+     * @brief Digitaler Ausgangspin für die rote Error-LED
+     */
+    constexpr int LED_ERROR_DIGITAL_PIN = PIN_D6;
 }
