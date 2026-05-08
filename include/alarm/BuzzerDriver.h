@@ -10,7 +10,7 @@
  * die Aktivierung und Deaktivierung eines akustischen Alarmsignals.
  * 
  * Die Klasse kapselt den direkten Hardwarezugriff und wird typischerweise
- * über den AlarmController bzw. CompositeAlarmOutput angesteuert.
+ * über den AlarmController angesteuert.
  */
 class BuzzerDriver : public IAlarmOutput
 {
