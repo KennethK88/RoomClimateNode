@@ -1,5 +1,6 @@
 #include <LedDriver.h>
 #include <Arduino.h>
+#include <gpio.h>
 
 void LedDriver::init()
 {
