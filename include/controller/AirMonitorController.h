@@ -1,8 +1,8 @@
 #pragma once
-#include <ThermistorDriver.h>
-#include <HumidityDriver.h>
-#include "sensors/CODriver.h"
-#include <DistanceDriver.h>
+#include <ISensorDriver.h>
+#include <IAlarmOutput.h>
+#include <ILedOutput.h>
+#include <IDisplayOutput.h>
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
 #include <COSensor.h>
@@ -14,11 +14,8 @@
 #include <StateMachine.h>
 #include <DisplayController.h>
 #include <AlarmController.h>
-#include "alarm/BuzzerDriver.h"
-#include <LedDriver.h>
-#include "display/OledDriver.h"
-#include <HardwareConfig.h>
 #include <LedController.h>
+
 
 /**
  * @file AirMonitorController.h
@@ -45,16 +42,16 @@
 class AirMonitorController
 {
     private:
-        // Driver
-        ThermistorDriver thermistorDriver;
-        HumidityDriver humidityDriver;
-        CODriver coDriver;
-        DistanceDriver distanceDriver;
-        BuzzerDriver buzzerDriver;
-        LedDriver ledDriverNormal{HardwareConfig::LED_NORMAL_DIGITAL_PIN};
-        LedDriver ledDriverWarning{HardwareConfig::LED_WARNING_DIGITAL_PIN};
-        LedDriver ledDriverError{HardwareConfig::LED_ERROR_DIGITAL_PIN};
-        OledDriver oledDriver;
+        // Interfaces
+        ISensorDriver& sensorDriverThermistor;
+        ISensorDriver& sensorDriverHumidity;
+        ISensorDriver& sensorDriverCo;
+        ISensorDriver& sensorDriverDistance;
+        IAlarmOutput& alarmOutput;
+        ILedOutput& ledOutputNormal;
+        ILedOutput& ledOutputWarning;
+        ILedOutput& ledOutputError;
+        IDisplayOutput& displayOutput;
         // Sensoren
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
@@ -78,10 +75,9 @@ class AirMonitorController
          * Erstellt und verdrahtet alle benötigten Systemkomponenten einschließlich
          * Sensorik, Anzeige, Alarmierung und Status-LEDs.
          */
-        AirMonitorController() :    temperatureSensor(thermistorDriver), humiditySensor(humidityDriver), coSensor(coDriver), distanceSensor(distanceDriver),
-                                    sensorCoordinator(temperatureSensor, humiditySensor, coSensor, distanceSensor), 
-                                    displayController(oledDriver), alarmController(buzzerDriver), ledController(ledDriverNormal, ledDriverWarning, ledDriverError) {}
-        
+        AirMonitorController(ISensorDriver& sensorDriverThermistor, ISensorDriver& sensorDriverHumidity, ISensorDriver& sensorDriverCo, ISensorDriver& sensorDriverDistance, IAlarmOutput& alarmOutput, ILedOutput& ledOutputNormal, ILedOutput& ledOutputWarning, ILedOutput& ledOutputError, IDisplayOutput& displayOutput) : sensorDriverThermistor(sensorDriverThermistor), sensorDriverHumidity(sensorDriverHumidity), sensorDriverCo(sensorDriverCo), sensorDriverDistance(sensorDriverDistance), alarmOutput(alarmOutput), ledOutputNormal(ledOutputNormal), ledOutputWarning(ledOutputWarning), ledOutputError(ledOutputError), displayOutput(displayOutput), temperatureSensor(sensorDriverThermistor), humiditySensor(sensorDriverHumidity), coSensor(sensorDriverCo), distanceSensor(sensorDriverDistance), 
+        sensorCoordinator(temperatureSensor, humiditySensor, coSensor, distanceSensor), displayController(displayOutput), alarmController(alarmOutput), 
+        ledController(ledOutputNormal, ledOutputWarning, ledOutputError) {}
         /**
          * @brief Initialisiert das Luftüberwachungssystem
          *
