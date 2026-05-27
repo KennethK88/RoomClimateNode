@@ -21,6 +21,13 @@ class ILedOutput
          */
         virtual ~ILedOutput() = default;
         
+        /**
+         * @brief Initialisiert die LED-Ausgabekomponente
+         * 
+         * Bereitet die zugrunde liegende Hardware für den Betrieb vor.
+         * Die konkrete Initialisierung ist abhängig von der jeweiligen
+         * Hardwareimplementierung.
+         */
         virtual void init() = 0;
 
         /**

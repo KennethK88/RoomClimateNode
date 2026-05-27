@@ -16,17 +16,16 @@
 #include <AlarmController.h>
 #include <LedController.h>
 
-
 /**
  * @file AirMonitorController.h
  * @class AirMonitorController
  * @brief Zentrale Orchestrierung des Luftüberwachungssystems
  *
- * Der AirMonitorController verbindet Sensoren, Auswertung, Anzeige und Alarmierung
- * zu einem vollständigen Systemablauf.
+ * Der AirMonitorController verbindet Sensorik, Auswertung, Anzeige und
+ * Alarmierung zu einem vollständigen Systemablauf.
  *
- * Die Klasse besitzt die konkreten Hardware-Treiber und fachlichen Komponenten
- * und koordiniert deren Zusammenspiel im zyklischen Betrieb.
+ * Die Klasse koordiniert fachliche Komponenten sowie abstrahierte
+ * Hardware-Schnittstellen und führt den zyklischen Systemablauf aus.
  *
  * Verantwortlichkeiten:
  * - Initialisierung aller Hardware- und Systemkomponenten
@@ -38,6 +37,9 @@
  * @note Die fachliche Logik liegt bewusst in separaten Klassen wie
  * SensorValidator, ThresholdEvaluator, StateMachine und DisplayPolicy.
  * Der AirMonitorController dient primär als Orchestrator.
+ *
+ * @note Konkrete Hardwareimplementierungen werden bewusst über Interfaces
+ * injiziert, um Testbarkeit und Plattformunabhängigkeit zu ermöglichen.
  */
 class AirMonitorController
 {
@@ -72,8 +74,12 @@ class AirMonitorController
         /**
          * @brief Konstruktor
          *
-         * Erstellt und verdrahtet alle benötigten Systemkomponenten einschließlich
-         * Sensorik, Anzeige, Alarmierung und Status-LEDs.
+         * Erstellt und verdrahtet alle benötigten Systemkomponenten unter
+         * Verwendung abstrahierter Hardware-Schnittstellen.
+         *
+         * Die konkreten Hardwareimplementierungen werden über Interfaces
+         * injiziert, um eine hardwareunabhängige und testbare Architektur
+         * zu ermöglichen.
          */
         AirMonitorController(ISensorDriver& sensorDriverThermistor, ISensorDriver& sensorDriverHumidity, ISensorDriver& sensorDriverCo, ISensorDriver& sensorDriverDistance, IAlarmOutput& alarmOutput, ILedOutput& ledOutputNormal, ILedOutput& ledOutputWarning, ILedOutput& ledOutputError, IDisplayOutput& displayOutput) : sensorDriverThermistor(sensorDriverThermistor), sensorDriverHumidity(sensorDriverHumidity), sensorDriverCo(sensorDriverCo), sensorDriverDistance(sensorDriverDistance), alarmOutput(alarmOutput), ledOutputNormal(ledOutputNormal), ledOutputWarning(ledOutputWarning), ledOutputError(ledOutputError), displayOutput(displayOutput), temperatureSensor(sensorDriverThermistor), humiditySensor(sensorDriverHumidity), coSensor(sensorDriverCo), distanceSensor(sensorDriverDistance), 
         sensorCoordinator(temperatureSensor, humiditySensor, coSensor, distanceSensor), displayController(displayOutput), alarmController(alarmOutput), 
