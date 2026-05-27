@@ -1,13 +1,13 @@
 #pragma once
 #include <ThermistorDriver.h>
 #include <HumidityDriver.h>
-#include "sensors/CODriver.h"
+#include <CODriver.h>
 #include <DistanceDriver.h>
-#include "alarm/BuzzerDriver.h"
+#include <BuzzerDriver.h>
 #include <LedDriver.h>
-#include "display/OledDriver.h"
+#include <OledDriver.h>
 #include <HardwareConfig.h>
-#include "controller/AirMonitorController.h"
+#include <AirMonitorController.h>
 
 class AirMonitorFactory
 {
@@ -21,8 +21,8 @@ class AirMonitorFactory
         LedDriver ledDriverWarning{HardwareConfig::LED_WARNING_DIGITAL_PIN};
         LedDriver ledDriverError{HardwareConfig::LED_ERROR_DIGITAL_PIN};
         OledDriver oledDriver;
-        AirMonitorController airMonitorController()
+        AirMonitorController airMonitorController{thermistorDriver, humidityDriver, coDriver, distanceDriver, buzzerDriver, ledDriverNormal, ledDriverWarning, ledDriverError, oledDriver};
 
     public:
-
+        AirMonitorController& getAirMonitorController();
 };
