@@ -21,6 +21,8 @@ class ILedOutput
          */
         virtual ~ILedOutput() = default;
         
+        virtual void init() = 0;
+
         /**
          * @brief Schaltet die LED ein
          */

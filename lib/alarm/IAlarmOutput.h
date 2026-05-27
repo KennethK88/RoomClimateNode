@@ -23,6 +23,8 @@ class IAlarmOutput
          */
         virtual ~IAlarmOutput() = default;
 
+        virtual void init() = 0;
+
         /**
          * @brief Aktiviert den Alarm
          * 

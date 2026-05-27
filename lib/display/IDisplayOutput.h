@@ -24,6 +24,8 @@ class IDisplayOutput
          */
         virtual ~IDisplayOutput() = default;
 
+        virtual void init() = 0;
+
         /**
          * @brief Löscht den aktuellen Displayinhalt
          */
