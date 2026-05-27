@@ -5,6 +5,7 @@ class FakeAlarmOutput : public IAlarmOutput
 {
     public:
         bool fakeAlarmActive = false;
+        void init() override {;}
         void activate() override {fakeAlarmActive = true;}
         void deactivate() override {fakeAlarmActive = false;}
 };

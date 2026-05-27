@@ -1,16 +1,16 @@
-#include "controller/AirMonitorController.h"
+#include <AirMonitorController.h>
 
 void AirMonitorController::init()
 {
-    buzzerDriver.init();
-    ledDriverNormal.init();
-    ledDriverWarning.init();
-    ledDriverError.init();
-    oledDriver.init();
-    thermistorDriver.init();
-    humidityDriver.init();
-    coDriver.init();
-    distanceDriver.init();
+    alarmOutput.init();
+    ledOutputNormal.init();
+    ledOutputWarning.init();
+    ledOutputError.init();
+    displayOutput.init();
+    sensorDriverThermistor.init();
+    sensorDriverHumidity.init();
+    sensorDriverCo.init();
+    sensorDriverDistance.init();
 }
 
 void AirMonitorController::update()

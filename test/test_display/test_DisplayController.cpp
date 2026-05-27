@@ -12,6 +12,8 @@ class FakeDisplayOutput : public IDisplayOutput
         std::array<bool, 4> lineWritten{false, false, false, false};
         std::array<std::string, 4> lines;
 
+        void init() override {;}
+
         void clear() override {cleared = true;}
 
         void writeLine(int line, const char* text) override

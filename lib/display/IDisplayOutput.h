@@ -25,6 +25,15 @@ class IDisplayOutput
         virtual ~IDisplayOutput() = default;
 
         /**
+         * @brief Initialisiert die Display-Ausgabekomponente
+         * 
+         * Bereitet die zugrunde liegende Displayhardware für den Betrieb vor.
+         * Die konkrete Initialisierung ist abhängig von der jeweiligen
+         * Hardwareimplementierung.
+         */
+        virtual void init() = 0;
+
+        /**
          * @brief Löscht den aktuellen Displayinhalt
          */
         virtual void clear() = 0;

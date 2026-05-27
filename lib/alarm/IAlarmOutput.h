@@ -24,6 +24,15 @@ class IAlarmOutput
         virtual ~IAlarmOutput() = default;
 
         /**
+         * @brief Initialisiert die Alarm-Ausgabekomponente
+         * 
+         * Bereitet die zugrunde liegende Hardware für den Betrieb vor.
+         * Die konkrete Initialisierung ist abhängig von der jeweiligen
+         * Hardwareimplementierung.
+         */
+        virtual void init() = 0;
+
+        /**
          * @brief Aktiviert den Alarm
          * 
          * Schaltet die zugehörige Hardwarekomponente ein.

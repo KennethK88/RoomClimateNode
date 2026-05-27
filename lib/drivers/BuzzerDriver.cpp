@@ -1,4 +1,4 @@
-#include "alarm/BuzzerDriver.h"
+#include <BuzzerDriver.h>
 #include <Arduino.h>
 #include <HardwareConfig.h>
 

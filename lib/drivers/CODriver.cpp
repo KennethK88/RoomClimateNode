@@ -1,4 +1,4 @@
-#include "sensors/CODriver.h"
+#include <CODriver.h>
 #include <HardwareConfig.h>
 
 void CODriver::init()
