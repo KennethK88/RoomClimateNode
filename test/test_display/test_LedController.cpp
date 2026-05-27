@@ -5,6 +5,7 @@ class FakeLed : public ILedOutput
 {
     public:
         bool isLedOn = false;
+        void init() override {;}
         void turnOn() override {isLedOn = true;}
         void turnOff() override {isLedOn = false;}
 };
