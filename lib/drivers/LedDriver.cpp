@@ -1,18 +1,16 @@
 #include <LedDriver.h>
-#include <Arduino.h>
-#include <gpio.h>
 
 void LedDriver::init()
 {
-    pinMode(pinNumber, OUTPUT);
+    gpio_init(gpioPin, GPIO_DIRECTION_OUTPUT);
 }
 
 void LedDriver::turnOn()
 {
-    digitalWrite(pinNumber, HIGH);
+    gpio_write(gpioPin, GPIO_LEVEL_HIGH);
 }
 
 void LedDriver::turnOff()
 {
-    digitalWrite(pinNumber, LOW);
+    gpio_write(gpioPin, GPIO_LEVEL_LOW);
 }
