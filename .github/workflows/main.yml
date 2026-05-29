@@ -42,14 +42,17 @@ jobs:
       # 1. Schritt: Checkout auf VM
       - name: Checkout
         uses: actions/checkout@v4
-      # 2. Schritt: Python installieren, da Platform IO hierdrauf basiert
+      # 2. Schritt: Zugriff auf privates Repository für HardwareDriver ermöglichen
+      - name: Authenticate private repositories
+        run: git config --global url."https://x-access-token:${{ secrets.HARDWARE_DRIVER_TOKEN }}@github.com/".insteadOf "https://github.com/"  
+      # 3. Schritt: Python installieren, da Platform IO hierdrauf basiert
       - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      # 3. Schritt: PlatformIO installieren
+      # 4. Schritt: PlatformIO installieren
       - name: Install PlatformIO
         run: python -m pip install platformio
-      # 4. Schritt: Build ausführen
+      # 5. Schritt: Build ausführen
       - name: Build
         run: pio run -e uno_r4_wifi
