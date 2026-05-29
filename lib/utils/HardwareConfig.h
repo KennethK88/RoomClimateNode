@@ -18,7 +18,7 @@ namespace HardwareConfig
     /**
      * @brief Digitaler Ausgangspin für den Buzzer
      */
-    constexpr int BUZZER_DIGITAL_PIN = PIN_D2;
+    constexpr GpioPin BUZZER_DIGITAL_PIN = GPIO_PIN_D2;
 
     /**
      * @brief Digitaler Ausgangspin für die gelbe Warning-LED
