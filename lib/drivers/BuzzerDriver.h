@@ -26,7 +26,7 @@ class BuzzerDriver : public IAlarmOutput
          * 
          * Konfiguriert den zugehörigen Pin als Ausgang.
          */
-        void init();
+        void init() override;
 
         /**
          * @brief Aktiviert den Buzzer
