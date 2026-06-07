@@ -30,16 +30,4 @@ struct ValidationResults
      * @brief Gibt an, ob der Feuchtigkeitswert gültig ist
      */
     bool humidityValid = false;
-
-    /**
-     * @brief Gibt an, ob der CO-Wert gültig ist
-     */
-    bool coValid = false;
-
-    /**
-     * @brief Gibt an, ob der Distanzwert gültig ist
-     * 
-     * @note Ein Distanzwert von 0 ("kein Objekt erkannt") kann dennoch als gültig gelten
-     */
-    bool distanceValid = false;
 };

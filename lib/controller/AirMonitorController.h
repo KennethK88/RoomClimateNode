@@ -1,20 +1,11 @@
 #pragma once
 #include <ISensorDriver.h>
-#include <IAlarmOutput.h>
-#include <ILedOutput.h>
-#include <IDisplayOutput.h>
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
-#include <COSensor.h>
-#include <DistanceSensor.h>
 #include <SensorCoordinator.h>
-#include <DisplayPolicy.h>
 #include <SensorValidator.h>
-#include <ThresholdEvaluator.h>
 #include <StateMachine.h>
-#include <DisplayController.h>
-#include <AlarmController.h>
-#include <LedController.h>
+
 
 /**
  * @file AirMonitorController.h
@@ -47,27 +38,16 @@ class AirMonitorController
         // Interfaces
         ISensorDriver& sensorDriverThermistor;
         ISensorDriver& sensorDriverHumidity;
-        ISensorDriver& sensorDriverCo;
-        ISensorDriver& sensorDriverDistance;
-        IAlarmOutput& alarmOutput;
-        ILedOutput& ledOutputNormal;
-        ILedOutput& ledOutputWarning;
-        ILedOutput& ledOutputError;
-        IDisplayOutput& displayOutput;
-        // Sensoren
+
+        // Sensors
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
-        COSensor coSensor;
-        DistanceSensor distanceSensor;
-        // Logik
         SensorCoordinator sensorCoordinator;
-        DisplayPolicy displayPolicy;
+
+        // Evaluation
         SensorValidator sensorValidator;
-        ThresholdEvaluator thresholdEvaluator;
-        DisplayController displayController;
         StateMachine stateMachine;
-        AlarmController alarmController;
-        LedController ledController;
+
 
     public:
 
@@ -81,9 +61,8 @@ class AirMonitorController
          * injiziert, um eine hardwareunabhängige und testbare Architektur
          * zu ermöglichen.
          */
-        AirMonitorController(ISensorDriver& sensorDriverThermistor, ISensorDriver& sensorDriverHumidity, ISensorDriver& sensorDriverCo, ISensorDriver& sensorDriverDistance, IAlarmOutput& alarmOutput, ILedOutput& ledOutputNormal, ILedOutput& ledOutputWarning, ILedOutput& ledOutputError, IDisplayOutput& displayOutput) : sensorDriverThermistor(sensorDriverThermistor), sensorDriverHumidity(sensorDriverHumidity), sensorDriverCo(sensorDriverCo), sensorDriverDistance(sensorDriverDistance), alarmOutput(alarmOutput), ledOutputNormal(ledOutputNormal), ledOutputWarning(ledOutputWarning), ledOutputError(ledOutputError), displayOutput(displayOutput), temperatureSensor(sensorDriverThermistor), humiditySensor(sensorDriverHumidity), coSensor(sensorDriverCo), distanceSensor(sensorDriverDistance), 
-        sensorCoordinator(temperatureSensor, humiditySensor, coSensor, distanceSensor), displayController(displayOutput), alarmController(alarmOutput), 
-        ledController(ledOutputNormal, ledOutputWarning, ledOutputError) {}
+        AirMonitorController(ISensorDriver& sensorDriverThermistor, ISensorDriver& sensorDriverHumidity) : sensorDriverThermistor(sensorDriverThermistor), sensorDriverHumidity(sensorDriverHumidity), temperatureSensor(sensorDriverThermistor), humiditySensor(sensorDriverHumidity), 
+        sensorCoordinator(temperatureSensor, humiditySensor) {}
         /**
          * @brief Initialisiert das Luftüberwachungssystem
          *

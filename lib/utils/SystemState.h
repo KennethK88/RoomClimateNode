@@ -23,14 +23,6 @@ enum class SystemState
     Normal,
 
     /**
-     * @brief Warnzustand
-     * 
-     * Mindestens ein Sensormesswert überschreitet definierte
-     * Schwellenwerte, ist aber noch im gültigen Bereich.
-     */
-    Warning,
-
-    /**
      * @brief Fehlerzustand
      * 
      * Mindestens ein Sensormesswert ist ungültig oder weist auf

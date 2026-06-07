@@ -36,16 +36,6 @@ namespace SensorConstants
     constexpr float TEMPERATURE_MAX_VALID = 40.0f;
 
     /**
-     * @brief Unterer Schwellenwert für Temperatur
-     */
-    constexpr float TEMPERATURE_MIN_THRESHOLD = 18.0f;
-
-    /**
-     * @brief Oberer Schwellenwert für Temperatur
-     */
-    constexpr float TEMPERATURE_MAX_THRESHOLD = 25.0f;
-
-    /**
      * @brief Gültiger Dummy-Wert für Tests
      */
     constexpr float TEMPERATURE_DUMMY_VALID = 20.0f;
@@ -71,85 +61,7 @@ namespace SensorConstants
     constexpr float HUMIDITY_MAX_VALID = 100.0f;
 
     /**
-     * @brief Unterer Schwellenwert für Luftfeuchtigkeit
-     */
-    constexpr float HUMIDITY_MIN_THRESHOLD = 30.0f;
-
-    /**
-     * @brief Oberer Schwellenwert für Luftfeuchtigkeit
-     */
-    constexpr float HUMIDITY_MAX_THRESHOLD = 70.0f;
-
-    /**
      * @brief Gültiger Dummy-Wert für Tests
      */
     constexpr float HUMIDITY_DUMMY_VALID = 35.0f;
-
-
-    /**
-     * @brief CO-Konzentrationskonstanten (Einheit: ppm)
-     */
-
-    /**
-     * @brief Kennwert für nicht initialisierten CO-Wert
-     */
-    constexpr float CO_NOT_INITIALIZED = -100.0f;
-
-    /**
-     * @brief Minimal gültiger CO-Wert
-     */
-    constexpr float CO_MIN_VALID = 0.0f;
-
-    /**
-     * @brief Maximal gültiger CO-Wert
-     */
-    constexpr float CO_MAX_VALID = 1000.0f;
-
-    /**
-     * @brief Oberer Schwellenwert für CO-Konzentration
-     */
-    constexpr float CO_MAX_THRESHOLD = 200.0f;
-
-    /**
-     * @brief Gültiger Dummy-Wert für Tests
-     */
-    constexpr float CO_DUMMY_VALID = 50.0f;
-
-
-    /**
-     * @brief Distanzkonstanten (Einheit: cm)
-     */
-
-    /**
-     * @brief Kennwert für nicht initialisierte Distanz
-     */
-    constexpr float DISTANCE_NOT_INITIALIZED = -100.0f;
-
-    /**
-     * @brief Minimal gültige Distanz
-     */
-    constexpr float DISTANCE_MIN_VALID = 0.0f;
-
-    /**
-     * @brief Maximal gültige Distanz
-     */
-    constexpr float DISTANCE_MAX_VALID = 500.0f;
-
-    /**
-     * @brief Schwellwert zur Aktivierung/Deaktivierung des Displays
-     */
-    constexpr float DISTANCE_ON_OFF_THRESHOLD = 75.0f;
-
-    /**
-     * @brief Gültiger Dummy-Wert für Tests
-     */
-    constexpr float DISTANCE_DUMMY_VALID = 50.0f;
-
-    /**
-     * @brief Spezialwert: Kein Objekt erkannt
-     * 
-     * Ein Wert von 0 wird als gültiger Messwert interpretiert, der bedeutet,
-     * dass sich kein Objekt im Messbereich des Sensors befindet.
-     */
-    constexpr float DISTANCE_NO_OBJECT_DETECTED = 0.0f;
 }

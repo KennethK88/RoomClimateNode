@@ -1,6 +1,5 @@
 #pragma once
 #include <Arduino.h>
-#include <gpio.h>
 
 /**
  * @file HardwareConfig.h
@@ -15,16 +14,6 @@
  */
 namespace HardwareConfig
 {
-    /**
-     * @brief Digitaler Ausgangspin für den Buzzer
-     */
-    constexpr GpioPin BUZZER_DIGITAL_PIN = GPIO_PIN_D2;
-
-    /**
-     * @brief Digitaler Ausgangspin für die gelbe Warning-LED
-     */
-    constexpr GpioPin LED_WARNING_DIGITAL_PIN = GPIO_PIN_D4;
-
     /**
      * @brief Analoger Eingangspin für den Thermistor
      */
@@ -41,24 +30,4 @@ namespace HardwareConfig
      * Entspricht dem DHT-Sensortyp (z. B. DHT11).
      */
     constexpr int HUMIDITY_DRIVER_TYPE = 11;
-
-    /**
-     * @brief Trigger-Pin für den Ultraschallsensor
-     */
-    constexpr int DISTANCE_DRIVER_TRIGGER_PIN = PIN_D9;
-
-    /**
-     * @brief Echo-Pin für den Ultraschallsensor
-     */
-    constexpr int DISTANCE_DRIVER_ECHO_PIN = PIN_D10;
-
-    /**
-     * @brief Digitaler Ausgangspin für die grüne Normal-LED
-     */
-    constexpr GpioPin LED_NORMAL_DIGITAL_PIN = GPIO_PIN_D5;
-
-    /**
-     * @brief Digitaler Ausgangspin für die rote Error-LED
-     */
-    constexpr GpioPin LED_ERROR_DIGITAL_PIN = GPIO_PIN_D6;
 }
