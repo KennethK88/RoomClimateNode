@@ -1,5 +1,6 @@
 #pragma once
 #include <ILedOutput.h>
+#include <gpio.h>
 
 /**
  * @file LedDriver.h
@@ -18,9 +19,9 @@ class LedDriver : public ILedOutput
     private:
 
         /**
-         * @brief GPIO-Pin der LED
+         * @brief GPIO-Pin, über den die LED angesteuert wird.
          */
-        int pinNumber; // aus HardwareConfig
+        const GpioPin gpioPin;
 
     public:
 
@@ -29,14 +30,14 @@ class LedDriver : public ILedOutput
          *
          * Erstellt einen LED-Treiber für den angegebenen GPIO-Pin.
          *
-         * @param pinNumber GPIO-Pin der LED
+         * @param gpioPin GPIO-Pin der LED
          */
-        explicit LedDriver(int pinNumber) : pinNumber(pinNumber) {}
+        explicit LedDriver(GpioPin gpioPin) : gpioPin(gpioPin) {}
         
         /**
          * @brief Initialisiert den LED-Pin als Ausgang
          */
-        void init();
+        void init() override;
         
         /**
          * @brief Schaltet die LED ein

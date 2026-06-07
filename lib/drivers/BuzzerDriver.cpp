@@ -1,18 +1,18 @@
 #include <BuzzerDriver.h>
-#include <Arduino.h>
 #include <HardwareConfig.h>
+#include <gpio.h>
 
 void BuzzerDriver::init()
 {
-    pinMode(HardwareConfig::BUZZER_DIGITAL_PIN, OUTPUT);
+    gpio_init(HardwareConfig::BUZZER_DIGITAL_PIN, GPIO_DIRECTION_OUTPUT);
 }
 
 void BuzzerDriver::activate()
 {
-    digitalWrite(HardwareConfig::BUZZER_DIGITAL_PIN, HIGH);
+    gpio_write(HardwareConfig::BUZZER_DIGITAL_PIN, GPIO_LEVEL_HIGH);
 }
 
 void BuzzerDriver::deactivate()
 {
-    digitalWrite(HardwareConfig::BUZZER_DIGITAL_PIN, LOW);
+    gpio_write(HardwareConfig::BUZZER_DIGITAL_PIN, GPIO_LEVEL_LOW);
 }

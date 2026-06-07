@@ -1,5 +1,6 @@
 #pragma once
 #include <Arduino.h>
+#include <gpio.h>
 
 /**
  * @file HardwareConfig.h
@@ -17,12 +18,12 @@ namespace HardwareConfig
     /**
      * @brief Digitaler Ausgangspin für den Buzzer
      */
-    constexpr int BUZZER_DIGITAL_PIN = PIN_D2;
+    constexpr GpioPin BUZZER_DIGITAL_PIN = GPIO_PIN_D2;
 
     /**
      * @brief Digitaler Ausgangspin für die gelbe Warning-LED
      */
-    constexpr int LED_WARNING_DIGITAL_PIN = PIN_D4;
+    constexpr GpioPin LED_WARNING_DIGITAL_PIN = GPIO_PIN_D4;
 
     /**
      * @brief Analoger Eingangspin für den Thermistor
@@ -54,10 +55,10 @@ namespace HardwareConfig
     /**
      * @brief Digitaler Ausgangspin für die grüne Normal-LED
      */
-    constexpr int LED_NORMAL_DIGITAL_PIN = PIN_D5;
+    constexpr GpioPin LED_NORMAL_DIGITAL_PIN = GPIO_PIN_D5;
 
     /**
      * @brief Digitaler Ausgangspin für die rote Error-LED
      */
-    constexpr int LED_ERROR_DIGITAL_PIN = PIN_D6;
+    constexpr GpioPin LED_ERROR_DIGITAL_PIN = GPIO_PIN_D6;
 }
