@@ -5,7 +5,7 @@
 Der AirMonitorController wird zu seinem Sensorknoten umgestaltet. Mehrere kleine Sensorknoten messen in verschiedenen Räumen Temperatur und Luftfeuchte. Die Werte werden drahtlos an Home Assistant übertragen und dort angezeigt. Für das Wohnzimmer gibt es optional einen separaten CO-Sensorknoten wegen des Kamins.
 
 
-## Geplante Funktionsumfänge
+## Geplante Funktionsumfänge / Anforderungen
 
 [x] Raumtemperatur in °C ermitteln
 [x] Raumfeuchte in % ermitteln
