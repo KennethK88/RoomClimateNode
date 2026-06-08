@@ -1,16 +1,21 @@
 #include <unity.h>
 #include <TemperatureSensor.h>
-#include <ISensorDriver.h>
+#include <ISht31SensorDriver.h>
 
-const float epsilon = 0.1f;
-
-class FakeSensorDriver : public ISensorDriver
+namespace
 {
-    public:
-        float currentDriverValue = 0.0f;
-        void init() override {}
-        float getValue() override {return currentDriverValue;}
-};
+    const float epsilon = 0.1f;
+
+    class FakeSensorDriver : public ISht31SensorDriver
+    {
+        public:
+            Temperature currentDriverTemperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
+            void init() override {}
+            void readMeasurements() override {}
+            Temperature getTemperature() override {return currentDriverTemperature;}
+            Humidity getHumidity() override {return 0;}
+    };
+}
 
 void test_temperature_sensor_not_initialized_value_should_be_not_initialized()
 {
@@ -19,7 +24,7 @@ void test_temperature_sensor_not_initialized_value_should_be_not_initialized()
     TemperatureSensor temperatureSensor(fakeSensorDriver);
 
     // Act
-    float temperatureValue = temperatureSensor.getTemperature();
+    Temperature temperatureValue = temperatureSensor.getTemperature();
 
     // Assert
     TEST_ASSERT_FLOAT_WITHIN(epsilon, SensorConstants::TEMPERATURE_NOT_INITIALIZED, temperatureValue);
@@ -31,14 +36,13 @@ void test_temperature_sensor_initialized_value_should_be_equal_to_driver_value()
     FakeSensorDriver fakeSensorDriver;
     TemperatureSensor temperatureSensor(fakeSensorDriver);
     
-    fakeSensorDriver.currentDriverValue = 20.0f;
+    fakeSensorDriver.currentDriverTemperature = 20.0f;
 
     // Act
-    temperatureSensor.readTemperature();
-    float temperatureValue = temperatureSensor.getTemperature();
+    Temperature temperatureValue = temperatureSensor.getTemperature();
 
     // Assert
-    TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSensorDriver.currentDriverValue, temperatureValue);
+    TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSensorDriver.currentDriverTemperature, temperatureValue);
 }
 
 void test_temperature_sensor_initialized_value_changes_should_be_equal_to_driver_value()
@@ -47,14 +51,12 @@ void test_temperature_sensor_initialized_value_changes_should_be_equal_to_driver
     FakeSensorDriver fakeSensorDriver;
     TemperatureSensor temperatureSensor(fakeSensorDriver);
     
-    fakeSensorDriver.currentDriverValue = 20.0f;
+    fakeSensorDriver.currentDriverTemperature = 20.0f;
 
     // Act
-    temperatureSensor.readTemperature();
-    fakeSensorDriver.currentDriverValue = 30.0f;
-    temperatureSensor.readTemperature();
-    float temperatureValue = temperatureSensor.getTemperature();
+    fakeSensorDriver.currentDriverTemperature = 30.0f;
+    Temperature temperatureValue = temperatureSensor.getTemperature();
 
     // Assert
-    TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSensorDriver.currentDriverValue, temperatureValue);
+    TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSensorDriver.currentDriverTemperature, temperatureValue);
 }

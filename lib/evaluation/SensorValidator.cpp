@@ -1,9 +1,9 @@
 #include <SensorValidator.h>
 #include <cmath>
 
-static bool validateSensor(float value, float init, float min, float max)
+static bool validateSensor(float value, float init, float min, float max, float error)
 {
-    return ((value != init) && (value >= min) && (value <= max) && !std::isnan(value));
+    return (!std::isnan(value) && (value != init) && (value != error) && (value >= min) && (value <= max));
 }
 
 void SensorValidator::validateTemperature(const Measurements& measurements, ValidationResults& validationResults)
@@ -11,7 +11,8 @@ void SensorValidator::validateTemperature(const Measurements& measurements, Vali
     validationResults.temperatureValid = validateSensor(measurements.temperature,
                                             SensorConstants::TEMPERATURE_NOT_INITIALIZED,
                                             SensorConstants::TEMPERATURE_MIN_VALID,
-                                            SensorConstants::TEMPERATURE_MAX_VALID);
+                                            SensorConstants::TEMPERATURE_MAX_VALID,
+                                            SensorConstants::TEMPERATURE_MEASUREMENT_ERROR);
 }
 
 void SensorValidator::validateHumidity(const Measurements& measurements, ValidationResults& validationResults) 
@@ -19,7 +20,8 @@ void SensorValidator::validateHumidity(const Measurements& measurements, Validat
     validationResults.humidityValid = validateSensor(measurements.humidity,
                                         SensorConstants::HUMIDITY_NOT_INITIALIZED,
                                         SensorConstants::HUMIDITY_MIN_VALID,
-                                        SensorConstants::HUMIDITY_MAX_VALID);
+                                        SensorConstants::HUMIDITY_MAX_VALID,
+                                        SensorConstants::HUMIDITY_MEASUREMENT_ERROR);
 }
 
 ValidationResults SensorValidator::validateAllSensors(const Measurements& measurements)

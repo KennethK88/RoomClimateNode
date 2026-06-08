@@ -24,6 +24,7 @@ void test_temperature_equals_min_valid_should_be_valid();
 void test_temperature_equals_nan_should_be_invalid();
 void test_temperature_below_min_valid_should_be_invalid();
 void test_temperature_above_max_valid_should_be_invalid();
+void test_temperature_measurement_error_should_be_invalid();
 
 // Humidity
 void test_humidity_not_initialized_should_be_invalid();
@@ -32,6 +33,7 @@ void test_humidity_equals_min_valid_should_be_valid();
 void test_humidity_equals_nan_should_be_invalid();
 void test_humidity_below_min_valid_should_be_invalid();
 void test_humidity_above_max_valid_should_be_invalid();
+void test_humidity_measurement_error_should_be_invalid();
 
 // StateMachine
 void test_all_validations_valid_and_all_thresholds_ok_state_should_be_normal();
@@ -54,6 +56,7 @@ int main() {
     RUN_TEST(test_temperature_equals_nan_should_be_invalid);
     RUN_TEST(test_temperature_below_min_valid_should_be_invalid);
     RUN_TEST(test_temperature_above_max_valid_should_be_invalid);
+    RUN_TEST(test_temperature_measurement_error_should_be_invalid);
 
     // Humidity
     RUN_TEST(test_humidity_not_initialized_should_be_invalid);
@@ -62,6 +65,7 @@ int main() {
     RUN_TEST(test_humidity_equals_nan_should_be_invalid);
     RUN_TEST(test_humidity_below_min_valid_should_be_invalid);
     RUN_TEST(test_humidity_above_max_valid_should_be_invalid);
+    RUN_TEST(test_humidity_measurement_error_should_be_invalid);
 
     // StateMachine
     RUN_TEST(test_all_validations_valid_and_all_thresholds_ok_state_should_be_normal);

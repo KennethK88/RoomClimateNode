@@ -1,11 +1,6 @@
 #include <HumiditySensor.h>
 
-void HumiditySensor::readHumidity()
+Humidity HumiditySensor::getHumidity() const
 {
-    currentHumidity = sensorDriver.getValue();
-}
-
-float HumiditySensor::getHumidity() const
-{
-    return currentHumidity;
+    return sht31SensorDriver.getHumidity();
 }
