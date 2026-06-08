@@ -1,6 +1,6 @@
 #pragma once
 #include <CommonSensorConstants.h>
-#include <ISensorDriver.h>
+#include <ISht31SensorDriver.h>
 
 /**
  * @file HumiditySensor.h
@@ -11,43 +11,29 @@
  * Hardware zu lesen, und speichert den aktuell gemessenen Feuchtigkeitswert.
  * 
  * Die Klasse trennt die Sensorlogik (Lesen und Bereitstellen des Werts)
- * vom eigentlichen Hardwarezugriff, der durch den ISensorDriver abstrahiert wird.
+ * vom eigentlichen Hardwarezugriff, der durch den ISht31SensorDriver abstrahiert wird.
  */
 class HumiditySensor
 {
     private:
-
-        /**
-         * @brief Aktuell gespeicherter Feuchtigkeitswert
-         */
-        float currentHumidity = SensorConstants::HUMIDITY_NOT_INITIALIZED;
-
         /**
          * @brief Referenz auf den zugehörigen Sensor-Treiber
          */
-        ISensorDriver& sensorDriver;
+        ISht31SensorDriver& sht31SensorDriver;
 
     public:
 
         /**
          * @brief Konstruktor
          * 
-         * @param sensorDriver Referenz auf den Sensor-Treiber zur Messwertgewinnung
+         * @param sht31SensorDriver Referenz auf den Sensor-Treiber zur Messwertgewinnung
          */
-        HumiditySensor(ISensorDriver& sensorDriver) : sensorDriver(sensorDriver) {}
-
-        /**
-         * @brief Liest die aktuelle Luftfeuchtigkeit vom Sensor
-         * 
-         * Ruft den Sensor-Treiber auf, um einen neuen Messwert zu erhalten,
-         * und speichert diesen intern.
-         */
-        void readHumidity();
+        HumiditySensor(ISht31SensorDriver& sht31SensorDriver) : sht31SensorDriver(sht31SensorDriver) {}
 
         /**
          * @brief Gibt den zuletzt gemessenen Feuchtigkeitswert zurück
          * 
          * @return Luftfeuchtigkeit in Prozent
          */
-        float getHumidity() const;
+        Humidity getHumidity() const;
 };

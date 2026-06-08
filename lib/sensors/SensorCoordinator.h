@@ -37,8 +37,6 @@ class SensorCoordinator
          * 
          * @param tempSens Referenz auf den Temperatursensor
          * @param humSens Referenz auf den Feuchtigkeitssensor
-         * @param coSens Referenz auf den CO-Sensor
-         * @param distanceSens Referenz auf den Distanzsensor
          */
         SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens) : tempSens(tempSens), humSens(humSens) {}
         

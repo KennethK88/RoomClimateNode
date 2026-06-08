@@ -1,5 +1,5 @@
 #pragma once
-#include <ISensorDriver.h>
+#include <ISht31SensorDriver.h>
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
 #include <SensorCoordinator.h>
@@ -36,8 +36,7 @@ class AirMonitorController
 {
     private:
         // Interfaces
-        ISensorDriver& sensorDriverThermistor;
-        ISensorDriver& sensorDriverHumidity;
+        ISht31SensorDriver& sht31SensorDriver;
 
         // Sensors
         TemperatureSensor temperatureSensor;
@@ -61,8 +60,7 @@ class AirMonitorController
          * injiziert, um eine hardwareunabhängige und testbare Architektur
          * zu ermöglichen.
          */
-        AirMonitorController(ISensorDriver& sensorDriverThermistor, ISensorDriver& sensorDriverHumidity) : sensorDriverThermistor(sensorDriverThermistor), sensorDriverHumidity(sensorDriverHumidity), temperatureSensor(sensorDriverThermistor), humiditySensor(sensorDriverHumidity), 
-        sensorCoordinator(temperatureSensor, humiditySensor) {}
+        AirMonitorController(ISht31SensorDriver& sht31SensorDriver) : sht31SensorDriver(sht31SensorDriver), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), sensorCoordinator(temperatureSensor, humiditySensor) {}
         /**
          * @brief Initialisiert das Luftüberwachungssystem
          *

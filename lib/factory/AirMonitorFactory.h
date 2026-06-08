@@ -1,6 +1,5 @@
 #pragma once
-#include <ThermistorDriver.h>
-#include <HumidityDriver.h>
+#include <Sht31Driver.h>
 #include <HardwareConfig.h>
 #include <AirMonitorController.h>
 
@@ -29,9 +28,8 @@
 class AirMonitorFactory
 {
     private:
-        ThermistorDriver thermistorDriver;
-        HumidityDriver humidityDriver;
-        AirMonitorController airMonitorController{thermistorDriver, humidityDriver};
+        Sht31Driver sht31Driver;
+        AirMonitorController airMonitorController{sht31Driver};
 
     public:
         /**

@@ -1,6 +1,6 @@
 #pragma once
 #include <CommonSensorConstants.h>
-#include <ISensorDriver.h>
+#include <ISht31SensorDriver.h>
 
 /**
  * @file TemperatureSensor.h
@@ -11,43 +11,29 @@
  * Hardware zu lesen, und speichert den aktuell gemessenen Temperaturwert.
  * 
  * Die Klasse trennt die Sensorlogik (Lesen und Bereitstellen des Werts)
- * vom eigentlichen Hardwarezugriff, der durch den ISensorDriver abstrahiert wird.
+ * vom eigentlichen Hardwarezugriff, der durch den ISht31SensorDriver abstrahiert wird.
  */
 class TemperatureSensor
 {
     private:
-
-        /**
-         * @brief Aktuell gespeicherter Temperaturwert
-         */
-        float currentTemperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
-
         /**
          * @brief Referenz auf den zugehörigen Sensor-Treiber
          */
-        ISensorDriver& sensorDriver;
+        ISht31SensorDriver& sht31SensorDriver;
 
     public:
 
         /**
          * @brief Konstruktor
          * 
-         * @param sensorDriver Referenz auf den Sensor-Treiber zur Messwertgewinnung
+         * @param sht31SensorDriver Referenz auf den Sensor-Treiber zur Messwertgewinnung
          */
-        TemperatureSensor(ISensorDriver& sensorDriver) : sensorDriver(sensorDriver) {}
-
-        /**
-         * @brief Liest die aktuelle Temperatur vom Sensor
-         * 
-         * Ruft den Sensor-Treiber auf, um einen neuen Messwert zu erhalten,
-         * und speichert diesen intern.
-         */
-        void readTemperature();
+        TemperatureSensor(ISht31SensorDriver& sht31SensorDriver) : sht31SensorDriver(sht31SensorDriver) {}
 
         /**
          * @brief Gibt den zuletzt gemessenen Temperaturwert zurück
          * 
          * @return Temperatur in Grad Celsius
          */
-        float getTemperature() const;
+        Temperature getTemperature() const;
 };

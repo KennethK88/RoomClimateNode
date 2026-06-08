@@ -1,11 +1,6 @@
 #include <TemperatureSensor.h>
 
-void TemperatureSensor::readTemperature()
+Temperature TemperatureSensor::getTemperature() const
 {
-    currentTemperature = sensorDriver.getValue();
-}
-
-float TemperatureSensor::getTemperature() const
-{
-    return currentTemperature;
+    return sht31SensorDriver.getTemperature();
 }
