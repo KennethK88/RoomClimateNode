@@ -1,5 +1,6 @@
 #pragma once
 #include <Arduino.h>
+#include <cstdint>
 
 /**
  * @file HardwareConfig.h
@@ -14,20 +15,5 @@
  */
 namespace HardwareConfig
 {
-    /**
-     * @brief Analoger Eingangspin für den Thermistor
-     */
-    constexpr int THERMISTOR_ANALOG_PIN = PIN_A0;
 
-    /**
-     * @brief Digitaler Eingangspin für den Feuchtigkeitssensor
-     */
-    constexpr int HUMIDITY_DRIVER_PIN = PIN_D7;
-
-    /**
-     * @brief Typ des verwendeten Feuchtigkeitssensors
-     * 
-     * Entspricht dem DHT-Sensortyp (z. B. DHT11).
-     */
-    constexpr int HUMIDITY_DRIVER_TYPE = 11;
 }
