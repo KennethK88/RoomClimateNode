@@ -18,6 +18,7 @@ Der AirMonitorController wird zu seinem Sensorknoten umgestaltet. Mehrere kleine
 [ ] Rote LED soll bei unplausibler Raumtemperatur- und feuchte leuchten
 [ ] Rote LED soll bei fehlgeschlagener WLAN-/MQTT Verbind leuchten
 [ ] Grüne LED soll leuchten, wenn Akku vollständig geladen und Sensorknoten noch am Ladegerät ist
+[ ] OTA Updates
 
 
 ## Benötigte Hardware
