@@ -138,6 +138,23 @@ void test_temperature_above_max_valid_should_be_invalid()
     TEST_ASSERT_TRUE(validationResults.humidityValid);
 }
 
+void test_temperature_measurement_error_should_be_invalid()
+{
+    // Arrange
+    SensorValidator sensorValidator;
+    Measurements measurements;
+
+    measurements.temperature = SensorConstants::TEMPERATURE_MEASUREMENT_ERROR;
+    measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
+    
+    // Act
+    ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
+
+    // Assert
+    TEST_ASSERT_FALSE(validationResults.temperatureValid);
+    TEST_ASSERT_TRUE(validationResults.humidityValid);
+}
+
 void test_humidity_not_initialized_should_be_invalid()
 {
     // Arrange
@@ -231,6 +248,23 @@ void test_humidity_above_max_valid_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_MAX_VALID + 0.5f;
+
+    // Act
+    ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
+    
+    // Assert
+    TEST_ASSERT_TRUE(validationResults.temperatureValid);
+    TEST_ASSERT_FALSE(validationResults.humidityValid);
+}
+
+void test_humidity_measurement_error_should_be_invalid()
+{
+    // Arrange
+    SensorValidator sensorValidator;
+    Measurements measurements;
+
+    measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
+    measurements.humidity = SensorConstants::HUMIDITY_MEASUREMENT_ERROR;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
