@@ -24,16 +24,4 @@ struct Measurements
      * @brief Aktueller Feuchtigkeitswert (Einheit: %)
      */
     float humidity = SensorConstants::HUMIDITY_NOT_INITIALIZED;
-
-    /**
-     * @brief Aktueller CO-Wert (Einheit: ppm)
-     */
-    float co = SensorConstants::CO_NOT_INITIALIZED;
-
-    /**
-     * @brief Aktueller Distanzwert (Einheit: cm)
-     * 
-     * @note Ein Wert von 0 bedeutet, dass kein Objekt erkannt wurde
-     */
-    float distance = SensorConstants::DISTANCE_NOT_INITIALIZED;
 };

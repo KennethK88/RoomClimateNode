@@ -36,25 +36,6 @@ class SensorValidator
          */       
         void validateHumidity(const Measurements& measurements, ValidationResults& validationResults);
 
-        /**
-         * @brief Validiert den CO-Wert
-         * 
-         * @param measurements Aktuelle Sensordaten
-         * @param validationResults Ergebnisstruktur zur Speicherung des Validierungsstatus
-         */
-        void validateCo(const Measurements& measurements, ValidationResults& validationResults);
-
-        /**
-         * @brief Validiert den Distanzwert
-         * 
-         * @param measurements Aktuelle Sensordaten
-         * @param validationResults Ergebnisstruktur zur Speicherung des Validierungsstatus
-         * 
-         * @note Ein Distanzwert von 0 wird als "kein Objekt erkannt" interpretiert
-         * und kann dennoch als gültig betrachtet werden.
-         */
-        void validateDistance(const Measurements& measurements, ValidationResults& validationResults);
-
     public:
 
         /**

@@ -1,5 +1,4 @@
 #pragma once
-#include <ThresholdResults.h>
 #include <ValidationResults.h>
 #include <SystemState.h>
 
@@ -34,5 +33,5 @@ class StateMachine
          * @param thresholdResult Ergebnis der Schwellenwertbewertung
          * @return Abgeleiteter Systemzustand
          */
-        SystemState calculateState(const ValidationResults& validationResults, const ThresholdResults& thresholdResult);
+        SystemState calculateState(const ValidationResults& validationResults);
 };

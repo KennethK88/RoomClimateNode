@@ -1,9 +1,7 @@
 #pragma once
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
-#include <COSensor.h>
 #include <Measurements.h>
-#include <DistanceSensor.h>
 
 /**
  * @file SensorCoordinator.h
@@ -31,16 +29,6 @@ class SensorCoordinator
          * @brief Referenz auf den Feuchtigkeitssensor
          */
         HumiditySensor& humSens;
-
-        /**
-         * @brief Referenz auf den CO-Sensor
-         */
-        COSensor& coSens;
-
-        /**
-         * @brief Referenz auf den Distanzsensor
-         */
-        DistanceSensor& distanceSens;
         
     public:
 
@@ -52,7 +40,7 @@ class SensorCoordinator
          * @param coSens Referenz auf den CO-Sensor
          * @param distanceSens Referenz auf den Distanzsensor
          */
-        SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens, COSensor& coSens, DistanceSensor& distanceSens) : tempSens(tempSens), humSens(humSens), coSens(coSens), distanceSens(distanceSens) {}
+        SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens) : tempSens(tempSens), humSens(humSens) {}
         
         /**
          * @brief Liest alle Sensoren aus und gibt die aktuellen Messwerte zurück

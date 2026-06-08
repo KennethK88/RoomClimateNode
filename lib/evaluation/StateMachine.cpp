@@ -1,13 +1,9 @@
 #include <StateMachine.h>
 
-SystemState StateMachine::calculateState(const ValidationResults& validationResults, const ThresholdResults& thresholdResult)
+SystemState StateMachine::calculateState(const ValidationResults& validationResults)
 {
-    bool allValidationResultsOk = validationResults.temperatureValid && validationResults.humidityValid && validationResults.coValid;
-    bool allThresholdResultsOk = !(thresholdResult.temperatureTooHigh || thresholdResult.temperatureTooLow ||
-                                    thresholdResult.humidityTooHigh || thresholdResult.humidityTooLow ||
-                                    thresholdResult.coTooHigh);
+    bool allValidationResultsOk = validationResults.temperatureValid && validationResults.humidityValid;
 
     if(!allValidationResultsOk) return SystemState::Error;
-    else if(allValidationResultsOk && !allThresholdResultsOk) return SystemState::Warning;
     return SystemState::Normal;
 }

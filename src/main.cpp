@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <Wire.h>
 #include <AirMonitorFactory.h>
 
 AirMonitorFactory airMonitorFactory;
@@ -7,7 +6,6 @@ AirMonitorController& airMonitorController = airMonitorFactory.getAirMonitorCont
 
 void setup()
 {  
-  Wire.begin();
   airMonitorController.init();
 }
 
