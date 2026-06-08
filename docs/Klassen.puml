@@ -5,24 +5,24 @@ title Luftüberwachung – Klassendiagramm (bereinigt)
 class TemperatureSensor
 {
     -currentTemperature : float
-    -sensorDriver : ISensorDriver&
-    +TemperatureSensor(ISensorDriver&)
+    -sht31SensorDriver : ISht31SensorDriver&
+    +TemperatureSensor(ISht31SensorDriver&)
     +readTemperature() : void
     +getTemperature() : float
 }
 class HumiditySensor
 {
     -currentHumidity : float
-    -sensorDriver : ISensorDriver&
-    +HumiditySensor(ISensorDriver&)
+    -sht31SensorDriver : ISht31SensorDriver&
+    +HumiditySensor(ISht31SensorDriver&)
     +readHumidity() : void
     +getHumidity() : float
 }
 class COSensor
 {
     -currentCO : float
-    -sensorDriver : ISensorDriver&
-    +COSensor(ISensorDriver&)
+    -sht31SensorDriver : ISht31SensorDriver&
+    +COSensor(ISht31SensorDriver&)
     +readCO() : void
     +getCO() : float
 }
@@ -30,8 +30,8 @@ class COSensor
 class DistanceSensor
 {
     -currentDistance : float
-    -sensorDriver : ISensorDriver&
-    +DistanceSensor(ISensorDriver&)
+    -sht31SensorDriver : ISht31SensorDriver&
+    +DistanceSensor(ISht31SensorDriver&)
     +readDistance() : void
     +getDistance() : float
 }
@@ -203,9 +203,9 @@ interface IDisplayOutput
 }
 
 
-interface ISensorDriver
+interface ISht31SensorDriver
 {
-    +~ISensorDriver()
+    +~ISht31SensorDriver()
     +init() : void
     +getValue() : float
 }
@@ -291,15 +291,15 @@ IAlarmOutput <|.. CompositeAlarmOutput
 
 IDisplayOutput <|.. OledDriver
 
-TemperatureSensor ..> ISensorDriver
-HumiditySensor ..> ISensorDriver
-COSensor ..> ISensorDriver
-DistanceSensor ..> ISensorDriver
+TemperatureSensor ..> ISht31SensorDriver
+HumiditySensor ..> ISht31SensorDriver
+COSensor ..> ISht31SensorDriver
+DistanceSensor ..> ISht31SensorDriver
 
-ISensorDriver <|.. ThermistorDriver
-ISensorDriver <|.. HumidityDriver
-ISensorDriver <|.. CODriver
-ISensorDriver <|.. DistanceDriver
+ISht31SensorDriver <|.. ThermistorDriver
+ISht31SensorDriver <|.. HumidityDriver
+ISht31SensorDriver <|.. CODriver
+ISht31SensorDriver <|.. DistanceDriver
 
 DisplayPolicy ..> Measurements
 DisplayPolicy ..> ValidationResults
