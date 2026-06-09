@@ -1,11 +1,11 @@
 #pragma once
 #include <ISht31SensorDriver.h>
+#include <IConnectionManager.h>
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
 #include <SensorCoordinator.h>
 #include <SensorValidator.h>
 #include <StateMachine.h>
-
 
 /**
  * @file AirMonitorController.h
@@ -37,6 +37,7 @@ class AirMonitorController
     private:
         // Interfaces
         ISht31SensorDriver& sht31SensorDriver;
+        IConnectionManager& connectionManager;
 
         // Sensors
         TemperatureSensor temperatureSensor;
@@ -46,7 +47,6 @@ class AirMonitorController
         // Evaluation
         SensorValidator sensorValidator;
         StateMachine stateMachine;
-
 
     public:
 
@@ -60,7 +60,7 @@ class AirMonitorController
          * injiziert, um eine hardwareunabhängige und testbare Architektur
          * zu ermöglichen.
          */
-        AirMonitorController(ISht31SensorDriver& sht31SensorDriver) : sht31SensorDriver(sht31SensorDriver), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), sensorCoordinator(temperatureSensor, humiditySensor) {}
+        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IConnectionManager& connectionManager) : sht31SensorDriver(sht31SensorDriver), connectionManager(connectionManager), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), sensorCoordinator(temperatureSensor, humiditySensor) {}
         /**
          * @brief Initialisiert das Luftüberwachungssystem
          *

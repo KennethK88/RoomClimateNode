@@ -1,6 +1,6 @@
 #pragma once
 #include <Sht31Driver.h>
-#include <HardwareConfig.h>
+#include <WiFiConnectionManager.h>
 #include <AirMonitorController.h>
 
 /**
@@ -29,7 +29,8 @@ class AirMonitorFactory
 {
     private:
         Sht31Driver sht31Driver;
-        AirMonitorController airMonitorController{sht31Driver};
+        WiFiConnectionManager wifiConnectionManager;
+        AirMonitorController airMonitorController{sht31Driver, wifiConnectionManager};
 
     public:
         /**
