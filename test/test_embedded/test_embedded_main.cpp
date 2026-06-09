@@ -13,21 +13,26 @@ void tearDown()
     // Hier könntest du aufräumen
 }
 
+
+// WiFiConnectionManager
+void test_wifi_connection_manager_should_establish_wifi_connection();
+
 // SHT31Driver
 void test_sht31_driver_should_measure_room_temperature_range();
 void test_sht31_driver_should_measure_room_humidity_range();
 
 void setup()
 {  
-    delay(10000); // NOTE: Großes Delay
+    delay(5000); // NOTE: Großes Delay
     UNITY_BEGIN();
 
-    // ThermistorDriver
-    RUN_TEST(test_sht31_driver_should_measure_room_temperature_range);
+    // WiFiConnectionManager
+    RUN_TEST(test_wifi_connection_manager_should_establish_wifi_connection);
 
-    // HumidityDriver
+    // SHT31Driver
+    RUN_TEST(test_sht31_driver_should_measure_room_temperature_range);
     RUN_TEST(test_sht31_driver_should_measure_room_humidity_range);
-    
+
     UNITY_END();
 }
 
