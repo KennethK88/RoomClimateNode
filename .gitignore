@@ -2,3 +2,4 @@
 .vscode/
 docs/html/
 *.exe
+secret_settings.ini
