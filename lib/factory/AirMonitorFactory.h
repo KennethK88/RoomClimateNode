@@ -1,6 +1,8 @@
 #pragma once
 #include <Sht31Driver.h>
 #include <WiFiConnectionManager.h>
+#include <MqttClientService.h>
+#include <MqttMeasurementPublisher.h>
 #include <AirMonitorController.h>
 
 /**
@@ -30,7 +32,9 @@ class AirMonitorFactory
     private:
         Sht31Driver sht31Driver;
         WiFiConnectionManager wifiConnectionManager;
-        AirMonitorController airMonitorController{sht31Driver, wifiConnectionManager};
+        MqttClientService mqttClientService;
+        MqttMeasurementPublisher mqttMeasurementPublisher{mqttClientService};
+        AirMonitorController airMonitorController{sht31Driver, wifiConnectionManager, mqttClientService, mqttMeasurementPublisher};
 
     public:
         /**
