@@ -28,7 +28,7 @@ void WiFiConnectionManager::reconnect()
     connect();
 }
 
-bool WiFiConnectionManager::isConnected() const
+bool WiFiConnectionManager::isConnected()
 {
     return (WiFi.status() == WL_CONNECTED);
 }

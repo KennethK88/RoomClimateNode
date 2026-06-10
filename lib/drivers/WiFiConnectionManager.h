@@ -8,5 +8,5 @@ class WiFiConnectionManager : public IConnectionManager
         void init() override;
         void connect() override;
         void reconnect() override;
-        bool isConnected() const override;
+        bool isConnected() override;
 };
