@@ -21,6 +21,8 @@ jobs:
       # 1. Schritt: Checkout auf VM
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
       # 2. Schritt: Python installieren, da Platform IO hierdrauf basiert
       - name: Install Python
         uses: actions/setup-python@v5
@@ -42,6 +44,8 @@ jobs:
       # 1. Schritt: Checkout auf VM
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
       # 2. Schritt: Zugriff auf privates Repository für HardwareDriver ermöglichen
       - name: Authenticate private repositories
         run: git config --global url."https://x-access-token:${{ secrets.HARDWARE_DRIVER_TOKEN }}@github.com/".insteadOf "https://github.com/"  
