@@ -1,3 +1,4 @@
 [submodule "drivers"]
 	path = drivers
 	url = https://github.com/KennethK88/HardwareDriver.git
+	branch = infrastructure/configure_all_drivers_as_libraries_for_external_use
