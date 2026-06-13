@@ -1,37 +1,57 @@
-# Projektsteckbrief: RoomClimateNode / AirMonitorController
+# Projektsteckbrief: AirMonitorController
 
-## Ziel
+## Ziel 
 
-Der AirMonitorController wird zu seinem Sensorknoten umgestaltet. Mehrere kleine Sensorknoten messen in verschiedenen Räumen Temperatur und Luftfeuchte. Die Werte werden drahtlos an Home Assistant übertragen und dort angezeigt. Für das Wohnzimmer gibt es optional einen separaten CO-Sensorknoten wegen des Kamins.
+Ziel des Projekts ist die Entwicklung eines kompakten Raumklima-Knotens auf Mikrocontrollerbasis. Der Knoten erfasst Temperatur- und Luftfeuchtigkeitswerte, verarbeitet und validiert die Messdaten lokal und überträgt sie drahtlos an ein Smart-Home-System. Für das Wohnzimmer ist aufgrund des vorhandenen Kamins optional ein separater CO-Sensorknoten vorgesehen.
 
 
-## Geplante Funktionsumfänge / Anforderungen
+## Aktueller Stand
 
-[x] Raumtemperatur in °C ermitteln
-[x] Raumfeuchte in % ermitteln
-[ ] Ladezustand in % ermitteln
-[ ] Raumtemperatur- und feuchte sowie Ladezustand validieren
-[ ] Raumtemperatur und -feuchte sowie Ladezustand über WLAN-/MQTT an Home Assistant OS übermitteln
-[ ] Deep Sleep Modus
-[ ] Akkubetrieb
-[ ] Rote LED soll bei niedrigem Ladezustand leuchten
-[ ] Rote LED soll bei unplausibler Raumtemperatur- und feuchte leuchten
-[ ] Rote LED soll bei fehlgeschlagener WLAN-/MQTT Verbind leuchten
-[ ] Grüne LED soll leuchten, wenn Akku vollständig geladen und Sensorknoten noch am Ladegerät ist
-[ ] OTA Updates
+Aktuell erfolgt die Messung von Temperatur und Luftfeuchtigkeit über einen SHT31-Sensor. Die Messwerte werden über WLAN per MQTT an einen Mosquitto-Broker auf einem Raspberry Pi übertragen.
+
+
+## Geplante Funktionsumfänge
+
+[ ] Messwerte erfassen
+    - [x] Raumtemperatur in °C
+    - [x] Raumfeuchte in %
+    - [ ] Ladezustand in %
+[ ] Messwerte validieren
+    - [x] Raumtemperatur in °C
+    - [x] Raumfeuchte in %
+    - [ ] Ladezustand in %
+[ ] Messwerte per WLAN/MQTT bereitstellen
+    - [x] Raumtemperatur in °C
+    - [x] Raumfeuchte in %
+    - [ ] Ladezustand in % 
+[ ] Mikrocontroller zwischen den Messzyklen in den Deep-Sleep-Modus versetzen
+[ ] Firmware-Updates per Over-the-Air-Update (OTA) ermöglichen
+[ ] Akkubetrieb ermöglichen
+[ ] Optional: Systemzustände über Status-LED anzeigen
+    - [ ] Niedrigen Ladezustand anzeigen
+    - [ ] Unplausible Messwerte anzeigen
+    - [ ] Fehlgeschlagene WLAN-/MQTT-Verbindung anzeigen
+    - [ ] Vollständig geladenen Akku bei angeschlossenem Ladegerät anzeigen
+[ ] Optional: CO-Werte über einen separaten Sensorknoten erfassen
 
 
 ## Benötigte Hardware
 
-[ ] ESP32
+[ ] Mikrocontroller (ESP32)
 [ ] Akku
-[ ] Laderegler
+[ ] Laderegler / Lademodul
 [x] Temperatur- und Feuchtesensor (SHT31)
-[ ] RGB LED
+[x] RGB LED
 [ ] Gehäuse
+[ ] Optional: CO-Sensor für separaten Sensorknoten
 
 
 ## Teststrategie
 
 - Native Tests
+    - Test der fachlichen Logik unabhängig von der Zielhardware
+    - Test von Sensorverarbeitung, Messwertvalidierung und Zustandslogik mit Fake-Komponenten
+
 - Embedded Tests
+    - Test hardwarenaher Funktionen direkt auf dem Mikrocontroller
+    - Test der Sensoranbindung, WLAN-Verbindung und MQTT-Kommunikation
