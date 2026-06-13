@@ -1,5 +1,6 @@
 #include <unity.h>
 #include <SensorCoordinator.h>
+#include <CommonSensorConstants.h>
 
 namespace
 {
