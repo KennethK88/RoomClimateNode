@@ -1,6 +1,7 @@
 #include <unity.h>
 #include <TemperatureSensor.h>
 #include <ISht31SensorDriver.h>
+#include <CommonSensorConstants.h>
 
 namespace
 {

@@ -1,0 +1,234 @@
+@startuml
+title Raumklima-Knoten – Klassendiagramm
+
+skinparam classAttributeIconSize 0
+
+' ============================================================
+' Data / Common
+' ============================================================
+
+package "data" {
+
+    struct Measurements {
+        +temperature : Temperature
+        +humidity : Humidity
+    }
+
+    struct ValidationResults {
+        +temperatureValid : bool
+        +humidityValid : bool
+    }
+
+    enum SystemState {
+        Normal
+        Error
+    }
+}
+
+' ============================================================
+' Communication Interfaces
+' ============================================================
+
+package "communication" {
+
+    interface IConnectionManager {
+        +init() : void
+        +connect() : void
+        +reconnect() : void
+        +isConnected() : bool
+    }
+
+    interface IMeasurementPublisher {
+        +publish(measurements : const Measurements&) : void
+    }
+}
+
+' ============================================================
+' Sensor Interface
+' ============================================================
+
+package "sensors" {
+
+    interface ISht31SensorDriver {
+        +init() : void
+        +readMeasurements() : void
+        +getTemperature() : Temperature
+        +getHumidity() : Humidity
+    }
+
+    class TemperatureSensor {
+        -sht31SensorDriver : ISht31SensorDriver&
+        +TemperatureSensor(sht31SensorDriver : ISht31SensorDriver&)
+        +getTemperature() : Temperature
+    }
+
+    class HumiditySensor {
+        -sht31SensorDriver : ISht31SensorDriver&
+        +HumiditySensor(sht31SensorDriver : ISht31SensorDriver&)
+        +getHumidity() : Humidity
+    }
+
+    class SensorCoordinator {
+        -tempSens : TemperatureSensor&
+        -humSens : HumiditySensor&
+        +SensorCoordinator(tempSens : TemperatureSensor&, humSens : HumiditySensor&)
+        +readAllSensors() : Measurements
+    }
+}
+
+' ============================================================
+' Evaluation
+' ============================================================
+
+package "evaluation" {
+
+    class SensorValidator {
+        +SensorValidator()
+        +validateAllSensors(measurements : const Measurements&) : ValidationResults
+    }
+
+    class StateMachine {
+        +StateMachine()
+        +calculateState(validationResults : const ValidationResults&) : SystemState
+    }
+}
+
+' ============================================================
+' Drivers
+' ============================================================
+
+package "drivers" {
+
+    class Sht31Driver {
+        -data : uint8_t[6]
+        -temperature : Temperature
+        -humidity : Humidity
+        +Sht31Driver()
+        +init() : void
+        +readMeasurements() : void
+        +getTemperature() : Temperature
+        +getHumidity() : Humidity
+    }
+}
+
+' ============================================================
+' Connectivity
+' ============================================================
+
+package "connectivity" {
+
+    class WiFiConnectionManager {
+        +WiFiConnectionManager()
+        +init() : void
+        +connect() : void
+        +reconnect() : void
+        +isConnected() : bool
+    }
+
+    class MqttClientService {
+        -wifiClient : WiFiClient
+        -mqttClient : MqttClient
+        +MqttClientService()
+        +init() : void
+        +connect() : void
+        +reconnect() : void
+        +isConnected() : bool
+        +publish(topic : const char*, payload : const char*) : bool
+    }
+
+    class MqttMeasurementPublisher {
+        -mqttClientService : MqttClientService&
+        +MqttMeasurementPublisher(mqttClientService : MqttClientService&)
+        +publish(measurements : const Measurements&) : void
+    }
+}
+
+' ============================================================
+' Controller / Factory
+' ============================================================
+
+package "controller" {
+
+    class AirMonitorController {
+        -sht31SensorDriver : ISht31SensorDriver&
+        -wifiConnectionManager : IConnectionManager&
+        -mqttClientService : IConnectionManager&
+        -measurementPublisher : IMeasurementPublisher&
+        -temperatureSensor : TemperatureSensor
+        -humiditySensor : HumiditySensor
+        -sensorCoordinator : SensorCoordinator
+        -sensorValidator : SensorValidator
+        -stateMachine : StateMachine
+        +AirMonitorController(sht31SensorDriver : ISht31SensorDriver&, wifiConnectionManager : IConnectionManager&, mqttClientService : IConnectionManager&, measurementPublisher : IMeasurementPublisher&)
+        +init() : void
+        +update() : void
+    }
+}
+
+package "factory" {
+
+    class AirMonitorFactory {
+        -sht31Driver : Sht31Driver
+        -wifiConnectionManager : WiFiConnectionManager
+        -mqttClientService : MqttClientService
+        -mqttMeasurementPublisher : MqttMeasurementPublisher
+        -airMonitorController : AirMonitorController
+        +getAirMonitorController() : AirMonitorController&
+    }
+}
+
+' ============================================================
+' Interface Implementations
+' ============================================================
+
+ISht31SensorDriver <|.. Sht31Driver
+
+IConnectionManager <|.. WiFiConnectionManager
+IConnectionManager <|.. MqttClientService
+
+IMeasurementPublisher <|.. MqttMeasurementPublisher
+
+' ============================================================
+' Ownership / Composition
+' ============================================================
+
+AirMonitorController *-- TemperatureSensor
+AirMonitorController *-- HumiditySensor
+AirMonitorController *-- SensorCoordinator
+AirMonitorController *-- SensorValidator
+AirMonitorController *-- StateMachine
+
+AirMonitorFactory *-- Sht31Driver
+AirMonitorFactory *-- WiFiConnectionManager
+AirMonitorFactory *-- MqttClientService
+AirMonitorFactory *-- MqttMeasurementPublisher
+AirMonitorFactory *-- AirMonitorController
+
+' ============================================================
+' Dependencies / Data Flow
+' ============================================================
+
+TemperatureSensor --> ISht31SensorDriver
+HumiditySensor --> ISht31SensorDriver
+
+SensorCoordinator --> TemperatureSensor
+SensorCoordinator --> HumiditySensor
+SensorCoordinator ..> Measurements
+
+SensorValidator ..> Measurements
+SensorValidator ..> ValidationResults
+
+StateMachine ..> ValidationResults
+StateMachine ..> SystemState
+
+MqttMeasurementPublisher --> MqttClientService
+MqttMeasurementPublisher ..> Measurements
+
+AirMonitorController --> ISht31SensorDriver
+AirMonitorController --> IConnectionManager
+AirMonitorController --> IMeasurementPublisher
+AirMonitorController ..> Measurements
+AirMonitorController ..> ValidationResults
+AirMonitorController ..> SystemState
+
+@enduml

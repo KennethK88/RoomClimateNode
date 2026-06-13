@@ -1,6 +1,7 @@
 #include <unity.h>
 #include <HumiditySensor.h>
 #include <ISht31SensorDriver.h>
+#include <CommonSensorConstants.h>
 
 namespace
 {
