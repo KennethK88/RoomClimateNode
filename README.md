@@ -4,17 +4,17 @@
 
 # RoomClimateNode
 
-## Ziel 
+## Project Goal 
 
-Ziel des Projekts ist die Entwicklung eines kompakten Raumklima-Knotens auf Mikrocontrollerbasis. Der Knoten erfasst Temperatur- und Luftfeuchtigkeitswerte, verarbeitet und validiert die Messdaten lokal und überträgt sie drahtlos an ein Smart-Home-System.
-
-
-## Aktueller Stand
-
-Aktuell erfolgt die Messung von Temperatur und Luftfeuchtigkeit über einen SHT31-Sensor. Die Messwerte werden über WLAN per MQTT an einen Mosquitto-Broker auf einem Raspberry Pi übertragen.
+The goal of this project is to develop a compact microcontroller-based room climate node. The node measures temperature and humidity values, processes and validates the measurement data locally, and transmits it wirelessly to a smart home system.
 
 
-## Technologien
+## Current Status
+
+Temperature and humidity are currently measured using an SHT31 sensor. The measurement values are transmitted via Wi-Fi and MQTT to a Mosquitto broker running on a Raspberry Pi.
+
+
+## Technologies
 
 - C/C++
 - PlatformIO
@@ -22,12 +22,12 @@ Aktuell erfolgt die Messung von Temperatur und Luftfeuchtigkeit über einen SHT3
 - GitHub Actions
 - Arduino Uno R4 WiFi
 - SHT31
-- WLAN / MQTT
+- WiFi / MQTT
 - Mosquitto
 - Home Assistant
 
 
-## Weitere Dokumentation
+## Further Documentation
 
-- [Projektübersicht](docs/project_overview.md)
-- [Klassendiagramm](docs/class_diagram.puml)
+- [Project overview](docs/ProjectOverview.md)
+- [Class diagram](docs/ClassDiagram.puml)
