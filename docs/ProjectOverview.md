@@ -1,57 +1,56 @@
-# Projektsteckbrief: AirMonitorController
+# Project Overview: AirMonitorController
 
-## Ziel 
+## Project Goal
 
-Ziel des Projekts ist die Entwicklung eines kompakten Raumklima-Knotens auf Mikrocontrollerbasis. Der Knoten erfasst Temperatur- und Luftfeuchtigkeitswerte, verarbeitet und validiert die Messdaten lokal und überträgt sie drahtlos an ein Smart-Home-System. Für das Wohnzimmer ist aufgrund des vorhandenen Kamins optional ein separater CO-Sensorknoten vorgesehen.
-
-
-## Aktueller Stand
-
-Aktuell erfolgt die Messung von Temperatur und Luftfeuchtigkeit über einen SHT31-Sensor. Die Messwerte werden über WLAN per MQTT an einen Mosquitto-Broker auf einem Raspberry Pi übertragen.
+The goal of this project is to develop a compact microcontroller-based room climate node. The node measures temperature and humidity values, processes and validates the measurement data locally, and transmits it wirelessly to a smart home system. Due to the fireplace in the living room, an optional separate CO sensor node is planned for this room.
 
 
-## Geplante Funktionsumfänge
+## Current Status
 
-[ ] Messwerte erfassen
-    - [x] Raumtemperatur in °C
-    - [x] Raumfeuchte in %
-    - [ ] Ladezustand in %
-[ ] Messwerte validieren
-    - [x] Raumtemperatur in °C
-    - [x] Raumfeuchte in %
-    - [ ] Ladezustand in %
-[ ] Messwerte per WLAN/MQTT bereitstellen
-    - [x] Raumtemperatur in °C
-    - [x] Raumfeuchte in %
-    - [ ] Ladezustand in % 
-[ ] Mikrocontroller zwischen den Messzyklen in den Deep-Sleep-Modus versetzen
-[ ] Firmware-Updates per Over-the-Air-Update (OTA) ermöglichen
-[ ] Akkubetrieb ermöglichen
-[ ] Optional: Systemzustände über Status-LED anzeigen
-    - [ ] Niedrigen Ladezustand anzeigen
-    - [ ] Unplausible Messwerte anzeigen
-    - [ ] Fehlgeschlagene WLAN-/MQTT-Verbindung anzeigen
-    - [ ] Vollständig geladenen Akku bei angeschlossenem Ladegerät anzeigen
-[ ] Optional: CO-Werte über einen separaten Sensorknoten erfassen
+Temperature and humidity are currently measured using an SHT31 sensor. The measurement values are transmitted via WiFi and MQTT to a Mosquitto broker running on a Raspberry Pi.
 
 
-## Benötigte Hardware
+## Planned Functional Scope
 
-[ ] Mikrocontroller (ESP32)
-[ ] Akku
-[ ] Laderegler / Lademodul
-[x] Temperatur- und Feuchtesensor (SHT31)
+[ ] Measure values
+    - [x] Room temperature in °C
+    - [x] Relative humidity in %
+    - [ ] Battery level in %
+[ ] Validate measured values
+    - [x] Room temperature in °C
+    - [x] Relative humidity in %
+    - [ ] Battery level in %
+[ ] Provide measured values via WiFi/MQTT
+    - [x] Room temperature in °C
+    - [x] Relative humidity in %
+    - [ ] Battery level in % 
+[ ] Put the microcontroller into deep sleep between measurement cycles
+[ ] Enable firmware updates via over-the-air update (OTA)
+[ ] Enable battery-powered operation
+[ ] Optional: Display system states using an RGB status LED
+    - [ ] Indicate low battery level
+    - [ ] Indicate implausible measured values
+    - [ ] Indicate failed WiFi/MQTT connection
+    - [ ] Indicate fully charged battery while connected to the charger
+[ ] Optional: Measure CO values using a separate sensor node
+
+
+## Required Hardware
+
+[ ] Microcontroller (ESP32)
+[ ] Battery
+[ ] Charging controller / charging module
+[x] Temperature and humidity sensor (SHT31)
 [x] RGB LED
-[ ] Gehäuse
-[ ] Optional: CO-Sensor für separaten Sensorknoten
+[ ] Enclosure
+[ ] Optional: CO sensor for separate sensor node
 
 
-## Teststrategie
+## Test Strategy
 
-- Native Tests
-    - Test der fachlichen Logik unabhängig von der Zielhardware
-    - Test von Sensorverarbeitung, Messwertvalidierung und Zustandslogik mit Fake-Komponenten
-
-- Embedded Tests
-    - Test hardwarenaher Funktionen direkt auf dem Mikrocontroller
-    - Test der Sensoranbindung, WLAN-Verbindung und MQTT-Kommunikation
+- Native tests
+    - Test of the application logic independent of the target hardware
+    - Test of sensor processing, measurement validation and state logic using fake components
+- Embedded tests
+    - Test of hardware-related functions directly on the microcontroller
+    - Test of sensor integration, Wi-Fi connection and MQTT communication
