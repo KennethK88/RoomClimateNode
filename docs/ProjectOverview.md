@@ -12,38 +12,38 @@ Temperature and humidity are currently measured using an SHT31 sensor. The measu
 
 ## Planned Functional Scope
 
-[ ] Measure values
+- [ ] Measure values
     - [x] Room temperature in °C
     - [x] Relative humidity in %
     - [ ] Battery level in %
-[ ] Validate measured values
+- [ ] Validate measured values
     - [x] Room temperature in °C
     - [x] Relative humidity in %
     - [ ] Battery level in %
-[ ] Provide measured values via WiFi/MQTT
+- [ ] Provide measured values via WiFi/MQTT
     - [x] Room temperature in °C
     - [x] Relative humidity in %
     - [ ] Battery level in % 
-[ ] Put the microcontroller into deep sleep between measurement cycles
-[ ] Enable firmware updates via over-the-air update (OTA)
-[ ] Enable battery-powered operation
-[ ] Optional: Display system states using an RGB status LED
+- [ ] Put the microcontroller into deep sleep between measurement cycles
+- [ ] Enable firmware updates via over-the-air update (OTA)
+- [ ] Enable battery-powered operation
+- [ ] Optional: Display system states using an RGB status LED
     - [ ] Indicate low battery level
     - [ ] Indicate implausible measured values
     - [ ] Indicate failed WiFi/MQTT connection
     - [ ] Indicate fully charged battery while connected to the charger
-[ ] Optional: Measure CO values using a separate sensor node
+- [ ] Optional: Measure CO values using a separate sensor node
 
 
 ## Required Hardware
 
-[ ] Microcontroller (ESP32)
-[ ] Battery
-[ ] Charging controller / charging module
-[x] Temperature and humidity sensor (SHT31)
-[x] RGB LED
-[ ] Enclosure
-[ ] Optional: CO sensor for separate sensor node
+- [ ] Microcontroller (ESP32)
+- [ ] Battery
+- [ ] Charging controller / charging module
+- [x] Temperature and humidity sensor (SHT31)
+- [x] RGB LED
+- [ ] Enclosure
+- [ ] Optional: CO sensor for separate sensor node
 
 
 ## Test Strategy
