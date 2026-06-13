@@ -1,107 +1,50 @@
-# Git-Konventionen
+# Git Conventions
 
-Diese Datei beschreibt die Git-Konventionen für das Projekt. Ziel ist ein nachvollziehbarer, sauberer Entwicklungsprozess mit kleinen Änderungen, verständlichen Commits und überprüfbaren Zwischenständen.
+This document describes the Git conventions used in this project. The goal is to keep the development process understandable, traceable and structured by using meaningful branches, small commits and verified changes.
+
 
 ## Branches
 
-Entwicklungsarbeiten erfolgen grundsätzlich auf Feature-Branches. Der `main`-Branch enthält den jeweils stabilen Stand des Projekts.
+Development work is done on feature branches. The `main` branch contains the latest stable project state. Branch names should be descriptive and related to the topic of the change:
 
-Branch-Namen werden sprechend und themenbezogen vergeben.
+* feature/branch-name
+* fix/branch-name
+* refactor/branch-name
+* docs/branch-name
+* test/branch-name
+* cicd/branch-name
 
-Beispiele:
 
-```text
-feature/mqtt-publishing
-feature/sht31-integration
-feature/home-assistant-integration
-refactor/library-structure
-docs/update-doxygen
-test/sht31-embedded-tests
-ci/update-platformio-workflow
-```
+## Naming Conventions
+
+* Directory names are written in lowercase.
+* Documentation files use PascalCase.
+* Branch names use kebab-case with a type prefix.
+* Commit messages are written in English.
+
 
 ## Commits
 
-Commits sollen klein, nachvollziehbar und fachlich zusammenhängend sein. Ein Commit enthält möglichst genau eine abgeschlossene Änderung.
+Commits should be small, understandable and logically related. A commit should contain one coherent change whenever possible. Good commit messages describe what has changed. They do not need to include every technical detail, but they should not be too generic. Commit messages may optionally use simple prefixes:
 
-Gute Commit-Nachrichten beschreiben, was geändert wurde. Sie müssen nicht jedes technische Detail enthalten, sollen aber auch nicht zu allgemein sein.
+* feature:   new functionality
+* fix:       bug fix
+* refactor:  structural change without functional change
+* docs:      documentation
+* test:      tests
+* cicd:      CI/CD changes
 
-Beispiele:
-
-```text
-Add MQTT publishing for room climate measurements
-Refactor library structure into connectivity and drivers
-Update Doxygen documentation
-Fix SHT31 humidity validation
-Add native tests for state machine
-```
-
-## Commit-Typen
-
-Optional können Commit-Nachrichten mit einfachen Präfixen versehen werden. Dadurch wird schneller erkennbar, welche Art von Änderung ein Commit enthält.
-
-```text
-feat:      neue Funktion
-fix:       Fehlerbehebung
-refactor:  strukturelle Änderung ohne Funktionsänderung
-docs:      Dokumentation
-test:      Tests
-ci:        Änderungen an CI/CD
-chore:     sonstige Wartungsarbeiten
-```
-
-Beispiele:
-
-```text
-feat: add MQTT measurement publisher
-fix: handle invalid humidity values
-refactor: split connectivity and driver components
-docs: update project overview
-test: add native tests for validation logic
-ci: update PlatformIO workflow
-```
 
 ## Pull Requests
 
-Änderungen werden über Pull Requests in den `main`-Branch übernommen. Vor dem Merge sollen Build und Tests erfolgreich sein.
-
-Ein Pull Request sollte einen klaren fachlichen oder technischen Zweck haben, z. B.:
-
-```text
-Add MQTT support
-Refactor library structure
-Update project documentation
-Add SHT31 sensor integration
-```
-
-## Tests vor dem Merge
-
-Vor dem Merge sollten mindestens folgende Prüfungen erfolgreich sein:
-
-```bash
-pio run
-pio test -e native
-```
-
-Hardwareabhängige Embedded Tests werden lokal auf der Zielhardware ausgeführt, sofern die benötigte Hardware verfügbar ist.
-
-## Umgang mit bestehender Historie
-
-Diese Konventionen gelten ab dem Zeitpunkt ihrer Einführung. Frühere Commits müssen nicht nachträglich angepasst werden.
-
-Die bisherige Git-Historie spiegelt den Entwicklungs- und Lernprozess des Projekts wider. Wichtig ist, dass zukünftige Änderungen zunehmend nach diesen Konventionen umgesetzt werden.
+Changes are merged into the `main` branch using pull requests. A pull request should have a clear technical or functional purpose.
 
 
+## Tests Before Merging
 
-\## Naming Conventions
+Before merging, the build and native tests should pass successfully. Hardware-dependent embedded tests are executed locally on the target hardware when the required hardware is available.
 
 
+## Existing Git History
 
-\- Directory names are written in lowercase.
-
-\- Documentation files use PascalCase.
-
-\- Branch names use kebab-case with a type prefix.
-
-\- Commit messages are written in English.
-
+These conventions apply from the point at which they are introduced. Earlier commits do not need to be changed retroactively.
