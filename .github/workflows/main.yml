@@ -34,7 +34,7 @@ jobs:
       - name: Run Native Tests
         run: pio test -e native
   # 2. Job: Build
-  arduino-build:
+  build:
     # Ubuntu VM
     runs-on: ubuntu-latest
     # Schritte des Workflows
