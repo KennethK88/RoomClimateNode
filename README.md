@@ -29,5 +29,5 @@ Aktuell erfolgt die Messung von Temperatur und Luftfeuchtigkeit über einen SHT3
 
 ## Weitere Dokumentation
 
-- [Projektübersicht](docs/Projektübersicht.md)
-- [Klassendiagramm](docs/Klassen.puml)
+- [Projektübersicht](docs/project_overview.md)
+- [Klassendiagramm](docs/class_diagram.puml)
