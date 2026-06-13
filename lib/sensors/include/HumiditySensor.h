@@ -1,39 +1,44 @@
 #pragma once
-#include <CommonSensorConstants.h>
 #include <ISht31SensorDriver.h>
 
 /**
  * @file HumiditySensor.h
+ * @brief Fachliche Sensorkomponente für die Luftfeuchtigkeit.
+ */
+
+/**
  * @class HumiditySensor
- * @brief Kapselt die Verarbeitung von Feuchtigkeitsmesswerten
- * 
- * Der HumiditySensor verwendet einen Sensor-Treiber, um Rohwerte von der
- * Hardware zu lesen, und speichert den aktuell gemessenen Feuchtigkeitswert.
- * 
- * Die Klasse trennt die Sensorlogik (Lesen und Bereitstellen des Werts)
- * vom eigentlichen Hardwarezugriff, der durch den ISht31SensorDriver abstrahiert wird.
+ * @brief Stellt den aktuellen Luftfeuchtigkeitswert bereit.
+ *
+ * Der HumiditySensor kapselt den fachlichen Zugriff auf den
+ * Luftfeuchtigkeitswert. Der konkrete Hardwarezugriff erfolgt über die
+ * ISht31SensorDriver-Schnittstelle und bleibt dadurch von dieser Klasse
+ * entkoppelt.
+ *
+ * Die eigentliche Messung wird vom Sensor-Treiber durchgeführt. Diese Klasse
+ * fragt den zuletzt vom Treiber ermittelten Luftfeuchtigkeitswert ab.
  */
 class HumiditySensor
 {
     private:
         /**
-         * @brief Referenz auf den zugehörigen Sensor-Treiber
+         * @brief Referenz auf den Sensor-Treiber zur Messwertbereitstellung.
          */
         ISht31SensorDriver& sht31SensorDriver;
 
     public:
 
         /**
-         * @brief Konstruktor
-         * 
-         * @param sht31SensorDriver Referenz auf den Sensor-Treiber zur Messwertgewinnung
+         * @brief Erstellt einen HumiditySensor.
+         *
+         * @param sht31SensorDriver Sensor-Treiber, der den Luftfeuchtigkeitswert bereitstellt.
          */
         HumiditySensor(ISht31SensorDriver& sht31SensorDriver) : sht31SensorDriver(sht31SensorDriver) {}
 
         /**
-         * @brief Gibt den zuletzt gemessenen Feuchtigkeitswert zurück
-         * 
-         * @return Luftfeuchtigkeit in Prozent
+         * @brief Gibt den zuletzt ermittelten Luftfeuchtigkeitswert zurück.
+         *
+         * @return Relative Luftfeuchtigkeit in %.
          */
         Humidity getHumidity() const;
 };

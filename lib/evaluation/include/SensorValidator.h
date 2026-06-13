@@ -5,52 +5,51 @@
 
 /**
  * @file SensorValidator.h
+ * @brief Validiert Messwerte des Raumklima-Knotens.
+ */
+
+/**
  * @class SensorValidator
- * @brief Validiert Sensormesswerte auf Plausibilität
- * 
- * Der SensorValidator überprüft die Messwerte aller Sensoren anhand
- * definierter Grenzwerte und Regeln und kennzeichnet diese als gültig
- * oder ungültig.
- * 
- * Ziel ist es, fehlerhafte, nicht initialisierte oder physikalisch
- * unplausible Werte frühzeitig zu erkennen und für nachgelagerte
- * Komponenten transparent zu machen.
+ * @brief Prüft Messwerte auf Initialisierung, Fehlerwerte und plausible Wertebereiche.
+ *
+ * Der SensorValidator überprüft die erfassten Messwerte anhand definierter
+ * Validierungsregeln und kennzeichnet jeden Wert als gültig oder ungültig.
+ *
+ * Ziel ist es, nicht initialisierte, fehlerhafte oder physikalisch
+ * unplausible Messwerte frühzeitig zu erkennen und nachgelagerten Komponenten
+ * in strukturierter Form bereitzustellen.
  */
 class SensorValidator
 {
     private:
 
         /**
-         * @brief Validiert den Temperaturwert
-         * 
-         * @param measurements Aktuelle Sensordaten
-         * @param validationResults Ergebnisstruktur zur Speicherung des Validierungsstatus
+         * @brief Validiert den Temperaturwert.
+         *
+         * @param measurements Aktuelle Messwerte.
+         * @param validationResults Ergebnisstruktur zur Speicherung des Validierungsstatus.
          */
         void validateTemperature(const Measurements& measurements, ValidationResults& validationResults);
 
         /**
-         * @brief Validiert den Feuchtigkeitswert
-         * 
-         * @param measurements Aktuelle Sensordaten
-         * @param validationResults Ergebnisstruktur zur Speicherung des Validierungsstatus
-         */       
+         * @brief Validiert den Luftfeuchtigkeitswert.
+         *
+         * @param measurements Aktuelle Messwerte.
+         * @param validationResults Ergebnisstruktur zur Speicherung des Validierungsstatus.
+         */      
         void validateHumidity(const Measurements& measurements, ValidationResults& validationResults);
 
     public:
 
         /**
-         * @brief Konstruktor
-         */
-        SensorValidator() = default;
-
-        /**
-         * @brief Validiert alle Sensormesswerte
-         * 
-         * Führt die Validierung für alle Sensoren durch und fasst die
-         * Ergebnisse in einer gemeinsamen Struktur zusammen.
-         * 
-         * @param measurements Aktuelle Sensordaten
-         * @return Struktur mit Validierungsstatus aller Sensoren
+         * @brief Validiert alle enthaltenen Messwerte.
+         *
+         * Führt die Validierung für die im Measurements-Objekt enthaltenen
+         * Messwerte durch und fasst die Ergebnisse in einer gemeinsamen
+         * Ergebnisstruktur zusammen.
+         *
+         * @param measurements Aktuelle Messwerte.
+         * @return Struktur mit dem Validierungsstatus der Messwerte.
          */
         ValidationResults validateAllSensors(const Measurements& measurements);
 };

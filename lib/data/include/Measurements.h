@@ -1,27 +1,25 @@
 #pragma once
+#include <Types.h>
 #include <CommonSensorConstants.h>
 
 /**
  * @file Measurements.h
- * @brief Struktur zur Speicherung aktueller Sensormesswerte
- * 
- * Diese Struktur fasst die Messwerte aller Sensoren in einer gemeinsamen
- * Datenstruktur zusammen und dient als zentrales Austauschformat zwischen
- * den Systemkomponenten.
- * 
- * Die Werte werden typischerweise durch den SensorCoordinator befüllt und
- * anschließend von Validator, ThresholdEvaluator, StateMachine und weiteren
- * Komponenten weiterverarbeitet.
+ * @brief Datenstruktur für aktuelle Messwerte des Raumklima-Knotens.
+ *
+ * Diese Struktur fasst die erfassten Messwerte in einem gemeinsamen
+ * Austauschformat zusammen. Sie wird typischerweise vom SensorCoordinator
+ * befüllt und anschließend von Validierung, Zustandslogik und Publishern
+ * weiterverarbeitet.
  */
 struct Measurements
 {
     /**
-     * @brief Aktueller Temperaturwert (Einheit: °C)
+     * @brief Aktueller Temperaturwert in °C.
      */
-    float temperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
+    Temperature temperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
 
     /**
-     * @brief Aktueller Feuchtigkeitswert (Einheit: %)
+     * @brief Aktueller Wert der relativen Luftfeuchtigkeit in %.
      */
-    float humidity = SensorConstants::HUMIDITY_NOT_INITIALIZED;
+    Humidity humidity = SensorConstants::HUMIDITY_NOT_INITIALIZED;
 };

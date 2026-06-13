@@ -4,34 +4,37 @@
 
 /**
  * @file StateMachine.h
+ * @brief Bestimmt den aktuellen Systemzustand des Raumklima-Knotens.
+ */
+
+/**
  * @class StateMachine
- * @brief Bestimmt den aktuellen Systemzustand basierend auf Sensorbewertungen
- * 
- * Die StateMachine fasst die Ergebnisse aus Validierung und Schwellenwert-
- * bewertung zusammen und leitet daraus den aktuellen Zustand des Systems ab.
- * 
- * Dabei werden sowohl ungültige Sensordaten als auch kritische Messwerte
- * berücksichtigt, um zwischen verschiedenen Systemzuständen (z. B. Normal,
- * Warning, Error) zu unterscheiden.
+ * @brief Leitet den Systemzustand aus den Validierungsergebnissen ab.
+ *
+ * Die StateMachine bewertet den Validierungsstatus der erfassten Messwerte
+ * und bestimmt daraus den aktuellen SystemState.
+ *
+ * Aktuell unterscheidet die StateMachine zwischen einem Normalzustand und
+ * einem Fehlerzustand. Ein Fehlerzustand liegt vor, wenn mindestens ein
+ * relevanter Messwert ungültig ist.
  */
 class StateMachine
 {
     public:
 
         /**
-         * @brief Konstruktor
+         * @brief Erzeugt eine StateMachine.
          */
         StateMachine() = default;
 
         /**
-         * @brief Berechnet den aktuellen Systemzustand
-         * 
-         * Verwendet die Validierungs- und Schwellenwert-Ergebnisse, um den
+         * @brief Berechnet den aktuellen Systemzustand.
+         *
+         * Verwendet die Validierungsergebnisse der Messwerte, um den
          * Systemzustand zu bestimmen.
-         * 
-         * @param validationResults Validierungsstatus der Sensordaten
-         * @param thresholdResult Ergebnis der Schwellenwertbewertung
-         * @return Abgeleiteter Systemzustand
+         *
+         * @param validationResults Validierungsstatus der Messwerte.
+         * @return Abgeleiteter Systemzustand.
          */
         SystemState calculateState(const ValidationResults& validationResults);
 };

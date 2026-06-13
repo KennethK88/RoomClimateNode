@@ -7,25 +7,29 @@
 
 /**
  * @file AirMonitorFactory.h
+ * @brief Factory zur Erstellung und Verdrahtung des Raumklima-Knotens.
+ */
+
+/**
  * @class AirMonitorFactory
- * @brief Factory zur Erstellung und Verdrahtung des Luftüberwachungssystems
+ * @brief Erzeugt die konkreten Komponenten und verdrahtet den zentralen Controller.
  *
- * Die AirMonitorFactory erzeugt die konkreten Hardwarekomponenten des
- * Luftüberwachungssystems und verdrahtet diese mit dem
+ * Die AirMonitorFactory kapselt den Aufbau des Systems. Sie erzeugt die
+ * konkreten Sensor-, WLAN- und MQTT-Komponenten und verdrahtet diese mit dem
  * AirMonitorController.
  *
- * Die Factory kapselt die konkrete Hardwarekonfiguration und trennt
- * den Systemaufbau bewusst von der fachlichen Logik.
+ * Dadurch bleibt der AirMonitorController von konkreten Hardware- und
+ * Kommunikationsimplementierungen entkoppelt und kann in Tests über
+ * Fake-Komponenten betrieben werden.
  *
  * Verantwortlichkeiten:
- * - Erzeugung konkreter Hardware-Treiber
- * - Konfiguration hardwareabhängiger Komponenten
- * - Verdrahtung des vollständigen Systems
- * - Bereitstellung eines fertig initialisierten
- *   AirMonitorController-Objekts
+ * - Erzeugung konkreter Sensor- und Verbindungskomponenten
+ * - Erzeugung des MQTT-basierten Messwertpublishers
+ * - Verdrahtung der Komponenten mit dem AirMonitorController
+ * - Bereitstellung eines vollständig aufgebauten Controller-Objekts
  *
- * @note Durch die Nutzung einer Factory bleibt der
- * AirMonitorController hardwareunabhängig und testbar.
+ * @note Der Klassenname AirMonitorController ist historisch gewachsen. Fachlich
+ * wird hier aktuell der zentrale Controller eines Raumklima-Knotens aufgebaut.
  */
 class AirMonitorFactory
 {
@@ -37,11 +41,11 @@ class AirMonitorFactory
         AirMonitorController airMonitorController{sht31Driver, wifiConnectionManager, mqttClientService, mqttMeasurementPublisher};
 
     public:
+    
         /**
-         * @brief Liefert den verdrahteten AirMonitorController
+         * @brief Liefert den vollständig verdrahteten AirMonitorController.
          *
-         * @return Referenz auf den vollständig aufgebauten
-         * AirMonitorController
+         * @return Referenz auf den aufgebauten AirMonitorController.
          */
         AirMonitorController& getAirMonitorController();
 };

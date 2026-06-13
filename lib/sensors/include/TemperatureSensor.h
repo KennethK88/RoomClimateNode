@@ -1,39 +1,43 @@
 #pragma once
-#include <CommonSensorConstants.h>
 #include <ISht31SensorDriver.h>
 
 /**
  * @file TemperatureSensor.h
+ * @brief Fachliche Sensorkomponente für die Temperatur.
+ */
+
+/**
  * @class TemperatureSensor
- * @brief Kapselt die Verarbeitung von Temperaturmesswerten
- * 
- * Der TemperatureSensor verwendet einen Sensor-Treiber, um Rohwerte von der
- * Hardware zu lesen, und speichert den aktuell gemessenen Temperaturwert.
- * 
- * Die Klasse trennt die Sensorlogik (Lesen und Bereitstellen des Werts)
- * vom eigentlichen Hardwarezugriff, der durch den ISht31SensorDriver abstrahiert wird.
+ * @brief Stellt den aktuellen Temperaturwert bereit.
+ *
+ * Der TemperatureSensor kapselt den fachlichen Zugriff auf den Temperaturwert.
+ * Der konkrete Hardwarezugriff erfolgt über die ISht31SensorDriver-Schnittstelle
+ * und bleibt dadurch von dieser Klasse entkoppelt.
+ *
+ * Die eigentliche Messung wird vom Sensor-Treiber durchgeführt. Diese Klasse
+ * fragt den zuletzt vom Treiber ermittelten Temperaturwert ab.
  */
 class TemperatureSensor
 {
     private:
         /**
-         * @brief Referenz auf den zugehörigen Sensor-Treiber
+         * @brief Referenz auf den Sensor-Treiber zur Messwertbereitstellung.
          */
         ISht31SensorDriver& sht31SensorDriver;
 
     public:
 
         /**
-         * @brief Konstruktor
-         * 
-         * @param sht31SensorDriver Referenz auf den Sensor-Treiber zur Messwertgewinnung
+         * @brief Erstellt einen TemperatureSensor.
+         *
+         * @param sht31SensorDriver Sensor-Treiber, der den Temperaturwert bereitstellt.
          */
         TemperatureSensor(ISht31SensorDriver& sht31SensorDriver) : sht31SensorDriver(sht31SensorDriver) {}
 
         /**
-         * @brief Gibt den zuletzt gemessenen Temperaturwert zurück
-         * 
-         * @return Temperatur in Grad Celsius
+         * @brief Gibt den zuletzt ermittelten Temperaturwert zurück.
+         *
+         * @return Temperaturwert in °C.
          */
         Temperature getTemperature() const;
 };

@@ -2,31 +2,27 @@
 
 /**
  * @file SystemState.h
- * @brief Definiert die möglichen Zustände des Systems
- * 
- * Der SystemState beschreibt den aktuellen Gesamtzustand des
- * Luftüberwachungssystems basierend auf validierten und bewerteten
- * Sensormesswerten.
- * 
- * Die Zustände werden von der StateMachine bestimmt und von
- * nachgelagerten Komponenten wie DisplayController und
- * AlarmController verwendet.
+ * @brief Definiert die möglichen Systemzustände des Raumklima-Knotens.
+ *
+ * Der SystemState beschreibt den aktuellen Gesamtzustand des Systems auf Basis
+ * der validierten Sensormesswerte. Der Zustand wird von der StateMachine
+ * bestimmt und kann von nachgelagerten Komponenten zur weiteren Verarbeitung
+ * oder Ausgabe verwendet werden.
  */
 enum class SystemState
 {
     /**
-     * @brief Normalzustand
-     * 
-     * Alle Sensormesswerte sind gültig und befinden sich innerhalb
-     * der definierten Grenzwerte.
+     * @brief Normalzustand.
+     *
+     * Alle relevanten Messwerte sind gültig.
      */
     Normal,
 
     /**
-     * @brief Fehlerzustand
-     * 
-     * Mindestens ein Sensormesswert ist ungültig oder weist auf
-     * einen kritischen Zustand hin.
+     * @brief Fehlerzustand.
+     *
+     * Mindestens ein relevanter Messwert ist ungültig oder konnte nicht
+     * plausibel ermittelt werden.
      */
     Error
 };

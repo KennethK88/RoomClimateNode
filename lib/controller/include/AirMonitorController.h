@@ -10,28 +10,31 @@
 
 /**
  * @file AirMonitorController.h
+ * @brief Zentrale Orchestrierung des Raumklima-Knotens.
+ */
+
+/**
  * @class AirMonitorController
- * @brief Zentrale Orchestrierung des Luftüberwachungssystems
+ * @brief Koordiniert Initialisierung, Messwerterfassung, Validierung und Veröffentlichung.
  *
- * Der AirMonitorController verbindet Sensorik, Auswertung, Anzeige und
- * Alarmierung zu einem vollständigen Systemablauf.
- *
- * Die Klasse koordiniert fachliche Komponenten sowie abstrahierte
- * Hardware-Schnittstellen und führt den zyklischen Systemablauf aus.
+ * Der AirMonitorController bildet den zentralen Ablauf des Raumklima-Knotens ab.
+ * Er verbindet die fachlichen Komponenten zur Messwerterfassung und
+ * Messwertvalidierung mit abstrahierten Verbindungs- und Ausgabeschnittstellen.
  *
  * Verantwortlichkeiten:
- * - Initialisierung aller Hardware- und Systemkomponenten
- * - zyklisches Auslesen der Sensoren
- * - Validierung und Bewertung der Messwerte
- * - Berechnung des Systemzustands
- * - Aktualisierung von Display, Alarm und Status-LEDs
+ * - Initialisierung der Sensor-, WLAN- und MQTT-Komponenten
+ * - Auslösen der Sensormessung
+ * - Erfassen von Temperatur- und Luftfeuchtigkeitswerten
+ * - Validierung der Messwerte
+ * - Berechnung des aktuellen Systemzustands
+ * - Veröffentlichung der Messwerte über eine abstrahierte Publisher-Schnittstelle
  *
- * @note Die fachliche Logik liegt bewusst in separaten Klassen wie
- * SensorValidator, ThresholdEvaluator, StateMachine und DisplayPolicy.
- * Der AirMonitorController dient primär als Orchestrator.
+ * @note Die Klasse kennt keine konkreten WLAN-, MQTT- oder Sensortreiber.
+ * Konkrete Implementierungen werden über Interfaces injiziert, um die fachliche
+ * Logik testbar und weitgehend plattformunabhängig zu halten.
  *
- * @note Konkrete Hardwareimplementierungen werden bewusst über Interfaces
- * injiziert, um Testbarkeit und Plattformunabhängigkeit zu ermöglichen.
+ * @note Der Klassenname ist historisch gewachsen. Fachlich beschreibt die Klasse
+ * aktuell den zentralen Controller eines Raumklima-Knotens.
  */
 class AirMonitorController
 {
@@ -53,31 +56,34 @@ class AirMonitorController
 
     public:
 
-        /**
-         * @brief Konstruktor
+         /**
+         * @brief Erstellt den Controller und verdrahtet die benötigten Komponenten.
          *
-         * Erstellt und verdrahtet alle benötigten Systemkomponenten unter
-         * Verwendung abstrahierter Hardware-Schnittstellen.
+         * Der Konstruktor erhält die hardwarenahen und kommunikationsbezogenen
+         * Abhängigkeiten über Interfaces. Daraus werden die fachlichen Sensorobjekte
+         * und der SensorCoordinator aufgebaut.
          *
-         * Die konkreten Hardwareimplementierungen werden über Interfaces
-         * injiziert, um eine hardwareunabhängige und testbare Architektur
-         * zu ermöglichen.
+         * @param sht31SensorDriver Treiberschnittstelle für den SHT31-Sensor.
+         * @param wifiConnectionManager Verbindungsmanager für die WLAN-Verbindung.
+         * @param mqttClientService Verbindungsmanager für die MQTT-Verbindung.
+         * @param measurementPublisher Publisher zur Veröffentlichung der Messwerte.
          */
         AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher) : sht31SensorDriver(sht31SensorDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), sensorCoordinator(temperatureSensor, humiditySensor) {}
+
         /**
-         * @brief Initialisiert das Luftüberwachungssystem
+         * @brief Initialisiert den Raumklima-Knoten.
          *
-         * Initialisiert die angebundenen Hardware-Treiber und bereitet die
-         * Systemkomponenten für den zyklischen Betrieb vor.
+         * Initialisiert die Verbindungs- und Sensorkomponenten und bereitet das
+         * System für den zyklischen Betrieb vor.
          */
         void init();
 
         /**
-         * @brief Führt einen vollständigen Aktualisierungszyklus aus
+         * @brief Führt einen Mess- und Veröffentlichungszyklus aus.
          *
-         * Liest alle Sensoren aus, validiert und bewertet die Messwerte,
-         * berechnet den aktuellen Systemzustand und aktualisiert Display,
-         * Alarm sowie Status-LEDs.
+         * Löst eine Sensormessung aus, liest die aktuellen Messwerte ein,
+         * validiert die Messwerte, berechnet den Systemzustand und stößt die
+         * Veröffentlichung der Messwerte an.
          */
         void update();
 };
