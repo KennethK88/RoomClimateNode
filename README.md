@@ -1,3 +1,7 @@
+[![PlatformIO Native Tests and Build](https://github.com/KennethK88/AirMonitorController/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/KennethK88/AirMonitorController/actions/workflows/main.yml)
+[![Deploy Documentation](https://github.com/KennethK88/AirMonitorController/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/KennethK88/AirMonitorController/actions/workflows/docs.yml)
+
+
 # RoomClimateNode
 
 ## Ziel 
