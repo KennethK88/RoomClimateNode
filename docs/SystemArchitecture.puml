@@ -13,7 +13,7 @@ node "RoomClimateNode" as roomNode {
     component "SHT31 Sensor" as sht31
     component "Li-Ion Battery" as battery
     component "RGB Status LED" as statusLed
-    component "MCU\n(RA4M1 / later ESP32)" as mcu
+    component "MCU (RA4M1 / later ESP32)" as mcu
 
     component "Driver Layer" as driverLayer
     component "Application Layer" as applicationLayer
