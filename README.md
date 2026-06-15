@@ -30,4 +30,5 @@ Temperature and humidity are currently measured using an SHT31 sensor. The measu
 ## Further Documentation
 
 - [Project overview](docs/ProjectOverview.md)
+- [System architecture](docs/SystemArchitecture.puml)
 - [Class diagram](docs/ClassDiagram.puml)
