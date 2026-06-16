@@ -35,10 +35,17 @@ void test_humidity_below_min_valid_should_be_invalid();
 void test_humidity_above_max_valid_should_be_invalid();
 void test_humidity_measurement_error_should_be_invalid();
 
+// Battery Level
+void test_battery_level_not_initialized_should_be_invalid();
+void test_battery_level_equals_max_valid_should_be_valid();
+void test_battery_level_equals_min_valid_should_be_valid();
+void test_battery_level_above_max_valid_should_be_invalid();
+
 // StateMachine
-void test_all_validations_valid_and_all_thresholds_ok_state_should_be_normal();
-void test_temperature_invalid_and_all_thresholds_ok_state_should_be_error();
-void test_humidity_invalid_and_all_thresholds_ok_state_should_be_error();
+void test_all_validations_valid_state_should_be_normal();
+void test_temperature_invalid_state_should_be_error();
+void test_humidity_invalid_state_should_be_error();
+void test_battery_level_invalid_state_should_be_error();
 
 
 int main() {
@@ -67,10 +74,17 @@ int main() {
     RUN_TEST(test_humidity_above_max_valid_should_be_invalid);
     RUN_TEST(test_humidity_measurement_error_should_be_invalid);
 
+    // Battery Level
+    RUN_TEST(test_battery_level_not_initialized_should_be_invalid);
+    RUN_TEST(test_battery_level_equals_max_valid_should_be_valid);
+    RUN_TEST(test_battery_level_equals_min_valid_should_be_valid);
+    RUN_TEST(test_battery_level_above_max_valid_should_be_invalid);
+
     // StateMachine
-    RUN_TEST(test_all_validations_valid_and_all_thresholds_ok_state_should_be_normal);
-    RUN_TEST(test_temperature_invalid_and_all_thresholds_ok_state_should_be_error);
-    RUN_TEST(test_humidity_invalid_and_all_thresholds_ok_state_should_be_error);
+    RUN_TEST(test_all_validations_valid_state_should_be_normal);
+    RUN_TEST(test_temperature_invalid_state_should_be_error);
+    RUN_TEST(test_humidity_invalid_state_should_be_error);
+    RUN_TEST(test_battery_level_invalid_state_should_be_error);
 
     return UNITY_END();
 }
