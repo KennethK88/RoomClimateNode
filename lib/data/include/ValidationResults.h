@@ -21,4 +21,6 @@ struct ValidationResults
      * @brief Gibt an, ob der Luftfeuchtigkeitswert gültig ist.
      */
     bool humidityValid = false;
+
+    bool batteryLevelValid = false;
 };

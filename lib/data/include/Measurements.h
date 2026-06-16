@@ -1,6 +1,7 @@
 #pragma once
 #include <Types.h>
 #include <CommonSensorConstants.h>
+#include <BatteryConstants.h>
 
 /**
  * @file Measurements.h
@@ -22,4 +23,6 @@ struct Measurements
      * @brief Aktueller Wert der relativen Luftfeuchtigkeit in %.
      */
     Humidity humidity = SensorConstants::HUMIDITY_NOT_INITIALIZED;
+
+    BatteryLevel batteryLevel = BatteryConstants::BATTERY_LEVEL_NOT_INITIALIZED;
 };
