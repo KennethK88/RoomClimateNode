@@ -1,9 +1,11 @@
 #pragma once
 #include <ISht31SensorDriver.h>
+#include <IBatteryDriver.h>
 #include <IConnectionManager.h>
 #include <IMeasurementPublisher.h>
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
+#include <BatterySensor.h>
 #include <SensorCoordinator.h>
 #include <SensorValidator.h>
 #include <StateMachine.h>
@@ -39,8 +41,11 @@
 class AirMonitorController
 {
     private:
-        // Interfaces
+        // Interfaces Driver
         ISht31SensorDriver& sht31SensorDriver;
+        IBatteryDriver& batteryDriver;
+
+        // Interfaces Connection
         IConnectionManager& wifiConnectionManager;
         IConnectionManager& mqttClientService;
         IMeasurementPublisher& measurementPublisher;
@@ -48,6 +53,7 @@ class AirMonitorController
         // Sensors
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
+        BatterySensor batterySensor;
         SensorCoordinator sensorCoordinator;
 
         // Evaluation
@@ -68,7 +74,7 @@ class AirMonitorController
          * @param mqttClientService Verbindungsmanager für die MQTT-Verbindung.
          * @param measurementPublisher Publisher zur Veröffentlichung der Messwerte.
          */
-        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher) : sht31SensorDriver(sht31SensorDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), sensorCoordinator(temperatureSensor, humiditySensor) {}
+        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
 
         /**
          * @brief Initialisiert den Raumklima-Knoten.

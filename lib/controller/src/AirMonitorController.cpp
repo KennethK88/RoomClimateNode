@@ -8,11 +8,13 @@ void AirMonitorController::init()
     mqttClientService.init();
     mqttClientService.connect();
     sht31SensorDriver.init();
+    batteryDriver.init();
 }
 
 void AirMonitorController::update()
 {
     sht31SensorDriver.readMeasurements();
+    batteryDriver.readVoltage();
     const Measurements measurements = sensorCoordinator.readAllSensors();
     const ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
     const SystemState systemState = stateMachine.calculateState(validationResults);
