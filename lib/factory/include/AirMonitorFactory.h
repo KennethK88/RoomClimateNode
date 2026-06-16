@@ -1,5 +1,6 @@
 #pragma once
 #include <Sht31Driver.h>
+#include <ESP32BatteryDriver.h>
 #include <WiFiConnectionManager.h>
 #include <MqttClientService.h>
 #include <MqttMeasurementPublisher.h>
@@ -35,10 +36,11 @@ class AirMonitorFactory
 {
     private:
         Sht31Driver sht31Driver;
+        ESP32BatteryDriver esp32BatteryDriver;
         WiFiConnectionManager wifiConnectionManager;
         MqttClientService mqttClientService;
         MqttMeasurementPublisher mqttMeasurementPublisher{mqttClientService};
-        AirMonitorController airMonitorController{sht31Driver, wifiConnectionManager, mqttClientService, mqttMeasurementPublisher};
+        AirMonitorController airMonitorController{sht31Driver, esp32BatteryDriver, wifiConnectionManager, mqttClientService, mqttMeasurementPublisher};
 
     public:
     
