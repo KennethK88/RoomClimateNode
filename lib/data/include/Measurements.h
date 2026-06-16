@@ -5,24 +5,29 @@
 
 /**
  * @file Measurements.h
- * @brief Datenstruktur für aktuelle Messwerte des Raumklima-Knotens.
+ * @brief Data structure for current measurement values of the room climate node.
  *
- * Diese Struktur fasst die erfassten Messwerte in einem gemeinsamen
- * Austauschformat zusammen. Sie wird typischerweise vom SensorCoordinator
- * befüllt und anschließend von Validierung, Zustandslogik und Publishern
- * weiterverarbeitet.
+ * This structure combines the currently acquired measurement values into a
+ * common data format. It is typically filled by the SensorCoordinator and then
+ * processed by validation, state evaluation and publishing components.
  */
 struct Measurements
 {
     /**
-     * @brief Aktueller Temperaturwert in °C.
+     * @brief Current temperature value in degrees Celsius.
      */
     Temperature temperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
 
     /**
-     * @brief Aktueller Wert der relativen Luftfeuchtigkeit in %.
+     * @brief Current temperature value in degrees Celsius.
      */
     Humidity humidity = SensorConstants::HUMIDITY_NOT_INITIALIZED;
 
+    /**
+     * @brief Current battery level value in percent.
+     *
+     * Valid values are in the range from 0 to 100. A special value is used
+     * to indicate that no valid battery level is currently available.
+     */
     BatteryLevel batteryLevel = BatteryConstants::BATTERY_LEVEL_NOT_INITIALIZED;
 };

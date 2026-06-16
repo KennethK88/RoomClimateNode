@@ -3,19 +3,28 @@
 
 /**
  * @file Types.h
- * @brief Zentrale Typdefinitionen für Messwerte des Raumklima-Knotens.
+ * @brief Central type definitions for measurement values used by the room climate node.
  */
 
 /**
- * @brief Temperaturwert in Grad Celsius.
+ * @brief Temperature value in degrees Celsius.
  */
 using Temperature = float;
 
 /**
- * @brief Relative Luftfeuchtigkeit in Prozent.
+ * @brief Relative humidity value in percent.
  */
 using Humidity = float;
 
+/**
+ * @brief Battery voltage value in volts.
+ */
 using BatteryVoltage = float;
 
+/**
+ * @brief Battery level value in percent.
+ *
+ * Valid battery level values are in the range from 0 to 100.
+ * Special values such as 255 may be used to indicate invalid or uninitialized states.
+ */
 using BatteryLevel = uint8_t;

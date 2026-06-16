@@ -1,57 +1,61 @@
 #pragma once
-#include <CommonSensorConstants.h>
 #include <Measurements.h>
 #include <ValidationResults.h>
 
 /**
  * @file SensorValidator.h
- * @brief Validiert Messwerte des Raumklima-Knotens.
+ * @brief Validates measurement values of the room climate node.
  */
 
 /**
  * @class SensorValidator
- * @brief Prüft Messwerte auf Initialisierung, Fehlerwerte und plausible Wertebereiche.
+ * @brief Checks measurement values for initialization state, error values and valid value ranges.
  *
- * Der SensorValidator überprüft die erfassten Messwerte anhand definierter
- * Validierungsregeln und kennzeichnet jeden Wert als gültig oder ungültig.
+ * The SensorValidator evaluates the acquired measurement values using defined
+ * validation rules and marks each value as valid or invalid.
  *
- * Ziel ist es, nicht initialisierte, fehlerhafte oder physikalisch
- * unplausible Messwerte frühzeitig zu erkennen und nachgelagerten Komponenten
- * in strukturierter Form bereitzustellen.
+ * Its purpose is to detect uninitialized, erroneous or implausible measurement
+ * values early and provide the result to downstream components in a structured
+ * form.
  */
 class SensorValidator
 {
     private:
 
         /**
-         * @brief Validiert den Temperaturwert.
+         * @brief Validates the temperature value.
          *
-         * @param measurements Aktuelle Messwerte.
-         * @param validationResults Ergebnisstruktur zur Speicherung des Validierungsstatus.
+         * @param measurements Current measurement values.
+         * @param validationResults Result structure used to store the validation status.
          */
         void validateTemperature(const Measurements& measurements, ValidationResults& validationResults);
 
-        /**
-         * @brief Validiert den Luftfeuchtigkeitswert.
+         /**
+         * @brief Validates the relative humidity value.
          *
-         * @param measurements Aktuelle Messwerte.
-         * @param validationResults Ergebnisstruktur zur Speicherung des Validierungsstatus.
-         */      
+         * @param measurements Current measurement values.
+         * @param validationResults Result structure used to store the validation status.
+         */     
         void validateHumidity(const Measurements& measurements, ValidationResults& validationResults);
 
+        /**
+         * @brief Validates the battery level value.
+         *
+         * @param measurements Current measurement values.
+         * @param validationResults Result structure used to store the validation status.
+         */
         void validateBatteryLevel(const Measurements& measurements, ValidationResults& validationResults);
 
     public:
 
         /**
-         * @brief Validiert alle enthaltenen Messwerte.
+         * @brief Validates all measurement values.
          *
-         * Führt die Validierung für die im Measurements-Objekt enthaltenen
-         * Messwerte durch und fasst die Ergebnisse in einer gemeinsamen
-         * Ergebnisstruktur zusammen.
+         * Performs validation for all values contained in the Measurements object
+         * and combines the results in a common ValidationResults structure.
          *
-         * @param measurements Aktuelle Messwerte.
-         * @return Struktur mit dem Validierungsstatus der Messwerte.
+         * @param measurements Current measurement values.
+         * @return Structure containing the validation status of all measurement values.
          */
         ValidationResults validateAllSensors(const Measurements& measurements);
 };
