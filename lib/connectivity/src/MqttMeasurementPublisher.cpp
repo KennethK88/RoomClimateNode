@@ -12,8 +12,13 @@ void MqttMeasurementPublisher::publish(const Measurements& measurements)
 {
     char temperature[SIZE_PAYLOAD];
     char humidity[SIZE_PAYLOAD];
+    char batteryLevel[SIZE_PAYLOAD];
+
     std::snprintf(temperature, SIZE_PAYLOAD, "%.1f", measurements.temperature);
     std::snprintf(humidity, SIZE_PAYLOAD, "%d", static_cast<int>(std::round(measurements.humidity)));
+    std::snprintf(batteryLevel, SIZE_PAYLOAD, "%d", static_cast<int>(measurements.batteryLevel));
+
     mqttClientService.publish("roomclimatenode/livingroom/temperature", temperature);
     mqttClientService.publish("roomclimatenode/livingroom/humidity", humidity);
+    mqttClientService.publish("roomclimatenode/livingroom/battery_level", batteryLevel);
 }
