@@ -1,0 +1,63 @@
+@startuml
+title RoomClimateNode – System Architecture
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+' ============================================================
+' Sensor Node
+' ============================================================
+
+node "RoomClimateNode" as roomNode {
+    
+    component "SHT31 Sensor" as sht31
+    component "Li-Ion Battery" as battery
+    component "RGB Status LED" as statusLed
+    component "MCU (RA4M1 / later ESP32)" as mcu
+
+    component "Driver Layer" as driverLayer
+    component "Application Layer" as applicationLayer
+    component "MQTT Publisher" as publisher
+
+    sht31 --> mcu : I2C
+    battery --> mcu : battery voltage\nvia ADC
+    statusLed <-- mcu : GPIO\nsystem status
+
+    mcu --> driverLayer : sensor / ADC data
+    driverLayer --> applicationLayer : temperature\nhumidity\nbattery voltage
+
+    applicationLayer --> publisher : validated\nmeasurements
+}
+
+' ============================================================
+' Network / Broker / Smart Home
+' ============================================================
+
+cloud "Wi-Fi Network" as wifi
+
+node "Raspberry Pi" as pi {
+    component "Mosquitto Broker" as broker
+    component "Home Assistant" as ha
+}
+
+actor "User" as user
+
+publisher --> wifi : MQTT over Wi-Fi
+wifi --> broker : MQTT messages
+
+broker --> ha : subscribed topics
+ha --> user : dashboard\nnotifications\nautomations
+
+' ============================================================
+' Notes
+' ============================================================
+
+note right of roomNode
+  Measures room temperature,
+  humidity and battery level.
+  A status LED may indicate local
+  system states such as connection
+  errors or low battery level.
+end note
+
+@enduml

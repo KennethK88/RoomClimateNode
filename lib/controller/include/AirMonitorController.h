@@ -1,46 +1,53 @@
 #pragma once
 #include <ISht31SensorDriver.h>
+#include <IBatteryDriver.h>
 #include <IConnectionManager.h>
 #include <IMeasurementPublisher.h>
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
+#include <BatterySensor.h>
 #include <SensorCoordinator.h>
 #include <SensorValidator.h>
 #include <StateMachine.h>
 
 /**
  * @file AirMonitorController.h
- * @brief Zentrale Orchestrierung des Raumklima-Knotens.
+ * @brief Central orchestration component of the room climate node.
  */
 
 /**
  * @class AirMonitorController
- * @brief Koordiniert Initialisierung, Messwerterfassung, Validierung und Veröffentlichung.
+ * @brief Coordinates initialization, measurement acquisition, validation and publishing.
  *
- * Der AirMonitorController bildet den zentralen Ablauf des Raumklima-Knotens ab.
- * Er verbindet die fachlichen Komponenten zur Messwerterfassung und
- * Messwertvalidierung mit abstrahierten Verbindungs- und Ausgabeschnittstellen.
+ * The AirMonitorController represents the central control flow of the room
+ * climate node. It connects the sensor abstraction, measurement validation,
+ * system state evaluation and publishing components.
  *
- * Verantwortlichkeiten:
- * - Initialisierung der Sensor-, WLAN- und MQTT-Komponenten
- * - Auslösen der Sensormessung
- * - Erfassen von Temperatur- und Luftfeuchtigkeitswerten
- * - Validierung der Messwerte
- * - Berechnung des aktuellen Systemzustands
- * - Veröffentlichung der Messwerte über eine abstrahierte Publisher-Schnittstelle
+ * Responsibilities:
+ * - Initialize sensor, Wi-Fi and MQTT components
+ * - Trigger sensor and battery voltage measurements
+ * - Collect temperature, humidity and battery level values
+ * - Validate measured values
+ * - Calculate the current system state
+ * - Publish measurement values using an abstract publisher interface
  *
- * @note Die Klasse kennt keine konkreten WLAN-, MQTT- oder Sensortreiber.
- * Konkrete Implementierungen werden über Interfaces injiziert, um die fachliche
- * Logik testbar und weitgehend plattformunabhängig zu halten.
+ * @note The class does not depend on concrete Wi-Fi, MQTT, SHT31 or battery
+ * driver implementations. Concrete implementations are injected through
+ * interfaces to keep the application logic testable and largely
+ * platform-independent.
  *
- * @note Der Klassenname ist historisch gewachsen. Fachlich beschreibt die Klasse
- * aktuell den zentralen Controller eines Raumklima-Knotens.
+ * @note The class name is historically grown. Functionally, this class
+ * represents the main controller of the room climate node.
  */
 class AirMonitorController
 {
     private:
-        // Interfaces
+    
+        // Driver interfaces
         ISht31SensorDriver& sht31SensorDriver;
+        IBatteryDriver& batteryDriver;
+
+        // Connection interfaces
         IConnectionManager& wifiConnectionManager;
         IConnectionManager& mqttClientService;
         IMeasurementPublisher& measurementPublisher;
@@ -48,6 +55,7 @@ class AirMonitorController
         // Sensors
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
+        BatterySensor batterySensor;
         SensorCoordinator sensorCoordinator;
 
         // Evaluation
@@ -56,34 +64,35 @@ class AirMonitorController
 
     public:
 
-         /**
-         * @brief Erstellt den Controller und verdrahtet die benötigten Komponenten.
+        /**
+         * @brief Creates the controller and wires the required components.
          *
-         * Der Konstruktor erhält die hardwarenahen und kommunikationsbezogenen
-         * Abhängigkeiten über Interfaces. Daraus werden die fachlichen Sensorobjekte
-         * und der SensorCoordinator aufgebaut.
+         * The constructor receives hardware-related and communication-related
+         * dependencies through interfaces. It uses these dependencies to create
+         * the application-level sensor objects and the SensorCoordinator.
          *
-         * @param sht31SensorDriver Treiberschnittstelle für den SHT31-Sensor.
-         * @param wifiConnectionManager Verbindungsmanager für die WLAN-Verbindung.
-         * @param mqttClientService Verbindungsmanager für die MQTT-Verbindung.
-         * @param measurementPublisher Publisher zur Veröffentlichung der Messwerte.
+         * @param sht31SensorDriver Driver interface for the SHT31 temperature and humidity sensor.
+         * @param batteryDriver Driver interface for battery voltage measurement.
+         * @param wifiConnectionManager Connection manager for the Wi-Fi connection.
+         * @param mqttClientService Connection manager for the MQTT connection.
+         * @param measurementPublisher Publisher used to publish measurement values.
          */
-        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher) : sht31SensorDriver(sht31SensorDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), sensorCoordinator(temperatureSensor, humiditySensor) {}
+        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
 
         /**
-         * @brief Initialisiert den Raumklima-Knoten.
+         * @brief Initializes the room climate node.
          *
-         * Initialisiert die Verbindungs- und Sensorkomponenten und bereitet das
-         * System für den zyklischen Betrieb vor.
+         * Initializes the connection and sensor-related components and prepares
+         * the system for cyclic operation.
          */
         void init();
 
         /**
-         * @brief Führt einen Mess- und Veröffentlichungszyklus aus.
+         * @brief Executes one measurement and publishing cycle.
          *
-         * Löst eine Sensormessung aus, liest die aktuellen Messwerte ein,
-         * validiert die Messwerte, berechnet den Systemzustand und stößt die
-         * Veröffentlichung der Messwerte an.
+         * Triggers the current sensor and battery measurements, collects the
+         * resulting measurement values, validates them, calculates the system
+         * state and publishes the measurement data.
          */
         void update();
 };

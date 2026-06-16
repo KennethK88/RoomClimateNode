@@ -1,5 +1,5 @@
 @startuml
-title Raumklima-Knoten – Klassendiagramm
+title RoomClimateNode – Class Diagram
 
 skinparam classAttributeIconSize 0
 
@@ -12,11 +12,13 @@ package "data" {
     struct Measurements {
         +temperature : Temperature
         +humidity : Humidity
+        +batteryLevel : BatteryLevel
     }
 
     struct ValidationResults {
         +temperatureValid : bool
         +humidityValid : bool
+        +batteryLevelValid : bool
     }
 
     enum SystemState {
@@ -44,7 +46,7 @@ package "communication" {
 }
 
 ' ============================================================
-' Sensor Interface
+' Sensor Interfaces / Sensor Abstractions
 ' ============================================================
 
 package "sensors" {
@@ -54,6 +56,12 @@ package "sensors" {
         +readMeasurements() : void
         +getTemperature() : Temperature
         +getHumidity() : Humidity
+    }
+
+    interface IBatteryDriver {
+        +init() : void
+        +readVoltage() : void
+        +getVoltage() : BatteryVoltage
     }
 
     class TemperatureSensor {
@@ -68,10 +76,17 @@ package "sensors" {
         +getHumidity() : Humidity
     }
 
+    class BatterySensor {
+        -batteryDriver : IBatteryDriver&
+        +BatterySensor(batteryDriver : IBatteryDriver&)
+        +getBatteryLevel() : BatteryLevel
+    }
+
     class SensorCoordinator {
-        -tempSens : TemperatureSensor&
-        -humSens : HumiditySensor&
-        +SensorCoordinator(tempSens : TemperatureSensor&, humSens : HumiditySensor&)
+        -temperatureSensor : TemperatureSensor&
+        -humiditySensor : HumiditySensor&
+        -batterySensor : BatterySensor&
+        +SensorCoordinator(temperatureSensor : TemperatureSensor&, humiditySensor : HumiditySensor&, batterySensor : BatterySensor&)
         +readAllSensors() : Measurements
     }
 }
@@ -108,6 +123,14 @@ package "drivers" {
         +readMeasurements() : void
         +getTemperature() : Temperature
         +getHumidity() : Humidity
+    }
+
+    class ESP32BatteryDriver {
+        -batteryVoltage : BatteryVoltage
+        +ESP32BatteryDriver()
+        +init() : void
+        +readVoltage() : void
+        +getVoltage() : BatteryVoltage
     }
 }
 
@@ -151,15 +174,17 @@ package "controller" {
 
     class AirMonitorController {
         -sht31SensorDriver : ISht31SensorDriver&
+        -batteryDriver : IBatteryDriver&
         -wifiConnectionManager : IConnectionManager&
         -mqttClientService : IConnectionManager&
         -measurementPublisher : IMeasurementPublisher&
         -temperatureSensor : TemperatureSensor
         -humiditySensor : HumiditySensor
+        -batterySensor : BatterySensor
         -sensorCoordinator : SensorCoordinator
         -sensorValidator : SensorValidator
         -stateMachine : StateMachine
-        +AirMonitorController(sht31SensorDriver : ISht31SensorDriver&, wifiConnectionManager : IConnectionManager&, mqttClientService : IConnectionManager&, measurementPublisher : IMeasurementPublisher&)
+        +AirMonitorController(sht31SensorDriver : ISht31SensorDriver&, batteryDriver : IBatteryDriver&, wifiConnectionManager : IConnectionManager&, mqttClientService : IConnectionManager&, measurementPublisher : IMeasurementPublisher&)
         +init() : void
         +update() : void
     }
@@ -169,6 +194,7 @@ package "factory" {
 
     class AirMonitorFactory {
         -sht31Driver : Sht31Driver
+        -esp32BatteryDriver : ESP32BatteryDriver
         -wifiConnectionManager : WiFiConnectionManager
         -mqttClientService : MqttClientService
         -mqttMeasurementPublisher : MqttMeasurementPublisher
@@ -182,6 +208,7 @@ package "factory" {
 ' ============================================================
 
 ISht31SensorDriver <|.. Sht31Driver
+IBatteryDriver <|.. ESP32BatteryDriver
 
 IConnectionManager <|.. WiFiConnectionManager
 IConnectionManager <|.. MqttClientService
@@ -194,11 +221,13 @@ IMeasurementPublisher <|.. MqttMeasurementPublisher
 
 AirMonitorController *-- TemperatureSensor
 AirMonitorController *-- HumiditySensor
+AirMonitorController *-- BatterySensor
 AirMonitorController *-- SensorCoordinator
 AirMonitorController *-- SensorValidator
 AirMonitorController *-- StateMachine
 
 AirMonitorFactory *-- Sht31Driver
+AirMonitorFactory *-- ESP32BatteryDriver
 AirMonitorFactory *-- WiFiConnectionManager
 AirMonitorFactory *-- MqttClientService
 AirMonitorFactory *-- MqttMeasurementPublisher
@@ -210,9 +239,11 @@ AirMonitorFactory *-- AirMonitorController
 
 TemperatureSensor --> ISht31SensorDriver
 HumiditySensor --> ISht31SensorDriver
+BatterySensor --> IBatteryDriver
 
 SensorCoordinator --> TemperatureSensor
 SensorCoordinator --> HumiditySensor
+SensorCoordinator --> BatterySensor
 SensorCoordinator ..> Measurements
 
 SensorValidator ..> Measurements
@@ -225,6 +256,7 @@ MqttMeasurementPublisher --> MqttClientService
 MqttMeasurementPublisher ..> Measurements
 
 AirMonitorController --> ISht31SensorDriver
+AirMonitorController --> IBatteryDriver
 AirMonitorController --> IConnectionManager
 AirMonitorController --> IMeasurementPublisher
 AirMonitorController ..> Measurements

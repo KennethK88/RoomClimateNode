@@ -1,9 +1,18 @@
 #include <SensorValidator.h>
 #include <cmath>
+#include <BatteryConstants.h>
 
-static bool validateSensor(float value, float init, float min, float max, float error)
+namespace
 {
-    return (!std::isnan(value) && (value != init) && (value != error) && (value >= min) && (value <= max));
+    bool validateSensor(float value, float init, float min, float max, float error)
+    {
+        return (!std::isnan(value) && (value != init) && (value != error) && (value >= min) && (value <= max));
+    }
+
+    bool validateSensor(BatteryLevel value, BatteryLevel init, BatteryLevel min, BatteryLevel max)
+    {
+        return ((value != init) && (value >= min) && (value <= max));
+    }
 }
 
 void SensorValidator::validateTemperature(const Measurements& measurements, ValidationResults& validationResults)
@@ -24,10 +33,19 @@ void SensorValidator::validateHumidity(const Measurements& measurements, Validat
                                         SensorConstants::HUMIDITY_MEASUREMENT_ERROR);
 }
 
+void SensorValidator::validateBatteryLevel(const Measurements& measurements, ValidationResults& validationResults) 
+{
+    validationResults.batteryLevelValid = validateSensor(measurements.batteryLevel,
+                                        BatteryConstants::BATTERY_LEVEL_NOT_INITIALIZED,
+                                        BatteryConstants::BATTERY_LEVEL_MIN,
+                                        BatteryConstants::BATTERY_LEVEL_MAX);
+}
+
 ValidationResults SensorValidator::validateAllSensors(const Measurements& measurements)
 {
     ValidationResults validationResults;
     validateTemperature(measurements, validationResults);
     validateHumidity(measurements, validationResults);
+    validateBatteryLevel(measurements, validationResults);
     return validationResults;
 }

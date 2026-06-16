@@ -2,23 +2,29 @@
 
 /**
  * @file ValidationResults.h
- * @brief Datenstruktur für den Validierungsstatus der Messwerte.
+ * @brief Data structure for the validation status of measurement values.
  *
- * Diese Struktur enthält für jeden relevanten Messwert ein Flag, das angibt,
- * ob der jeweilige Wert als gültig bewertet wurde.
+ * This structure contains one validation flag for each relevant measurement
+ * value. The flags indicate whether the corresponding value has been evaluated
+ * as valid.
  *
- * Die Werte werden durch den SensorValidator gesetzt und dienen als Grundlage
- * für die Berechnung des Systemzustands durch die StateMachine.
+ * The values are set by the SensorValidator and are used as the basis for
+ * calculating the system state in the StateMachine.
  */
 struct ValidationResults
 {
     /**
-     * @brief Gibt an, ob der Temperaturwert gültig ist.
+     * @brief Indicates whether the temperature value is valid.
      */
     bool temperatureValid = false;
 
     /**
-     * @brief Gibt an, ob der Luftfeuchtigkeitswert gültig ist.
+     * @brief Indicates whether the relative humidity value is valid.
      */
     bool humidityValid = false;
+
+    /**
+     * @brief Indicates whether the battery level value is valid.
+     */
+    bool batteryLevelValid = false;
 };
