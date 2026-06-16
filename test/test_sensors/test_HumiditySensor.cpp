@@ -13,7 +13,7 @@ namespace
             Humidity currentDriverHumidity = SensorConstants::HUMIDITY_NOT_INITIALIZED;
             void init() override {}
             void readMeasurements() override {}
-            Temperature getTemperature() override {}
+            Temperature getTemperature() override {return 0;}
             Humidity getHumidity() override {return currentDriverHumidity;}
     };
 }
