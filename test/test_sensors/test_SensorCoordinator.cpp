@@ -1,12 +1,18 @@
 #include <unity.h>
+#include <TemperatureSensor.h>
+#include <HumiditySensor.h>
+#include <BatterySensor.h>
+#include <ISht31SensorDriver.h>
+#include <IBatteryDriver.h>
 #include <SensorCoordinator.h>
 #include <CommonSensorConstants.h>
+#include <BatteryConstants.h>
 
 namespace
 {
-    const float epsilon = 0.1f;
+    constexpr float epsilon = 0.1f;
 
-    class FakeSensorDriver : public ISht31SensorDriver
+    class FakeSht31Driver : public ISht31SensorDriver
     {
         public:
             Temperature currentDriverTemperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
@@ -16,47 +22,63 @@ namespace
             Temperature getTemperature() override {return currentDriverTemperature;}
             Humidity getHumidity() override {return currentDriverHumidity;}
     };
+
+    class FakeBatteryDriver : public IBatteryDriver
+    {
+        public:
+            BatteryVoltage currentDriverVoltage = BatteryConstants::BATTERY_VOLTAGE_NOT_INITIALIZED;
+            void init() override {}
+            void readVoltage() override {}
+            BatteryVoltage getVoltage() override {return currentDriverVoltage;}
+    };
 }
 
-void test_read_all_sensors_should_propagate_driver_values_to_measurements()
+void test_read_all_sensors_should_store_sensor_values_in_measurements()
 {
+    // Arrange
+    FakeSht31Driver fakeSht31Driver;
+    FakeBatteryDriver fakeBatteryDriver;
+    TemperatureSensor temperatureSensor(fakeSht31Driver);
+    HumiditySensor humiditySensor(fakeSht31Driver);
+    BatterySensor batterySensor(fakeBatteryDriver);
+    SensorCoordinator sensorCoordinator(temperatureSensor, humiditySensor, batterySensor);
 
-// Arrange
-FakeSensorDriver fakeSensorDriver;
-TemperatureSensor temperatureSensor(fakeSensorDriver);
-HumiditySensor humiditySensor(fakeSensorDriver);
-SensorCoordinator sensorCoordinator(temperatureSensor, humiditySensor);
+    fakeSht31Driver.currentDriverTemperature = 20.0f;
+    fakeSht31Driver.currentDriverHumidity = 30.0f;
+    fakeBatteryDriver.currentDriverVoltage = 3.6f;
 
-fakeSensorDriver.currentDriverTemperature = 20.0f;
-fakeSensorDriver.currentDriverHumidity = 30.0f;
+    // Act
+    Measurements measurements = sensorCoordinator.readAllSensors();
 
-// Act
-Measurements measurements = sensorCoordinator.readAllSensors();
-
-// Assert
-TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSensorDriver.currentDriverTemperature, measurements.temperature);
-TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSensorDriver.currentDriverHumidity, measurements.humidity);
+    // Assert
+    TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSht31Driver.currentDriverTemperature, measurements.temperature);
+    TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSht31Driver.currentDriverHumidity, measurements.humidity);
+    TEST_ASSERT_EQUAL_UINT8(50, measurements.batteryLevel);
 }
 
-void test_read_all_sensors_should_propagate_updated_driver_values_to_measurements()
+void test_read_all_sensors_should_store_updated_sensor_values_in_measurements()
 {
+    // Arrange
+    FakeSht31Driver fakeSht31Driver;
+    FakeBatteryDriver fakeBatteryDriver;
+    TemperatureSensor temperatureSensor(fakeSht31Driver);
+    HumiditySensor humiditySensor(fakeSht31Driver);
+    BatterySensor batterySensor(fakeBatteryDriver);
+    SensorCoordinator sensorCoordinator(temperatureSensor, humiditySensor, batterySensor);
 
-// Arrange
-FakeSensorDriver fakeSensorDriver;
-TemperatureSensor temperatureSensor(fakeSensorDriver);
-HumiditySensor humiditySensor(fakeSensorDriver);
-SensorCoordinator sensorCoordinator(temperatureSensor, humiditySensor);
+    fakeSht31Driver.currentDriverTemperature = 20.0f;
+    fakeSht31Driver.currentDriverHumidity = 30.0f;
+    fakeBatteryDriver.currentDriverVoltage = 3.6f;
 
-fakeSensorDriver.currentDriverTemperature = 20.0f;
-fakeSensorDriver.currentDriverHumidity = 30.0f;
+    // Act
+    Measurements measurements = sensorCoordinator.readAllSensors();
+    fakeSht31Driver.currentDriverTemperature = 21.0f;
+    fakeSht31Driver.currentDriverHumidity = 35.0f;
+    fakeBatteryDriver.currentDriverVoltage = 3.5f;
+    measurements = sensorCoordinator.readAllSensors();
 
-// Act
-Measurements measurements = sensorCoordinator.readAllSensors();
-fakeSensorDriver.currentDriverTemperature = 21.0f;
-fakeSensorDriver.currentDriverHumidity = 35.0f;
-measurements = sensorCoordinator.readAllSensors();
-
-// Assert
-TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSensorDriver.currentDriverTemperature, measurements.temperature);
-TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSensorDriver.currentDriverHumidity, measurements.humidity);
+    // Assert
+    TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSht31Driver.currentDriverTemperature, measurements.temperature);
+    TEST_ASSERT_FLOAT_WITHIN(epsilon, fakeSht31Driver.currentDriverHumidity, measurements.humidity);
+    TEST_ASSERT_EQUAL_UINT8(42, measurements.batteryLevel);
 }

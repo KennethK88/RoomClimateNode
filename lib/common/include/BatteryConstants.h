@@ -11,4 +11,5 @@ namespace BatteryConstants
     constexpr BatteryLevel BATTERY_LEVEL_MIN = 0;
     constexpr BatteryLevel BATTERY_LEVEL_MAX = 100;
     constexpr BatteryLevel BATTERY_LEVEL_NOT_INITIALIZED = 255;
+    constexpr BatteryLevel BATTERY_LEVEL_DUMMY_VALID = 50;
 }
