@@ -39,6 +39,8 @@ class SensorValidator
          */      
         void validateHumidity(const Measurements& measurements, ValidationResults& validationResults);
 
+        void validateBatteryLevel(const Measurements& measurements, ValidationResults& validationResults);
+
     public:
 
         /**
