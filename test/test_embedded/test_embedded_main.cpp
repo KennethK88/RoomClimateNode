@@ -24,6 +24,9 @@ void test_mqtt_client_service_should_establish_connection_to_broker();
 void test_sht31_driver_should_measure_room_temperature_range();
 void test_sht31_driver_should_measure_room_humidity_range();
 
+// ESP32BatteryDriver
+void test_esp32_battery_driver_should_measure_battery_voltage_in_valid_range();
+
 void setup()
 {  
     delay(5000); // NOTE: Großes Delay
@@ -38,6 +41,9 @@ void setup()
     // SHT31Driver
     RUN_TEST(test_sht31_driver_should_measure_room_temperature_range);
     RUN_TEST(test_sht31_driver_should_measure_room_humidity_range);
+
+    // ESP32BatteryDriver
+    RUN_TEST(test_esp32_battery_driver_should_measure_battery_voltage_in_valid_range);
 
     UNITY_END();
 }
