@@ -5,7 +5,7 @@
 
 namespace
 {
-    const float epsilon = 0.1f;
+    constexpr float epsilon = 0.1f;
 
     class FakeSensorDriver : public ISht31SensorDriver
     {
