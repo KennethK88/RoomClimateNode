@@ -1,6 +1,7 @@
 #pragma once
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
+#include <BatterySensor.h>
 #include <Measurements.h>
 
 /**
@@ -32,6 +33,8 @@ class SensorCoordinator
          * @brief Referenz auf die fachliche Luftfeuchtigkeitssensorkomponente.
          */
         HumiditySensor& humSens;
+
+        BatterySensor& battSens;
         
     public:
 
@@ -41,7 +44,7 @@ class SensorCoordinator
          * @param tempSens Referenz auf die Temperatursensorkomponente.
          * @param humSens Referenz auf die Luftfeuchtigkeitssensorkomponente.
          */
-        SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens) : tempSens(tempSens), humSens(humSens) {}
+        SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens, BatterySensor& battSens) : tempSens(tempSens), humSens(humSens), battSens(battSens) {}
         
         /**
          * @brief Liest die aktuellen Werte der Sensorkomponenten und fasst sie zusammen.
