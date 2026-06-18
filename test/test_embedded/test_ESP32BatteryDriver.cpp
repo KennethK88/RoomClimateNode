@@ -3,7 +3,7 @@
 #include <Types.h>
 #include <BatteryConstants.h>
 
-void void test_esp32_battery_driver_should_measure_battery_voltage_in_valid_range()
+void test_esp32_battery_driver_should_measure_battery_voltage_in_valid_range()
 {
     // NOTE: This test requires a connected battery and a working analog voltage measurement circuit.
 
