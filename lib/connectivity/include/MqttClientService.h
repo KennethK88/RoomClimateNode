@@ -1,6 +1,10 @@
 #pragma once
+#ifdef ARDUINO_ARCH_ESP32
+    #include <WiFi.h>
+#else
+    #include <WiFiS3.h>
+#endif
 #include <IConnectionManager.h>
-#include <WiFiS3.h>
 #include <ArduinoMqttClient.h>
 
 /**
