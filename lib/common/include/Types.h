@@ -28,3 +28,8 @@ using BatteryVoltage = float;
  * Special values such as 255 may be used to indicate invalid or uninitialized states.
  */
 using BatteryLevel = uint8_t;
+
+/**
+ * @brief GPIO pin used as an analog-to-digital converter input.
+ */
+using AdcPin = uint8_t;
