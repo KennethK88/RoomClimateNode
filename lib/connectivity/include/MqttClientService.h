@@ -10,6 +10,10 @@
 /**
  * @file MqttClientService.h
  * @brief Konkrete MQTT-Verbindungskomponente für den Raumklima-Knoten.
+ *
+ * Der MQTT-Service nutzt abhängig vom Build-Target die passende Arduino-WiFi-
+ * Bibliothek. Auf dem Arduino Uno R4 WiFi / RA4M1 wird WiFiS3 verwendet, auf
+ * ESP32-Zielplattformen die ESP32-WiFi-Bibliothek.
  */
 
 /**
@@ -21,6 +25,11 @@
  *
  * Die Klasse kennt keine fachlichen Messwerte. Die Übersetzung von Messwerten
  * in konkrete MQTT-Topics und Payloads erfolgt außerhalb dieser Klasse.
+ *
+ * Die darunterliegende WiFi-Client-Implementierung wird abhängig von der
+ * Zielplattform ausgewählt. Dadurch bleibt die MQTT-Schnittstelle für die
+ * Anwendung identisch, während RA4M1- und ESP32-basierte Builds unterschiedliche
+ * WiFi-Stacks verwenden können.
  */
 class MqttClientService : public IConnectionManager
 {
