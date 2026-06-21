@@ -1,5 +1,9 @@
 #include <WiFiConnectionManager.h>
-#include <WiFiS3.h>
+#ifdef ARDUINO_ARCH_ESP32
+    #include <WiFi.h>
+#else
+    #include <WiFiS3.h>
+#endif
 
 namespace
 {
@@ -7,12 +11,16 @@ namespace
     const char* pass = SECRET_PASS;
 }
 
-void WiFiConnectionManager::init() 
+void WiFiConnectionManager::init()
 {
-    if (WiFi.status() == WL_NO_MODULE)
-    {
-        // ?
-    }
+    #ifdef ARDUINO_ARCH_ESP32
+        WiFi.mode(WIFI_STA);
+    #else
+        if (WiFi.status() == WL_NO_MODULE)
+        {
+            // ?
+        }
+    #endif
 }
 
 void WiFiConnectionManager::connect() 

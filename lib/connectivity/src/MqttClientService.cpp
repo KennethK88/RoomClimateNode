@@ -1,5 +1,4 @@
 #include <MqttClientService.h>
-#include <Arduino.h>
 #include <cstdint>
 
 namespace
