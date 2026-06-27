@@ -12,6 +12,6 @@ void setup()
 
 void loop()
 {
-  delay(5000);
+  delay(30000);
   airMonitorController.update();
 }
