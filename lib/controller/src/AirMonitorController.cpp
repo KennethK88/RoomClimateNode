@@ -13,6 +13,8 @@ void AirMonitorController::init()
 
 void AirMonitorController::update()
 {
+    wifiConnectionManager.reconnect();
+    mqttClientService.reconnect();
     sht31SensorDriver.readMeasurements();
     batteryDriver.readVoltage();
     const Measurements measurements = sensorCoordinator.readAllSensors();
