@@ -33,7 +33,7 @@ void WiFiConnectionManager::connect()
 
 void WiFiConnectionManager::reconnect() 
 {
-    connect();
+    if (!isConnected()) connect();
 }
 
 bool WiFiConnectionManager::isConnected()
