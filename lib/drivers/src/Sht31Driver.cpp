@@ -5,6 +5,7 @@
     #include <i2c.h>
 #endif
 #include <Arduino.h>
+#include <HardwareConfig.h>
 
 namespace
 {
@@ -35,7 +36,7 @@ namespace
 void Sht31Driver::init()
 {
     #ifdef ARDUINO_ARCH_ESP32
-        Wire.begin();
+        Wire.begin(HardwareConfig::ESP32_I2C_SDA_PIN, HardwareConfig::ESP32_I2C_SCL_PIN);
     #else
         i2c_init();
     #endif
