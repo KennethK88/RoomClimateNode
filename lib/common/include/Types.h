@@ -3,7 +3,7 @@
 
 /**
  * @file Types.h
- * @brief Central type definitions for measurement values used by the room climate node.
+ * @brief Central type definitions used by the room climate node.
  */
 
 /**
@@ -33,3 +33,11 @@ using BatteryLevel = uint8_t;
  * @brief GPIO pin used as an analog-to-digital converter input.
  */
 using AdcPin = uint8_t;
+
+/**
+ * @brief General-purpose input/output pin.
+ *
+ * This type is used to represent microcontroller GPIO pins, for example
+ * status LED pins or other digital input/output signals.
+ */
+using GpioPin = uint8_t;
