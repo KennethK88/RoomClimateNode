@@ -4,7 +4,7 @@
 
 namespace
 {
-    constexpr float MILLIVOLTS_TO_VOLTS = 0.0001f;
+    constexpr float MILLIVOLTS_TO_VOLTS = 0.001f;
 
 
     BatteryVoltage calculateBatteryVoltageFromPinMilliVolts(int adcPinVoltageMilliVolts)
