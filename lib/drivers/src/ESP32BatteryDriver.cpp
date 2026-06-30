@@ -15,20 +15,12 @@ namespace
 
 void ESP32BatteryDriver::init()
 {
-    #ifdef ARDUINO_ARCH_ESP32
-        analogSetPinAttenuation(HardwareConfig::BATTERY_ADC_PIN, ADC_11db);
-    #else
-        //
-    #endif
+    analogSetPinAttenuation(HardwareConfig::BATTERY_ADC_PIN, ADC_11db);
 }
 
 void ESP32BatteryDriver::readVoltage()
 {
-    #ifdef ARDUINO_ARCH_ESP32
-        batteryVoltage = calculateBatteryVoltageFromPinMilliVolts(analogReadMilliVolts(HardwareConfig::BATTERY_ADC_PIN));
-    #else
-        batteryVoltage = BatteryConstants::BATTERY_VOLTAGE_NOT_INITIALIZED;
-    #endif
+    batteryVoltage = calculateBatteryVoltageFromPinMilliVolts(analogReadMilliVolts(HardwareConfig::BATTERY_ADC_PIN));
 }
 
 BatteryVoltage ESP32BatteryDriver::getVoltage()
