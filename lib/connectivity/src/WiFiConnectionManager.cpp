@@ -1,9 +1,5 @@
 #include <WiFiConnectionManager.h>
-#ifdef ARDUINO_ARCH_ESP32
-    #include <WiFi.h>
-#else
-    #include <WiFiS3.h>
-#endif
+#include <WiFi.h>
 
 namespace
 {
@@ -13,14 +9,7 @@ namespace
 
 void WiFiConnectionManager::init()
 {
-    #ifdef ARDUINO_ARCH_ESP32
-        WiFi.mode(WIFI_STA);
-    #else
-        if (WiFi.status() == WL_NO_MODULE)
-        {
-            // ?
-        }
-    #endif
+    WiFi.mode(WIFI_STA);
 }
 
 void WiFiConnectionManager::connect() 

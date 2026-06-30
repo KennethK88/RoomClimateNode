@@ -1,35 +1,28 @@
 #pragma once
-#ifdef ARDUINO_ARCH_ESP32
-    #include <WiFi.h>
-#else
-    #include <WiFiS3.h>
-#endif
+#include <WiFi.h>
 #include <IConnectionManager.h>
 #include <ArduinoMqttClient.h>
 
 /**
  * @file MqttClientService.h
- * @brief Konkrete MQTT-Verbindungskomponente für den Raumklima-Knoten.
+ * @brief MQTT connection component for the ESP32-based room climate node.
  *
- * Der MQTT-Service nutzt abhängig vom Build-Target die passende Arduino-WiFi-
- * Bibliothek. Auf dem Arduino Uno R4 WiFi / RA4M1 wird WiFiS3 verwendet, auf
- * ESP32-Zielplattformen die ESP32-WiFi-Bibliothek.
+ * This component uses the ESP32 WiFi stack together with the Arduino MQTT
+ * client library to connect to the MQTT broker and publish payloads.
  */
 
 /**
- * @brief Verwaltet die MQTT-Verbindung und stellt eine generische Publish-Funktion bereit.
+ * @brief Manages the MQTT connection and provides a generic publish function.
  *
- * Diese Klasse kapselt den Arduino MQTT-Client und übernimmt Initialisierung,
- * Verbindungsaufbau, Wiederverbindung und das Veröffentlichen von Payloads auf
- * beliebigen MQTT-Topics.
+ * This class encapsulates the Arduino MQTT client and handles initialization,
+ * connection setup, reconnection and publishing payloads to arbitrary MQTT
+ * topics.
  *
- * Die Klasse kennt keine fachlichen Messwerte. Die Übersetzung von Messwerten
- * in konkrete MQTT-Topics und Payloads erfolgt außerhalb dieser Klasse.
+ * The class does not know any domain-specific measurement values. Translating
+ * measurement data into concrete MQTT topics and payloads is handled outside
+ * this class.
  *
- * Die darunterliegende WiFi-Client-Implementierung wird abhängig von der
- * Zielplattform ausgewählt. Dadurch bleibt die MQTT-Schnittstelle für die
- * Anwendung identisch, während RA4M1- und ESP32-basierte Builds unterschiedliche
- * WiFi-Stacks verwenden können.
+ * The underlying network connection is provided by the ESP32 WiFi client.
  */
 class MqttClientService : public IConnectionManager
 {

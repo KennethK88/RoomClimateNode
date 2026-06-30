@@ -1,9 +1,5 @@
 #include <Sht31Driver.h>
-#ifdef ARDUINO_ARCH_ESP32
-    #include <Wire.h>
-#else
-    #include <i2c.h>
-#endif
+#include <Wire.h>
 #include <Arduino.h>
 #include <HardwareConfig.h>
 
@@ -35,56 +31,34 @@ namespace
 
 void Sht31Driver::init()
 {
-    #ifdef ARDUINO_ARCH_ESP32
-        Wire.begin(HardwareConfig::ESP32_I2C_SDA_PIN, HardwareConfig::ESP32_I2C_SCL_PIN);
-    #else
-        i2c_init();
-    #endif
+    Wire.begin(HardwareConfig::ESP32_I2C_SDA_PIN, HardwareConfig::ESP32_I2C_SCL_PIN);
 }
 
 void Sht31Driver::readMeasurements()
 {
-    #ifdef ARDUINO_ARCH_ESP32
-        Wire.beginTransmission(SHT31_SENSOR_ADDRESS);
-        Wire.write(SINGLE_SHOT_MEASUREMENT_MSB);
-        Wire.write(SINGLE_SHOT_MEASUREMENT_LSB);
+    Wire.beginTransmission(SHT31_SENSOR_ADDRESS);
+    Wire.write(SINGLE_SHOT_MEASUREMENT_MSB);
+    Wire.write(SINGLE_SHOT_MEASUREMENT_LSB);
 
-        if (Wire.endTransmission() != 0)
-        {
-            temperature = SensorConstants::TEMPERATURE_MEASUREMENT_ERROR;
-            humidity = SensorConstants::HUMIDITY_MEASUREMENT_ERROR;
-            return;
-        }
+    if (Wire.endTransmission() != 0)
+    {
+        temperature = SensorConstants::TEMPERATURE_MEASUREMENT_ERROR;
+        humidity = SensorConstants::HUMIDITY_MEASUREMENT_ERROR;
+        return;
+    }
 
-        delay(50);
+    delay(50);
 
-        if (Wire.requestFrom(SHT31_SENSOR_ADDRESS, sizeof(data)) != sizeof(data))
-        {
-            temperature = SensorConstants::TEMPERATURE_MEASUREMENT_ERROR;
-            humidity = SensorConstants::HUMIDITY_MEASUREMENT_ERROR;
-            return;  
-        }
-        for (int i = 0; i < sizeof(data); i++)
-        {
-            data[i] = Wire.read();
-        }
-    #else
-        if (!i2c_write_buffer(SHT31_SENSOR_ADDRESS, SINGLE_SHOT_MEASUREMENT, sizeof(SINGLE_SHOT_MEASUREMENT)))
-        {
-            temperature = SensorConstants::TEMPERATURE_MEASUREMENT_ERROR;
-            humidity = SensorConstants::HUMIDITY_MEASUREMENT_ERROR;
-            return;
-        }
-
-        delay(50); // TODO: Von Arduino entkoppeln
-
-        if(!i2c_read_buffer(SHT31_SENSOR_ADDRESS, data, sizeof(data)))
-        {
-            temperature = SensorConstants::TEMPERATURE_MEASUREMENT_ERROR;
-            humidity = SensorConstants::HUMIDITY_MEASUREMENT_ERROR;
-            return;
-        }
-    #endif
+    if (Wire.requestFrom(SHT31_SENSOR_ADDRESS, sizeof(data)) != sizeof(data))
+    {
+        temperature = SensorConstants::TEMPERATURE_MEASUREMENT_ERROR;
+        humidity = SensorConstants::HUMIDITY_MEASUREMENT_ERROR;
+        return;  
+    }
+    for (int i = 0; i < sizeof(data); i++)
+    {
+        data[i] = Wire.read();
+    }
 
     temperature = convertMeasurementToTemperature(data);
     humidity = convertMeasurementToHumidity(data);
