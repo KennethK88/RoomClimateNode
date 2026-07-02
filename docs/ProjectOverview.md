@@ -2,18 +2,18 @@
 
 ## Project Goal
 
-The goal of this project is to develop a compact microcontroller-based room climate node. The node measures temperature and humidity values, processes and validates the measurement data locally, and transmits it wirelessly to a smart home system. The system is intended to operate as a battery-powered sensor node and provide its measurement values for visualization, monitoring and automation in a smart home environment. Due to the fireplace in the living room, an optional separate CO sensor node is planned for this room.
+The goal of this project is to develop a compact, battery-powered microcontroller-based room climate node. The node measures temperature and humidity values, processes and validates the measurement data locally, and transmits it wirelessly to a smart home system. The system is intended to operate as a low-power sensor node and provide its measurement values for visualization, monitoring and automation in a Home Assistant environment. Due to the fireplace in the living room, an optional separate CO sensor node is planned for this room.
 
 
 ## Current Status
 
 The room climate node currently measures temperature and humidity using an SHT31 sensor. The measured values are processed locally, validated and published via Wi-Fi/MQTT to a Mosquitto broker. The broker runs as part of the Home Assistant environment on a Raspberry Pi.
 
-The project has been brought up successfully on the target hardware. Temperature, humidity and battery level values are received by Home Assistant and are assigned to the corresponding room climate node device.
+The project is running successfully on the ESP32 target hardware. Temperature, humidity and battery level values are received by Home Assistant and are assigned to the corresponding room climate node device.
 
 Battery-powered operation has been validated. The battery voltage is measured through the board-specific voltage measurement circuit, converted into a battery level percentage and included in the normal measurement publishing flow.
 
-The next major implementation step is to reduce power consumption by putting the microcontroller into deep sleep between measurement cycles.
+Low-power operation using ESP32 deep sleep has been implemented. The node wakes up periodically, connects to Wi-Fi and MQTT, reads the sensor and battery values, publishes the measurements and returns to deep sleep after the measurement cycle. The current deep sleep interval is configured to 15 minutes.
 
 
 ## Planned Functional Scope
@@ -31,7 +31,7 @@ The next major implementation step is to reduce power consumption by putting the
     - [x] Relative humidity in %
     - [x] Battery level in % 
 - [x] Enable battery-powered operation
-- [ ] Put the microcontroller into deep sleep between measurement cycles
+- [x] Put the microcontroller into deep sleep between measurement cycles
 - [ ] Enable firmware updates via over-the-air update (OTA)
 - [ ] Optional: Display system states using an RGB status LED
     - [ ] Indicate low battery level
@@ -62,3 +62,7 @@ The next major implementation step is to reduce power consumption by putting the
     - Test of hardware-related functions directly on the microcontroller
     - Test of sensor integration, Wi-Fi connection and MQTT communication
     - Test of battery voltage measurement on the target hardware
+- Manual system tests
+    - Test of the complete wake-connect-measure-publish-sleep cycle
+    - Test of MQTT integration with Mosquitto and Home Assistant
+    - Long-running battery-powered operation test

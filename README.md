@@ -11,7 +11,7 @@ The goal of this project is to develop a compact, battery-powered microcontrolle
 
 ## Current Status
 
-Temperature and humidity are measured using an SHT31 sensor. The measurement values are transmitted via Wi-Fi and MQTT to a Mosquitto broker and are consumed by Home Assistant. The current ESP32 implementation supports a wake-measure-publish-sleep cycle using deep sleep. The node wakes up periodically, connects to Wi-Fi and MQTT, reads the sensor and battery level, publishes the measurements and returns to deep sleep. A first battery runtime test is currently in progress.
+Temperature and humidity are measured using an SHT31 sensor. The measurement values are transmitted via Wi-Fi and MQTT to a Mosquitto broker and are consumed by Home Assistant. The current ESP32 implementation supports a wake-measure-publish-sleep cycle using deep sleep. The node wakes up periodically, connects to Wi-Fi and MQTT, reads the sensor and battery level, publishes the measurements and returns to deep sleep. A first battery runtime test has been completed successfully, and further runtime observations are ongoing.
 
 
 ## Technologies
