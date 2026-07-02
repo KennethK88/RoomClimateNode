@@ -4,15 +4,15 @@
 
 /**
  * @file MqttMeasurementPublisher.h
- * @brief MQTT-basierte Veröffentlichung fachlicher Messwerte.
+ * @brief MQTT-based publishing of application-level measurement values.
  */
 
 /**
- * @brief Übersetzt Messwerte des Raumklima-Knotens in MQTT-Nachrichten.
+ * @brief Converts room climate measurements into MQTT messages.
  *
- * Diese Klasse kennt die fachlichen Messwerte und bildet sie auf konkrete
- * MQTT-Topics und Payloads ab. Das eigentliche Senden der Nachrichten wird an
- * den MqttClientService delegiert.
+ * This class knows the application-level measurement values and maps them to
+ * concrete MQTT topics and payloads. The actual message transmission is
+ * delegated to the MqttClientService.
  */
 class MqttMeasurementPublisher : public IMeasurementPublisher
 {
@@ -22,16 +22,21 @@ class MqttMeasurementPublisher : public IMeasurementPublisher
     public:
 
         /**
-         * @brief Erstellt einen MQTT-Messwertpublisher.
+         * @brief Creates an MQTT measurement publisher.
          *
-         * @param mqttClientService MQTT-Service, der für das Senden der Nachrichten verwendet wird.
+         * @param mqttClientService MQTT service used to send the messages.
          */
         MqttMeasurementPublisher(MqttClientService& mqttClientService) : mqttClientService(mqttClientService) {}
 
         /**
-         * @brief Veröffentlicht die übergebenen Messwerte per MQTT.
+         * @brief Publishes the given measurement values via MQTT.
          *
-         * @param measurements Die zu veröffentlichenden Messwerte.
+         * The method publishes temperature, humidity and battery level values
+         * to their corresponding MQTT topics.
+         *
+         * @param measurements The measurement values to publish.
+         * @return true if all measurement values were published successfully,
+         *         false if at least one MQTT publish operation failed.
          */
-        void publish(const Measurements& measurements) override;
+        bool publish(const Measurements& measurements) override;
 };
