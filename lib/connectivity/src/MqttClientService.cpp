@@ -1,5 +1,6 @@
 #include <MqttClientService.h>
 #include <cstdint>
+#include <Arduino.h>
 
 namespace
 {
@@ -18,7 +19,12 @@ void MqttClientService::init()
 
 void MqttClientService::connect() 
 {
-    mqttClient.connect(mqttBroker, mqttPort);
+    if (isConnected()) return;
+    while (!isConnected())
+    {
+        mqttClient.connect(mqttBroker, mqttPort);
+        delay(1000);
+    }
 }
 
 void MqttClientService::reconnect() 
@@ -34,7 +40,7 @@ bool MqttClientService::isConnected()
 bool MqttClientService::publish(const char* topic, const char* payload)
 {
     if (!isConnected()) return false;
-    mqttClient.beginMessage(topic);
+    mqttClient.beginMessage(topic, true);
     mqttClient.print(payload);
     return mqttClient.endMessage();
 }

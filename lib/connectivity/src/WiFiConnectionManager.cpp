@@ -1,5 +1,6 @@
 #include <WiFiConnectionManager.h>
 #include <WiFi.h>
+#include <Arduino.h>
 
 namespace
 {
@@ -14,10 +15,9 @@ void WiFiConnectionManager::init()
 
 void WiFiConnectionManager::connect() 
 {
-    if (WiFi.status() != WL_CONNECTED)
-    {
-        WiFi.begin(ssid, pass);
-    }
+    if (isConnected()) return;
+    WiFi.begin(ssid, pass);
+    while (!isConnected()) delay(1000);
 }
 
 void WiFiConnectionManager::reconnect() 

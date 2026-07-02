@@ -4,6 +4,7 @@
 #include <WiFiConnectionManager.h>
 #include <MqttClientService.h>
 #include <MqttMeasurementPublisher.h>
+#include <PowerManager.h>
 #include <AirMonitorController.h>
 
 /**
@@ -16,16 +17,17 @@
  * @brief Creates the concrete components and wires the central controller.
  *
  * The AirMonitorFactory encapsulates the system setup. It creates the concrete
- * sensor, battery, Wi-Fi and MQTT components and wires them with the
- * AirMonitorController.
+ * sensor, battery, Wi-Fi, MQTT and power management components and wires them
+ * with the AirMonitorController.
  *
  * This keeps the AirMonitorController decoupled from concrete hardware and
  * communication implementations. In tests, the controller can therefore be
- * used with fake components.
+ * used with fake components for most dependencies.
  *
  * Responsibilities:
  * - Create concrete sensor, battery and connection components
  * - Create the MQTT-based measurement publisher
+ * - Create the power manager used for ESP32 deep sleep handling
  * - Wire the components with the AirMonitorController
  * - Provide a fully constructed controller instance
  *
@@ -40,7 +42,8 @@ class AirMonitorFactory
         WiFiConnectionManager wifiConnectionManager;
         MqttClientService mqttClientService;
         MqttMeasurementPublisher mqttMeasurementPublisher{mqttClientService};
-        AirMonitorController airMonitorController{sht31Driver, esp32BatteryDriver, wifiConnectionManager, mqttClientService, mqttMeasurementPublisher};
+        PowerManager powerManager;
+        AirMonitorController airMonitorController{sht31Driver, esp32BatteryDriver, wifiConnectionManager, mqttClientService, mqttMeasurementPublisher, powerManager};
 
     public:
     

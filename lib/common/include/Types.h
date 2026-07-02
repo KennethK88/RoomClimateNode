@@ -41,3 +41,20 @@ using AdcPin = uint8_t;
  * status LED pins or other digital input/output signals.
  */
 using GpioPin = uint8_t;
+
+/**
+ * @brief Time duration in seconds.
+ *
+ * This type is used for human-readable time configuration values,
+ * for example the deep sleep interval of the room climate node.
+ */
+using Seconds = uint16_t;
+
+/**
+ * @brief Time duration in microseconds.
+ *
+ * This type is used for timer-based ESP32 API calls, for example
+ * the deep sleep timer wake-up configuration. The 64-bit width avoids
+ * overflow when converting longer durations from seconds to microseconds.
+ */
+using Microseconds = uint64_t;

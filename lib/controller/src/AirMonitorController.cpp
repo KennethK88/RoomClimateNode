@@ -1,4 +1,5 @@
 #include <AirMonitorController.h>
+#include <Arduino.h>
 
 void AirMonitorController::init()
 {
@@ -21,4 +22,6 @@ void AirMonitorController::update()
     const ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
     const SystemState systemState = stateMachine.calculateState(validationResults);
     measurementPublisher.publish(measurements);
+    delay(1000);
+    powerManager.enterDeepSleep();
 }

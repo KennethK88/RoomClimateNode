@@ -12,7 +12,7 @@ node "RoomClimateNode" as roomNode {
     
     component "SHT31 Sensor" as sht31
     component "Li-Ion Battery" as battery
-    component "RGB Status LED" as statusLed
+    component "RGB Status LED\n(optional)" as statusLed
     component "MCU (ESP32)" as mcu
 
     component "Driver Layer" as driverLayer
@@ -55,8 +55,14 @@ ha --> user : dashboard\nnotifications\nautomations
 note right of roomNode
   Measures room temperature,
   humidity and battery level.
-  A status LED may indicate local
-  system states such as connection
+
+  The node wakes up periodically,
+  publishes the measured values
+  and returns to ESP32 deep sleep
+  between measurement cycles.
+
+  An optional status LED may indicate
+  local system states such as connection
   errors or low battery level.
 end note
 

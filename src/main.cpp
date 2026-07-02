@@ -8,10 +8,10 @@ AirMonitorController& airMonitorController = airMonitorFactory.getAirMonitorCont
 void setup()
 {  
   airMonitorController.init();
+  airMonitorController.update();
 }
 
 void loop()
 {
-  delay(60000);
-  airMonitorController.update();
+  
 }
