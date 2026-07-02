@@ -9,6 +9,7 @@
 #include <SensorCoordinator.h>
 #include <SensorValidator.h>
 #include <StateMachine.h>
+#include <PowerManager.h>
 
 /**
  * @file AirMonitorController.h
@@ -17,11 +18,11 @@
 
 /**
  * @class AirMonitorController
- * @brief Coordinates initialization, measurement acquisition, validation and publishing.
+ * @brief Coordinates initialization, measurement acquisition, validation, publishing and power management.
  *
  * The AirMonitorController represents the central control flow of the room
  * climate node. It connects the sensor abstraction, measurement validation,
- * system state evaluation and publishing components.
+ * system state evaluation, publishing and power management components.
  *
  * Responsibilities:
  * - Initialize sensor, Wi-Fi and MQTT components
@@ -30,11 +31,16 @@
  * - Validate measured values
  * - Calculate the current system state
  * - Publish measurement values using an abstract publisher interface
+ * - Trigger deep sleep after one measurement and publishing cycle
  *
  * @note The class does not depend on concrete Wi-Fi, MQTT, SHT31 or battery
  * driver implementations. Concrete implementations are injected through
  * interfaces to keep the application logic testable and largely
  * platform-independent.
+ *
+ * @note The PowerManager is currently injected as a concrete component and
+ * encapsulates the ESP32 deep sleep handling. It may be replaced by an
+ * interface in a later refactoring step if controller-level tests require it.
  *
  * @note The class name is historically grown. Functionally, this class
  * represents the main controller of the room climate node.
@@ -52,6 +58,9 @@ class AirMonitorController
         IConnectionManager& mqttClientService;
         IMeasurementPublisher& measurementPublisher;
 
+        // Power
+        PowerManager& powerManager;
+
         // Sensors
         TemperatureSensor temperatureSensor;
         HumiditySensor humiditySensor;
@@ -62,22 +71,26 @@ class AirMonitorController
         SensorValidator sensorValidator;
         StateMachine stateMachine;
 
+ 
+
     public:
 
         /**
          * @brief Creates the controller and wires the required components.
          *
-         * The constructor receives hardware-related and communication-related
-         * dependencies through interfaces. It uses these dependencies to create
-         * the application-level sensor objects and the SensorCoordinator.
+         * The constructor receives hardware-related, communication-related and
+         * power-management-related dependencies. It uses the sensor driver
+         * dependencies to create the application-level sensor objects and the
+         * SensorCoordinator.
          *
          * @param sht31SensorDriver Driver interface for the SHT31 temperature and humidity sensor.
          * @param batteryDriver Driver interface for battery voltage measurement.
          * @param wifiConnectionManager Connection manager for the Wi-Fi connection.
          * @param mqttClientService Connection manager for the MQTT connection.
          * @param measurementPublisher Publisher used to publish measurement values.
+         * @param powerManager Power manager used to enter deep sleep after a measurement cycle.
          */
-        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
+        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher, PowerManager& powerManager) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), powerManager(powerManager), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
 
         /**
          * @brief Initializes the room climate node.
@@ -88,11 +101,11 @@ class AirMonitorController
         void init();
 
         /**
-         * @brief Executes one measurement and publishing cycle.
+         * @brief Executes one measurement, publishing and sleep cycle.
          *
          * Triggers the current sensor and battery measurements, collects the
          * resulting measurement values, validates them, calculates the system
-         * state and publishes the measurement data.
+         * state, publishes the measurement data and finally requests deep sleep.
          */
         void update();
 };
