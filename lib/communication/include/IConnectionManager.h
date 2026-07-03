@@ -2,44 +2,43 @@
 
 /**
  * @file IConnectionManager.h
- * @brief Schnittstelle für verbindungsorientierte Komponenten.
+ * @brief Interface for connection-oriented components.
  */
 
 /**
- * @brief Abstrakte Schnittstelle zum Initialisieren und Verwalten einer Verbindung.
+ * @brief Abstract interface for initializing and managing a connection.
  *
- * Diese Schnittstelle kapselt den Lebenszyklus einer Verbindung unabhängig von
- * der konkreten Technologie. Sie kann z. B. für WLAN- oder MQTT-Verbindungen
- * verwendet werden.
+ * This interface encapsulates the lifecycle of a connection independently of
+ * the concrete communication technology. It can be used for components such as
+ * Wi-Fi or MQTT connection managers.
  */
 class IConnectionManager
 {
     public:
 
         /**
-         * @brief Virtueller Destruktor für polymorphe Verwendung.
+         * @brief Virtual destructor for polymorphic use.
          */
         virtual ~IConnectionManager() = default;
 
         /**
-         * @brief Initialisiert die Verbindungskomponente.
+         * @brief Initializes the connection component.
          */
         virtual void init() = 0;
 
         /**
-         * @brief Baut die Verbindung auf.
+         * @brief Attempts to establish the connection.
+         *
+         * Implementations may use internal timeout handling and may return
+         * without an established connection. The current connection state can be
+         * checked using isConnected().
          */
         virtual void connect() = 0;
 
         /**
-         * @brief Stellt die Verbindung bei Bedarf erneut her.
-         */
-        virtual void reconnect() = 0;
-
-        /**
-         * @brief Prüft, ob die Verbindung aktuell besteht.
+         * @brief Checks whether the connection is currently established.
          *
-         * @return true, wenn die Verbindung besteht, sonst false.
+         * @return true if the connection is established, false otherwise.
          */
         virtual bool isConnected() = 0;
 };
