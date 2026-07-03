@@ -1,6 +1,8 @@
 #include <MqttClientService.h>
 #include <cstdint>
-#include <Arduino.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include <Types.h>
 
 namespace
 {
@@ -9,6 +11,8 @@ namespace
     const char* mqttPass = MQTT_PASS;
     const char* mqttBroker = MQTT_BROKER;
     const uint16_t mqttPort = MQTT_PORT;
+    constexpr Milliseconds MQTT_CONNECT_TIMEOUT_MS = 10000;
+    constexpr Milliseconds MQTT_CONNECT_RETRY_INTERVAL_MS = 1000;
 }
 
 void MqttClientService::init() 
@@ -20,16 +24,12 @@ void MqttClientService::init()
 void MqttClientService::connect() 
 {
     if (isConnected()) return;
-    while (!isConnected())
+    Milliseconds startTime = millis();
+    while (((millis() - startTime) < MQTT_CONNECT_TIMEOUT_MS) && !isConnected())
     {
-        mqttClient.connect(mqttBroker, mqttPort);
-        delay(1000);
+        if (mqttClient.connect(mqttBroker, mqttPort) != 0) return;
+        vTaskDelay(pdMS_TO_TICKS(MQTT_CONNECT_RETRY_INTERVAL_MS));
     }
-}
-
-void MqttClientService::reconnect() 
-{
-    if (!isConnected()) connect();
 }
 
 bool MqttClientService::isConnected()
@@ -40,7 +40,7 @@ bool MqttClientService::isConnected()
 bool MqttClientService::publish(const char* topic, const char* payload)
 {
     if (!isConnected()) return false;
-    mqttClient.beginMessage(topic, true);
+    mqttClient.beginMessage(topic, true, 1);
     mqttClient.print(payload);
-    return mqttClient.endMessage();
+    return (mqttClient.endMessage() != 0);
 }

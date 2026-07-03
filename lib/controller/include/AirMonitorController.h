@@ -101,11 +101,16 @@ class AirMonitorController
         void init();
 
         /**
-         * @brief Executes one measurement, publishing and sleep cycle.
+         * @brief Executes one connection, measurement, publishing and sleep cycle.
          *
-         * Triggers the current sensor and battery measurements, collects the
-         * resulting measurement values, validates them, calculates the system
-         * state, publishes the measurement data and finally requests deep sleep.
+         * Attempts to establish the required Wi-Fi and MQTT connections. If a
+         * required connection cannot be established, the cycle is aborted and
+         * deep sleep is requested.
+         *
+         * If communication is available, the method triggers the current sensor
+         * and battery measurements, collects the resulting measurement values,
+         * validates them, calculates the system state, publishes the measurement
+         * data and finally requests deep sleep.
          */
         void update();
 };

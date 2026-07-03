@@ -3,45 +3,47 @@
 
 /**
  * @file WiFiConnectionManager.h
- * @brief Konkrete WLAN-Verbindungskomponente für den Raumklima-Knoten.
+ * @brief Wi-Fi connection component for the ESP32-based room climate node.
  */
 
 /**
- * @brief Verwaltet die WLAN-Verbindung des Mikrocontrollers.
+ * @brief Manages the Wi-Fi connection of the microcontroller.
  *
- * Diese Klasse kapselt den Aufbau und die Überwachung der WLAN-Verbindung.
- * Sie implementiert die allgemeine IConnectionManager-Schnittstelle und kann
- * dadurch vom Controller unabhängig von der konkreten WLAN-Implementierung
- * verwendet werden.
+ * This class encapsulates Wi-Fi initialization, connection setup and connection
+ * state monitoring. It implements the generic IConnectionManager interface and
+ * can therefore be used by the controller independently of the concrete Wi-Fi
+ * implementation.
  */
 class WiFiConnectionManager : public IConnectionManager
 {
     public:
 
         /**
-         * @brief Erzeugt einen WLAN-Verbindungsmanager.
+         * @brief Creates a Wi-Fi connection manager.
          */
         WiFiConnectionManager() = default;
 
         /**
-         * @brief Initialisiert die WLAN-Komponente.
+         * @brief Initializes the Wi-Fi component.
+         *
+         * Configures the ESP32 Wi-Fi stack for station mode.
          */
         void init() override;
 
         /**
-         * @brief Baut die WLAN-Verbindung auf.
+         * @brief Attempts to establish the Wi-Fi connection.
+         *
+         * The method starts the Wi-Fi connection setup and waits until the
+         * connection is established or the internal connection timeout is
+         * reached. The result can be checked using isConnected().
          */
         void connect() override;
 
         /**
-         * @brief Stellt die WLAN-Verbindung bei Bedarf erneut her.
-         */
-        void reconnect() override;
-
-        /**
-         * @brief Prüft, ob aktuell eine WLAN-Verbindung besteht.
+         * @brief Checks whether the Wi-Fi connection is currently established.
          *
-         * @return true, wenn der Mikrocontroller mit dem WLAN verbunden ist, sonst false.
+         * @return true if the microcontroller is connected to Wi-Fi,
+         *         false otherwise.
          */
         bool isConnected() override;
 };
