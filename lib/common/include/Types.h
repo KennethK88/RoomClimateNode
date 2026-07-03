@@ -58,3 +58,12 @@ using Seconds = uint16_t;
  * overflow when converting longer durations from seconds to microseconds.
  */
 using Microseconds = uint64_t;
+
+/**
+ * @brief Time duration in milliseconds.
+ *
+ * This type is used for timeout and polling interval values, for example
+ * during Wi-Fi or MQTT connection handling. It matches the return type used
+ * by Arduino's millisecond time base.
+ */
+using Milliseconds = unsigned long;

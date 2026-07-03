@@ -1,11 +1,15 @@
 #include <WiFiConnectionManager.h>
 #include <WiFi.h>
-#include <Arduino.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include <Types.h>
 
 namespace
 {
     const char* ssid = SECRET_SSID;
     const char* pass = SECRET_PASS;
+    constexpr Milliseconds WIFI_CONNECT_TIMEOUT_MS = 10000;
+    constexpr Milliseconds WIFI_CONNECT_POLL_INTERVAL_MS = 500;
 }
 
 void WiFiConnectionManager::init()
@@ -16,13 +20,12 @@ void WiFiConnectionManager::init()
 void WiFiConnectionManager::connect() 
 {
     if (isConnected()) return;
+    Milliseconds startTime = millis();
     WiFi.begin(ssid, pass);
-    while (!isConnected()) delay(1000);
-}
-
-void WiFiConnectionManager::reconnect() 
-{
-    if (!isConnected()) connect();
+    while (((millis() - startTime) < WIFI_CONNECT_TIMEOUT_MS) && !isConnected())
+    {
+        vTaskDelay(pdMS_TO_TICKS(WIFI_CONNECT_POLL_INTERVAL_MS));
+    }
 }
 
 bool WiFiConnectionManager::isConnected()
