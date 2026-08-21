@@ -6,6 +6,9 @@
 namespace
 {
     constexpr size_t SIZE_PAYLOAD = 10;
+    const char* temperatureTopic = MQTT_BASE_TOPIC "/temperature";
+    const char* humidityTopic = MQTT_BASE_TOPIC "/humidity";
+    const char* batteryLevelTopic = MQTT_BASE_TOPIC "/battery_level";
 }
 
 bool MqttMeasurementPublisher::publish(const Measurements& measurements)
@@ -18,9 +21,9 @@ bool MqttMeasurementPublisher::publish(const Measurements& measurements)
     std::snprintf(humidity, SIZE_PAYLOAD, "%d", static_cast<int>(std::round(measurements.humidity)));
     std::snprintf(batteryLevel, SIZE_PAYLOAD, "%d", static_cast<int>(measurements.batteryLevel));
 
-    bool temperaturePublished = mqttClientService.publish("roomclimatenode/livingroom/temperature", temperature);
-    bool humidityPublished = mqttClientService.publish("roomclimatenode/livingroom/humidity", humidity);
-    bool batteryLevelPublished = mqttClientService.publish("roomclimatenode/livingroom/battery_level", batteryLevel);
+    bool temperaturePublished = mqttClientService.publish(temperatureTopic, temperature);
+    bool humidityPublished = mqttClientService.publish(humidityTopic, humidity);
+    bool batteryLevelPublished = mqttClientService.publish(batteryLevelTopic, batteryLevel);
 
     return (temperaturePublished && humidityPublished && batteryLevelPublished);
 }

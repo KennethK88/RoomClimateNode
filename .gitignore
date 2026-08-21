@@ -3,3 +3,4 @@
 docs/html/
 *.exe
 secret_settings.ini
+node_settings.ini

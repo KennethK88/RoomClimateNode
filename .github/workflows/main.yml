@@ -52,4 +52,4 @@ jobs:
         run: python -m pip install platformio
       # 4. Schritt: Build ausführen
       - name: Build
-        run: pio run -e esp32_lolin_d32
+        run: pio run -e node01
