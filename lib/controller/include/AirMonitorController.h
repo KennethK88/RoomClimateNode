@@ -10,6 +10,8 @@
 #include <SensorValidator.h>
 #include <StateMachine.h>
 #include <PowerManager.h>
+#include <FirmwareUpdateService.h>
+#include <MqttOtaRequestReader.h>
 
 /**
  * @file AirMonitorController.h
@@ -57,6 +59,8 @@ class AirMonitorController
         IConnectionManager& wifiConnectionManager;
         IConnectionManager& mqttClientService;
         IMeasurementPublisher& measurementPublisher;
+        FirmwareUpdateService& firmwareUpdateService;
+        MqttOtaRequestReader& mqttOtaRequestReader;
 
         // Power
         PowerManager& powerManager;
@@ -90,7 +94,7 @@ class AirMonitorController
          * @param measurementPublisher Publisher used to publish measurement values.
          * @param powerManager Power manager used to enter deep sleep after a measurement cycle.
          */
-        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher, PowerManager& powerManager) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), powerManager(powerManager), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
+        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher, FirmwareUpdateService& firmwareUpdateService, MqttOtaRequestReader& mqttOtaRequestReader, PowerManager& powerManager) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), firmwareUpdateService(firmwareUpdateService), mqttOtaRequestReader(mqttOtaRequestReader), powerManager(powerManager), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
 
         /**
          * @brief Initializes the room climate node.
