@@ -75,4 +75,6 @@ class MqttClientService : public IConnectionManager
          *         false otherwise.
          */
         bool publish(const char* topic, const char* payload);
+        bool subscribe(const char* topic);
+        bool readMessage(char* topic, std::size_t topicSize, char* payload, std::size_t payloadSize);
 };

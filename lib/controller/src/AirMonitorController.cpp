@@ -1,4 +1,13 @@
-#include <AirMonitorController.h>
+#include "AirMonitorController.h"
+#include "Types.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+
+namespace
+{
+    constexpr Milliseconds OTA_REQUEST_READ_WINDOW_MS = 2000;
+    constexpr Milliseconds OTA_REQUEST_POLL_INTERVAL_MS = 50;
+}
 
 void AirMonitorController::init()
 {
@@ -7,6 +16,7 @@ void AirMonitorController::init()
     mqttClientService.init();
     sht31SensorDriver.init();
     batteryDriver.init();
+    
 }
 
 void AirMonitorController::update()
@@ -23,6 +33,26 @@ void AirMonitorController::update()
         powerManager.enterDeepSleep();
         return;
     }
+    if (mqttOtaRequestReader.subscribe())
+    {
+        const Milliseconds startTime = millis();
+        while ((millis() - startTime) < OTA_REQUEST_READ_WINDOW_MS)
+        {
+            if (mqttOtaRequestReader.update()) break;
+            vTaskDelay(pdMS_TO_TICKS(OTA_REQUEST_POLL_INTERVAL_MS));
+        }
+
+        if (mqttOtaRequestReader.isOtaRequested())
+        {
+            if (firmwareUpdateService.init())
+            {
+                firmwareUpdateService.runMaintenanceWindow();
+                powerManager.enterDeepSleep();
+                return;
+            }
+        }        
+    }
+
     sht31SensorDriver.readMeasurements();
     batteryDriver.readVoltage();
     const Measurements measurements = sensorCoordinator.readAllSensors();
