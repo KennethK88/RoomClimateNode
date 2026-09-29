@@ -8,5 +8,4 @@ class FirmwareUpdateService
         bool init();
         void handle();
         bool runMaintenanceWindow();
-
 };

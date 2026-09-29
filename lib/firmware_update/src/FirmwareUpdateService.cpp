@@ -3,6 +3,7 @@
 #include <ArduinoOTA.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <WiFi.h>
 
 namespace
 {
@@ -12,6 +13,7 @@ namespace
 
 bool FirmwareUpdateService::init()
 {
+    if (!WiFi.setTxPower(WIFI_POWER_8_5dBm)) return false;
     ArduinoOTA.setHostname(MQTT_CLIENT_ID);
     ArduinoOTA.setPassword(OTA_PASS);
     ArduinoOTA.begin();
