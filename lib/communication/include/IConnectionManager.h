@@ -41,4 +41,5 @@ class IConnectionManager
          * @return true if the connection is established, false otherwise.
          */
         virtual bool isConnected() = 0;
+        virtual void disconnect() = 0;
 };

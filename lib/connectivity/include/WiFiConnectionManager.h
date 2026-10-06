@@ -46,4 +46,5 @@ class WiFiConnectionManager : public IConnectionManager
          *         false otherwise.
          */
         bool isConnected() override;
+        void disconnect() override;
 };

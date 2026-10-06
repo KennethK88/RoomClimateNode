@@ -32,3 +32,8 @@ bool WiFiConnectionManager::isConnected()
 {
     return (WiFi.status() == WL_CONNECTED);
 }
+
+void WiFiConnectionManager::disconnect()
+{
+    
+}

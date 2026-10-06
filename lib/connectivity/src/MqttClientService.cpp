@@ -73,3 +73,8 @@ bool MqttClientService::readMessage(char* topic, std::size_t topicSize, char* pa
 
     return true;
 }
+
+void MqttClientService::disconnect()
+{
+    mqttClient.stop();
+}
