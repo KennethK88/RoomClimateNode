@@ -47,6 +47,7 @@ void AirMonitorController::update()
             if (firmwareUpdateService.init())
             {
                 firmwareUpdateService.runMaintenanceWindow();
+                mqttClientService.disconnect();
                 powerManager.enterDeepSleep();
                 return;
             }
@@ -59,5 +60,6 @@ void AirMonitorController::update()
     const ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
     const SystemState systemState = stateMachine.calculateState(validationResults);
     measurementPublisher.publish(measurements);
+    mqttClientService.disconnect();
     powerManager.enterDeepSleep();
 }
