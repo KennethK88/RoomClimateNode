@@ -1,7 +1,8 @@
 #pragma once
 #include <ISht31SensorDriver.h>
 #include <IBatteryDriver.h>
-#include <IConnectionManager.h>
+#include <WiFiConnectionManager.h>
+#include <MqttClientService.h>
 #include <IMeasurementPublisher.h>
 #include <TemperatureSensor.h>
 #include <HumiditySensor.h>
@@ -56,8 +57,8 @@ class AirMonitorController
         IBatteryDriver& batteryDriver;
 
         // Connection interfaces
-        IConnectionManager& wifiConnectionManager;
-        IConnectionManager& mqttClientService;
+        WiFiConnectionManager& wifiConnectionManager;
+        MqttClientService& mqttClientService;
         IMeasurementPublisher& measurementPublisher;
         FirmwareUpdateService& firmwareUpdateService;
         MqttOtaRequestReader& mqttOtaRequestReader;
@@ -94,7 +95,7 @@ class AirMonitorController
          * @param measurementPublisher Publisher used to publish measurement values.
          * @param powerManager Power manager used to enter deep sleep after a measurement cycle.
          */
-        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, IConnectionManager& wifiConnectionManager, IConnectionManager& mqttClientService, IMeasurementPublisher& measurementPublisher, FirmwareUpdateService& firmwareUpdateService, MqttOtaRequestReader& mqttOtaRequestReader, PowerManager& powerManager) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), firmwareUpdateService(firmwareUpdateService), mqttOtaRequestReader(mqttOtaRequestReader), powerManager(powerManager), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
+        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, WiFiConnectionManager& wifiConnectionManager, MqttClientService& mqttClientService, IMeasurementPublisher& measurementPublisher, FirmwareUpdateService& firmwareUpdateService, MqttOtaRequestReader& mqttOtaRequestReader, PowerManager& powerManager) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), measurementPublisher(measurementPublisher), firmwareUpdateService(firmwareUpdateService), mqttOtaRequestReader(mqttOtaRequestReader), powerManager(powerManager), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
 
         /**
          * @brief Initializes the room climate node.
