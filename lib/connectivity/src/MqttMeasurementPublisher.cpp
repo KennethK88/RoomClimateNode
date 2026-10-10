@@ -21,9 +21,9 @@ bool MqttMeasurementPublisher::publish(const Measurements& measurements)
     std::snprintf(humidity, SIZE_PAYLOAD, "%d", static_cast<int>(std::round(measurements.humidity)));
     std::snprintf(batteryLevel, SIZE_PAYLOAD, "%d", static_cast<int>(measurements.batteryLevel));
 
-    bool temperaturePublished = mqttClientService.publish(temperatureTopic, temperature);
-    bool humidityPublished = mqttClientService.publish(humidityTopic, humidity);
-    bool batteryLevelPublished = mqttClientService.publish(batteryLevelTopic, batteryLevel);
+    bool temperaturePublished = mqttClientService.publish(temperatureTopic, temperature, true);
+    bool humidityPublished = mqttClientService.publish(humidityTopic, humidity, true);
+    bool batteryLevelPublished = mqttClientService.publish(batteryLevelTopic, batteryLevel, true);
 
     return (temperaturePublished && humidityPublished && batteryLevelPublished);
 }
