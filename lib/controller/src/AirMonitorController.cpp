@@ -33,6 +33,7 @@ void AirMonitorController::update()
         powerManager.enterDeepSleep();
         return;
     }
+    mqttOtaStatusPublisher.publishWindowClosed();
     if (mqttOtaRequestReader.subscribe())
     {
         const Milliseconds startTime = millis();
@@ -46,7 +47,9 @@ void AirMonitorController::update()
         {
             if (firmwareUpdateService.init())
             {
+                mqttOtaStatusPublisher.publishWindowOpen();
                 firmwareUpdateService.runMaintenanceWindow();
+                mqttOtaStatusPublisher.publishWindowClosed();
                 mqttClientService.disconnect();
                 powerManager.enterDeepSleep();
                 return;
