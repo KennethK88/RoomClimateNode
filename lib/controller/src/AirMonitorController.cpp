@@ -50,9 +50,6 @@ void AirMonitorController::update()
                 mqttOtaStatusPublisher.publishWindowOpen();
                 firmwareUpdateService.runMaintenanceWindow();
                 mqttOtaStatusPublisher.publishWindowClosed();
-                mqttClientService.disconnect();
-                powerManager.enterDeepSleep();
-                return;
             }
         }        
     }
