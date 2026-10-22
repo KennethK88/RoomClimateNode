@@ -34,6 +34,7 @@ void AirMonitorController::update()
         return;
     }
     mqttOtaStatusPublisher.publishWindowClosed();
+    mqttFirmwareVersionPublisher.publishFirmwareVersion();
     if (mqttOtaRequestReader.subscribe())
     {
         const Milliseconds startTime = millis();
