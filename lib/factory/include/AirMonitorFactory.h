@@ -9,6 +9,7 @@
 #include <FirmwareUpdateService.h>
 #include <MqttOtaRequestReader.h>
 #include <MqttOtaStatusPublisher.h>
+#include <MqttFirmwareVersionPublisher.h>
 
 /**
  * @file AirMonitorFactory.h
@@ -49,7 +50,8 @@ class AirMonitorFactory
         FirmwareUpdateService firmwareUpdateService;
         MqttOtaRequestReader mqttOtaRequestReader{mqttClientService};
         MqttOtaStatusPublisher mqttOtaStatusPublisher{mqttClientService};
-        AirMonitorController airMonitorController{sht31Driver, esp32BatteryDriver, wifiConnectionManager, mqttClientService, mqttMeasurementPublisher, firmwareUpdateService, mqttOtaRequestReader, mqttOtaStatusPublisher, powerManager};
+        MqttFirmwareVersionPublisher mqttFirmwareVersionPublisher{mqttClientService};
+        AirMonitorController airMonitorController{sht31Driver, esp32BatteryDriver, wifiConnectionManager, mqttClientService, mqttMeasurementPublisher, firmwareUpdateService, mqttOtaRequestReader, mqttOtaStatusPublisher, mqttFirmwareVersionPublisher, powerManager};
 
     public:
     
