@@ -2,7 +2,7 @@
 #include <Types.h>
 
 /**
- * @file HardwareConfig.h
+ * @file HardwareConfigD32.h
  * @brief Hardware-specific configuration values for the room climate node.
  *
  * This file contains board- and wiring-specific constants that describe how
@@ -24,14 +24,14 @@ namespace HardwareConfig
      *
      * This pin is used for the SHT31 sensor connection on the LOLIN D32.
      */
-    constexpr GpioPin ESP32_I2C_SDA_PIN = 14;
+    constexpr GpioPin I2C_SDA_PIN = 14;
 
     /**
      * @brief ESP32 GPIO pin used as I2C SCL line.
      *
      * This pin is used for the SHT31 sensor connection on the LOLIN D32.
      */
-    constexpr GpioPin ESP32_I2C_SCL_PIN = 13;
+    constexpr GpioPin I2C_SCL_PIN = 13;
 
     /**
      * @brief Voltage divider factor for calculating the actual battery voltage.

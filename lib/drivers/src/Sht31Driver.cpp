@@ -31,7 +31,7 @@ namespace
 
 void Sht31Driver::init()
 {
-    Wire.begin(HardwareConfig::ESP32_I2C_SDA_PIN, HardwareConfig::ESP32_I2C_SCL_PIN);
+    Wire.begin(HardwareConfig::I2C_SDA_PIN, HardwareConfig::I2C_SCL_PIN);
 }
 
 void Sht31Driver::readMeasurements()
