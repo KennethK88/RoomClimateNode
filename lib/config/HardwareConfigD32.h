@@ -1,5 +1,6 @@
 #pragma once
 #include <Types.h>
+#include <BatteryTypes.h>
 
 /**
  * @file HardwareConfigD32.h
