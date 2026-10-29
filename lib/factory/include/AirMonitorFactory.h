@@ -10,6 +10,7 @@
 #include <MqttOtaRequestReader.h>
 #include <MqttOtaStatusPublisher.h>
 #include <MqttFirmwareVersionPublisher.h>
+#include <HardwareConfig.h>
 
 /**
  * @file AirMonitorFactory.h
@@ -42,7 +43,7 @@ class AirMonitorFactory
 {
     private:
         Sht31Driver sht31Driver;
-        ESP32BatteryDriver esp32BatteryDriver;
+        ESP32BatteryDriver esp32BatteryDriver{HardwareConfig::BATTERY_ADC_PIN, HardwareConfig::BATTERY_VOLTAGE_DIVIDER_FACTOR};
         WiFiConnectionManager wifiConnectionManager;
         MqttClientService mqttClientService;
         MqttMeasurementPublisher mqttMeasurementPublisher{mqttClientService};
