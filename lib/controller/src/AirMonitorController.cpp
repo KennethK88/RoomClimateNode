@@ -60,7 +60,7 @@ void AirMonitorController::update()
     const Measurements measurements = sensorCoordinator.readAllSensors();
     const ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
     const SystemState systemState = stateMachine.calculateState(validationResults);
-    measurementPublisher.publish(measurements);
+    mqttMeasurementPublisher.publish(measurements);
     mqttClientService.disconnect();
     powerManager.enterDeepSleep();
 }
