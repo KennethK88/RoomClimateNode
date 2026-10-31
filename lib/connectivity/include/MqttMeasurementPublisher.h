@@ -1,6 +1,6 @@
 #pragma once
-#include <IMeasurementPublisher.h>
 #include <MqttClientService.h>
+#include <Measurements.h>
 
 /**
  * @file MqttMeasurementPublisher.h
@@ -14,7 +14,7 @@
  * concrete MQTT topics and payloads. The actual message transmission is
  * delegated to the MqttClientService.
  */
-class MqttMeasurementPublisher : public IMeasurementPublisher
+class MqttMeasurementPublisher
 {
     private:
         MqttClientService& mqttClientService;
@@ -38,5 +38,5 @@ class MqttMeasurementPublisher : public IMeasurementPublisher
          * @return true if all measurement values were published successfully,
          *         false if at least one MQTT publish operation failed.
          */
-        bool publish(const Measurements& measurements) override;
+        bool publish(const Measurements& measurements);
 };
