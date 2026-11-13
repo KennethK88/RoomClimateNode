@@ -1,8 +1,8 @@
 #pragma once
-#include <TemperatureSensor.h>
-#include <HumiditySensor.h>
+#include "TemperatureSensor.h"
+#include "HumiditySensor.h"
 #include <BatterySensor.h>
-#include <Measurements.h>
+#include "Measurements.h"
 
 /**
  * @file SensorCoordinator.h

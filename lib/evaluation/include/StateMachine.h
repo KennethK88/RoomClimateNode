@@ -1,6 +1,6 @@
 #pragma once
-#include <ValidationResults.h>
-#include <SystemState.h>
+#include "ValidationResults.h"
+#include "SystemState.h"
 
 /**
  * @file StateMachine.h

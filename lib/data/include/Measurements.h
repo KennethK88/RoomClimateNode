@@ -1,6 +1,6 @@
 #pragma once
-#include <Types.h>
-#include <CommonSensorConstants.h>
+#include "Types.h"
+#include "CommonSensorConstants.h"
 #include <BatteryConstants.h>
 
 /**

@@ -1,6 +1,6 @@
 #pragma once
-#include <Measurements.h>
-#include <ValidationResults.h>
+#include "Measurements.h"
+#include "ValidationResults.h"
 
 /**
  * @file SensorValidator.h

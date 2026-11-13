@@ -1,14 +1,14 @@
 #include <Arduino.h>
-#include <AirMonitorFactory.h>
-#include <AirMonitorController.h>
+#include "RoomClimateFactory.h"
+#include "RoomClimateController.h"
 
-AirMonitorFactory airMonitorFactory;
-AirMonitorController& airMonitorController = airMonitorFactory.getAirMonitorController();
+RoomClimateFactory roomClimateFactory;
+RoomClimateController& roomClimateController = roomClimateFactory.getRoomClimateController();
 
 void setup()
 {  
-  airMonitorController.init();
-  airMonitorController.update();
+  roomClimateController.init();
+  roomClimateController.update();
 }
 
 void loop()

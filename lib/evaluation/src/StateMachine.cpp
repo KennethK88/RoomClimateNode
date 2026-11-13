@@ -1,4 +1,4 @@
-#include <StateMachine.h>
+#include "StateMachine.h"
 
 SystemState StateMachine::calculateState(const ValidationResults& validationResults)
 {

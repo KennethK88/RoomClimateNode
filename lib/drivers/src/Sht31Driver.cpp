@@ -1,7 +1,7 @@
-#include <Sht31Driver.h>
+#include "Sht31Driver.h"
 #include <Wire.h>
 #include <Arduino.h>
-#include <HardwareConfig.h>
+#include "HardwareConfig.h"
 
 namespace
 {
