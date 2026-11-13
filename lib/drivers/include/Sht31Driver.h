@@ -1,8 +1,8 @@
 #pragma once
-#include <ISht31SensorDriver.h>
-#include <Types.h>
+#include "ISht31SensorDriver.h"
+#include "Types.h"
 #include <cstdint>
-#include <CommonSensorConstants.h>
+#include "CommonSensorConstants.h"
 
 /**
  * @file Sht31Driver.h

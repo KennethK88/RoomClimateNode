@@ -1,4 +1,4 @@
-#include "AirMonitorController.h"
+#include "RoomClimateController.h"
 #include "Types.h"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -9,7 +9,7 @@ namespace
     constexpr Milliseconds OTA_REQUEST_POLL_INTERVAL_MS = 50;
 }
 
-void AirMonitorController::init()
+void RoomClimateController::init()
 {
     // NOTE: Aktuell muss Wlan vor I2C initialisiert werden. Ursache unklar.
     wifiConnectionManager.init();
@@ -19,7 +19,7 @@ void AirMonitorController::init()
     
 }
 
-void AirMonitorController::update()
+void RoomClimateController::update()
 {
     wifiConnectionManager.connect();
     if (!wifiConnectionManager.isConnected())

@@ -1,31 +1,31 @@
 #pragma once
-#include <ISht31SensorDriver.h>
+#include "ISht31SensorDriver.h"
 #include <IBatteryDriver.h>
 #include <WiFiConnectionManager.h>
 #include <MqttClientService.h>
-#include <MqttMeasurementPublisher.h>
-#include <TemperatureSensor.h>
-#include <HumiditySensor.h>
+#include "MqttMeasurementPublisher.h"
+#include "TemperatureSensor.h"
+#include "HumiditySensor.h"
 #include <BatterySensor.h>
-#include <SensorCoordinator.h>
-#include <SensorValidator.h>
-#include <StateMachine.h>
-#include <PowerManager.h>
+#include "SensorCoordinator.h"
+#include "SensorValidator.h"
+#include "StateMachine.h"
+#include "PowerManager.h"
 #include <FirmwareUpdateService.h>
 #include <MqttOtaRequestReader.h>
 #include <MqttOtaStatusPublisher.h>
 #include <MqttFirmwareVersionPublisher.h>
 
 /**
- * @file AirMonitorController.h
+ * @file RoomClimateController.h
  * @brief Central orchestration component of the room climate node.
  */
 
 /**
- * @class AirMonitorController
+ * @class RoomClimateController
  * @brief Coordinates initialization, measurement acquisition, validation, publishing and power management.
  *
- * The AirMonitorController represents the central control flow of the room
+ * The RoomClimateController represents the central control flow of the room
  * climate node. It connects the sensor abstraction, measurement validation,
  * system state evaluation, publishing and power management components.
  *
@@ -50,7 +50,7 @@
  * @note The class name is historically grown. Functionally, this class
  * represents the main controller of the room climate node.
  */
-class AirMonitorController
+class RoomClimateController
 {
     private:
     
@@ -99,7 +99,7 @@ class AirMonitorController
          * @param mqttMeasurementPublisher Publisher used to publish measurement values.
          * @param powerManager Power manager used to enter deep sleep after a measurement cycle.
          */
-        AirMonitorController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, WiFiConnectionManager& wifiConnectionManager, MqttClientService& mqttClientService, MqttMeasurementPublisher& mqttMeasurementPublisher, FirmwareUpdateService& firmwareUpdateService, MqttOtaRequestReader& mqttOtaRequestReader, MqttOtaStatusPublisher& mqttOtaStatusPublisher, MqttFirmwareVersionPublisher& mqttFirmwareVersionPublisher, PowerManager& powerManager) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), mqttMeasurementPublisher(mqttMeasurementPublisher), firmwareUpdateService(firmwareUpdateService), mqttOtaRequestReader(mqttOtaRequestReader), mqttOtaStatusPublisher(mqttOtaStatusPublisher), mqttFirmwareVersionPublisher(mqttFirmwareVersionPublisher), powerManager(powerManager), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
+        RoomClimateController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, WiFiConnectionManager& wifiConnectionManager, MqttClientService& mqttClientService, MqttMeasurementPublisher& mqttMeasurementPublisher, FirmwareUpdateService& firmwareUpdateService, MqttOtaRequestReader& mqttOtaRequestReader, MqttOtaStatusPublisher& mqttOtaStatusPublisher, MqttFirmwareVersionPublisher& mqttFirmwareVersionPublisher, PowerManager& powerManager) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), mqttMeasurementPublisher(mqttMeasurementPublisher), firmwareUpdateService(firmwareUpdateService), mqttOtaRequestReader(mqttOtaRequestReader), mqttOtaStatusPublisher(mqttOtaStatusPublisher), mqttFirmwareVersionPublisher(mqttFirmwareVersionPublisher), powerManager(powerManager), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
 
         /**
          * @brief Initializes the room climate node.

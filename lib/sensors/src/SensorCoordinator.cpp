@@ -1,4 +1,4 @@
-#include <SensorCoordinator.h>
+#include "SensorCoordinator.h"
 
 Measurements SensorCoordinator::readAllSensors()
 {

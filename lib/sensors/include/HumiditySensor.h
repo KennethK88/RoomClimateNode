@@ -1,5 +1,5 @@
 #pragma once
-#include <ISht31SensorDriver.h>
+#include "ISht31SensorDriver.h"
 
 /**
  * @file HumiditySensor.h
