@@ -2,255 +2,212 @@
 title RoomClimateNode – Class Diagram
 
 skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+hide empty members
 
 ' ============================================================
-' Data / Common
+' RoomClimateNode application
 ' ============================================================
 
-package "data" {
+package "RoomClimateNode" {
 
-    struct Measurements {
-        +temperature : Temperature
-        +humidity : Humidity
-        +batteryLevel : BatteryLevel
+    package "Application" {
+        class RoomClimateFactory {
+            +getRoomClimateController() : RoomClimateController&
+        }
+
+        class RoomClimateController {
+            +init() : void
+            +update() : void
+        }
     }
 
-    struct ValidationResults {
-        +temperatureValid : bool
-        +humidityValid : bool
-        +batteryLevelValid : bool
+    package "Sensors and drivers" {
+        interface ISht31SensorDriver {
+            +init() : void
+            +readMeasurements() : void
+            +getTemperature() : Temperature
+            +getHumidity() : Humidity
+        }
+
+        class Sht31Driver {
+            +init() : void
+            +readMeasurements() : void
+            +getTemperature() : Temperature
+            +getHumidity() : Humidity
+        }
+
+        class TemperatureSensor {
+            +getTemperature() : Temperature
+        }
+
+        class HumiditySensor {
+            +getHumidity() : Humidity
+        }
+
+        class SensorCoordinator {
+            +readAllSensors() : Measurements
+        }
     }
 
-    enum SystemState {
-        Normal
-        Error
+    package "Data" {
+        struct Measurements {
+            +temperature : Temperature
+            +humidity : Humidity
+            +batteryLevel : BatteryLevel
+        }
+
+        struct ValidationResults {
+            +temperatureValid : bool
+            +humidityValid : bool
+            +batteryLevelValid : bool
+        }
+
+        enum SystemState {
+            Normal
+            Error
+        }
+    }
+
+    package "Evaluation" {
+        class SensorValidator {
+            +validateAllSensors(measurements : const Measurements&) : ValidationResults
+        }
+
+        class StateMachine {
+            +calculateState(results : const ValidationResults&) : SystemState
+        }
+    }
+
+    package "MQTT publishing" {
+        class MqttMeasurementPublisher {
+            +publish(measurements : const Measurements&) : bool
+        }
+    }
+
+    package "Power" {
+        class PowerManager {
+            -configureWakeUp() : bool
+            +enterDeepSleep() : void
+        }
     }
 }
 
 ' ============================================================
-' Communication Interfaces
+' Reusable components from the separate EmbeddedNodeLibs repo
 ' ============================================================
 
-package "communication" {
+package "EmbeddedNodeLibs (external)" {
 
-    interface IConnectionManager {
-        +init() : void
-        +connect() : void
-        +reconnect() : void
-        +isConnected() : bool
+    package "Battery" {
+        interface IBatteryDriver {
+            +init() : void
+            +readVoltage() : void
+            +getVoltage() : BatteryVoltage
+        }
+
+        class ESP32BatteryDriver {
+            +init() : void
+            +readVoltage() : void
+            +getVoltage() : BatteryVoltage
+        }
+
+        class BatterySensor {
+            +getBatteryLevel() : BatteryLevel
+        }
     }
 
-    interface IMeasurementPublisher {
-        +publish(measurements : const Measurements&) : bool
+    package "Connectivity" {
+        class WiFiConnectionManager {
+            +init() : void
+            +connect() : void
+            +isConnected() : bool
+        }
+
+        class MqttClientService {
+            +init() : void
+            +connect() : void
+            +isConnected() : bool
+            +publish(topic, payload, retain) : bool
+            +disconnect() : void
+        }
+    }
+
+    package "Firmware and OTA" {
+        class FirmwareUpdateService {
+            +init() : bool
+            +runMaintenanceWindow() : bool
+        }
+
+        class MqttOtaRequestReader {
+            +subscribe() : bool
+            +update() : bool
+            +isOtaRequested() : bool
+        }
+
+        class MqttOtaStatusPublisher {
+            +publishWindowOpen() : bool
+            +publishWindowClosed() : bool
+        }
+
+        class MqttFirmwareVersionPublisher {
+            +publishFirmwareVersion()
+        }
     }
 }
 
 ' ============================================================
-' Sensor Interfaces / Sensor Abstractions
-' ============================================================
-
-package "sensors" {
-
-    interface ISht31SensorDriver {
-        +init() : void
-        +readMeasurements() : void
-        +getTemperature() : Temperature
-        +getHumidity() : Humidity
-    }
-
-    interface IBatteryDriver {
-        +init() : void
-        +readVoltage() : void
-        +getVoltage() : BatteryVoltage
-    }
-
-    class TemperatureSensor {
-        -sht31SensorDriver : ISht31SensorDriver&
-        +TemperatureSensor(sht31SensorDriver : ISht31SensorDriver&)
-        +getTemperature() : Temperature
-    }
-
-    class HumiditySensor {
-        -sht31SensorDriver : ISht31SensorDriver&
-        +HumiditySensor(sht31SensorDriver : ISht31SensorDriver&)
-        +getHumidity() : Humidity
-    }
-
-    class BatterySensor {
-        -batteryDriver : IBatteryDriver&
-        +BatterySensor(batteryDriver : IBatteryDriver&)
-        +getBatteryLevel() : BatteryLevel
-    }
-
-    class SensorCoordinator {
-        -temperatureSensor : TemperatureSensor&
-        -humiditySensor : HumiditySensor&
-        -batterySensor : BatterySensor&
-        +SensorCoordinator(temperatureSensor : TemperatureSensor&, humiditySensor : HumiditySensor&, batterySensor : BatterySensor&)
-        +readAllSensors() : Measurements
-    }
-}
-
-' ============================================================
-' Evaluation
-' ============================================================
-
-package "evaluation" {
-
-    class SensorValidator {
-        +SensorValidator()
-        +validateAllSensors(measurements : const Measurements&) : ValidationResults
-    }
-
-    class StateMachine {
-        +StateMachine()
-        +calculateState(validationResults : const ValidationResults&) : SystemState
-    }
-}
-
-' ============================================================
-' Drivers
-' ============================================================
-
-package "drivers" {
-
-    class Sht31Driver {
-        -data : uint8_t[6]
-        -temperature : Temperature
-        -humidity : Humidity
-        +Sht31Driver()
-        +init() : void
-        +readMeasurements() : void
-        +getTemperature() : Temperature
-        +getHumidity() : Humidity
-    }
-
-    class ESP32BatteryDriver {
-        -batteryVoltage : BatteryVoltage
-        +ESP32BatteryDriver()
-        +init() : void
-        +readVoltage() : void
-        +getVoltage() : BatteryVoltage
-    }
-}
-
-' ============================================================
-' Connectivity
-' ============================================================
-
-package "connectivity" {
-
-    class WiFiConnectionManager {
-        +WiFiConnectionManager()
-        +init() : void
-        +connect() : void
-        +reconnect() : void
-        +isConnected() : bool
-    }
-
-    class MqttClientService {
-        -wifiClient : WiFiClient
-        -mqttClient : MqttClient
-        +MqttClientService()
-        +init() : void
-        +connect() : void
-        +reconnect() : void
-        +isConnected() : bool
-        +publish(topic : const char*, payload : const char*) : bool
-    }
-
-    class MqttMeasurementPublisher {
-        -mqttClientService : MqttClientService&
-        +MqttMeasurementPublisher(mqttClientService : MqttClientService&)
-        +publish(measurements : const Measurements&) : bool
-    }
-}
-
-' ============================================================
-' Power Management
-' ============================================================
-
-package "power" {
-
-    class PowerManager {
-        +PowerManager()
-        -configureWakeUp() : bool
-        +enterDeepSleep() : void
-    }
-}
-
-' ============================================================
-' Controller / Factory
-' ============================================================
-
-package "controller" {
-
-    class AirMonitorController {
-        -sht31SensorDriver : ISht31SensorDriver&
-        -batteryDriver : IBatteryDriver&
-        -wifiConnectionManager : IConnectionManager&
-        -mqttClientService : IConnectionManager&
-        -measurementPublisher : IMeasurementPublisher&
-        -powerManager : PowerManager&
-        -temperatureSensor : TemperatureSensor
-        -humiditySensor : HumiditySensor
-        -batterySensor : BatterySensor
-        -sensorCoordinator : SensorCoordinator
-        -sensorValidator : SensorValidator
-        -stateMachine : StateMachine
-        +AirMonitorController(sht31SensorDriver : ISht31SensorDriver&, batteryDriver : IBatteryDriver&, wifiConnectionManager : IConnectionManager&, mqttClientService : IConnectionManager&, measurementPublisher : IMeasurementPublisher&, powerManager : PowerManager&)
-        +init() : void
-        +update() : void
-    }
-}
-
-package "factory" {
-
-    class AirMonitorFactory {
-        -sht31Driver : Sht31Driver
-        -esp32BatteryDriver : ESP32BatteryDriver
-        -wifiConnectionManager : WiFiConnectionManager
-        -mqttClientService : MqttClientService
-        -mqttMeasurementPublisher : MqttMeasurementPublisher
-        -powerManager : PowerManager
-        -airMonitorController : AirMonitorController
-        +getAirMonitorController() : AirMonitorController&
-    }
-}
-
-' ============================================================
-' Interface Implementations
+' Interface implementations
 ' ============================================================
 
 ISht31SensorDriver <|.. Sht31Driver
 IBatteryDriver <|.. ESP32BatteryDriver
 
-IConnectionManager <|.. WiFiConnectionManager
-IConnectionManager <|.. MqttClientService
-
-IMeasurementPublisher <|.. MqttMeasurementPublisher
-
 ' ============================================================
-' Ownership / Composition
+' Ownership: factory owns concrete components and controller
 ' ============================================================
 
-AirMonitorController *-- TemperatureSensor
-AirMonitorController *-- HumiditySensor
-AirMonitorController *-- BatterySensor
-AirMonitorController *-- SensorCoordinator
-AirMonitorController *-- SensorValidator
-AirMonitorController *-- StateMachine
-
-AirMonitorFactory *-- Sht31Driver
-AirMonitorFactory *-- ESP32BatteryDriver
-AirMonitorFactory *-- WiFiConnectionManager
-AirMonitorFactory *-- MqttClientService
-AirMonitorFactory *-- MqttMeasurementPublisher
-AirMonitorFactory *-- PowerManager
-AirMonitorFactory *-- AirMonitorController
+RoomClimateFactory *-- RoomClimateController
+RoomClimateFactory *-- Sht31Driver
+RoomClimateFactory *-- ESP32BatteryDriver
+RoomClimateFactory *-- WiFiConnectionManager
+RoomClimateFactory *-- MqttClientService
+RoomClimateFactory *-- MqttMeasurementPublisher
+RoomClimateFactory *-- PowerManager
+RoomClimateFactory *-- FirmwareUpdateService
+RoomClimateFactory *-- MqttOtaRequestReader
+RoomClimateFactory *-- MqttOtaStatusPublisher
+RoomClimateFactory *-- MqttFirmwareVersionPublisher
 
 ' ============================================================
-' Dependencies / Data Flow
+' Ownership: application-level objects live inside controller
+' ============================================================
+
+RoomClimateController *-- TemperatureSensor
+RoomClimateController *-- HumiditySensor
+RoomClimateController *-- BatterySensor
+RoomClimateController *-- SensorCoordinator
+RoomClimateController *-- SensorValidator
+RoomClimateController *-- StateMachine
+
+' ============================================================
+' Injected references held by controller
+' ============================================================
+
+RoomClimateController --> ISht31SensorDriver
+RoomClimateController --> IBatteryDriver
+RoomClimateController --> WiFiConnectionManager
+RoomClimateController --> MqttClientService
+RoomClimateController --> MqttMeasurementPublisher
+RoomClimateController --> PowerManager
+RoomClimateController --> FirmwareUpdateService
+RoomClimateController --> MqttOtaRequestReader
+RoomClimateController --> MqttOtaStatusPublisher
+RoomClimateController --> MqttFirmwareVersionPublisher
+
+' ============================================================
+' Sensor dependencies and measurement data flow
 ' ============================================================
 
 TemperatureSensor --> ISht31SensorDriver
@@ -264,20 +221,28 @@ SensorCoordinator ..> Measurements
 
 SensorValidator ..> Measurements
 SensorValidator ..> ValidationResults
-
 StateMachine ..> ValidationResults
 StateMachine ..> SystemState
 
 MqttMeasurementPublisher --> MqttClientService
 MqttMeasurementPublisher ..> Measurements
 
-AirMonitorController --> ISht31SensorDriver
-AirMonitorController --> IBatteryDriver
-AirMonitorController --> IConnectionManager
-AirMonitorController --> IMeasurementPublisher
-AirMonitorController ..> Measurements
-AirMonitorController ..> ValidationResults
-AirMonitorController ..> SystemState
-AirMonitorController --> PowerManager
+' ============================================================
+' MQTT dependencies of reusable services
+' ============================================================
+
+MqttOtaRequestReader --> MqttClientService
+MqttOtaStatusPublisher --> MqttClientService
+MqttFirmwareVersionPublisher --> MqttClientService
+
+note right of StateMachine
+  Currently invoked, but its result is not used.
+  Planned for removal (separate refactoring issue).
+end note
+
+note right of SensorValidator
+  Validation results are currently not used
+  to control MQTT measurement publishing.
+end note
 
 @enduml
