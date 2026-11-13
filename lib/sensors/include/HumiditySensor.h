@@ -3,42 +3,44 @@
 
 /**
  * @file HumiditySensor.h
- * @brief Fachliche Sensorkomponente für die Luftfeuchtigkeit.
+ * @brief Defines the application-level humidity sensor component.
  */
 
 /**
- * @class HumiditySensor
- * @brief Stellt den aktuellen Luftfeuchtigkeitswert bereit.
+ * @brief Provides access to relative humidity measurements.
  *
- * Der HumiditySensor kapselt den fachlichen Zugriff auf den
- * Luftfeuchtigkeitswert. Der konkrete Hardwarezugriff erfolgt über die
- * ISht31SensorDriver-Schnittstelle und bleibt dadurch von dieser Klasse
- * entkoppelt.
+ * Encapsulates application-level access to humidity measurements
+ * through the ISht31SensorDriver interface.
  *
- * Die eigentliche Messung wird vom Sensor-Treiber durchgeführt. Diese Klasse
- * fragt den zuletzt vom Treiber ermittelten Luftfeuchtigkeitswert ab.
+ * The actual sensor communication and measurement acquisition are
+ * handled by the underlying driver. This class retrieves the most
+ * recently stored humidity value without triggering a new measurement.
  */
 class HumiditySensor
 {
     private:
+
         /**
-         * @brief Referenz auf den Sensor-Treiber zur Messwertbereitstellung.
+         * @brief Reference to the underlying SHT31 sensor driver.
          */
         ISht31SensorDriver& sht31SensorDriver;
 
     public:
 
         /**
-         * @brief Erstellt einen HumiditySensor.
+         * @brief Constructs a humidity sensor.
          *
-         * @param sht31SensorDriver Sensor-Treiber, der den Luftfeuchtigkeitswert bereitstellt.
+         * @param sht31SensorDriver Sensor driver providing humidity measurements.
          */
         HumiditySensor(ISht31SensorDriver& sht31SensorDriver) : sht31SensorDriver(sht31SensorDriver) {}
 
         /**
-         * @brief Gibt den zuletzt ermittelten Luftfeuchtigkeitswert zurück.
+         * @brief Returns the most recently stored relative humidity measurement.
          *
-         * @return Relative Luftfeuchtigkeit in %.
+         * Does not trigger a new sensor measurement.
+         *
+         * @return Relative humidity in percent, or the corresponding
+         *         initialization or measurement error value.
          */
         Humidity getHumidity() const;
 };

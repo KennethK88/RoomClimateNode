@@ -11,12 +11,12 @@ namespace
 
 void RoomClimateController::init()
 {
-    // NOTE: Aktuell muss Wlan vor I2C initialisiert werden. Ursache unklar.
+    // NOTE: Wi-Fi must currently be initialized before I2C.
+    // The root cause of this dependency is still unknown.
     wifiConnectionManager.init();
     mqttClientService.init();
     sht31SensorDriver.init();
     batteryDriver.init();
-    
 }
 
 void RoomClimateController::update()

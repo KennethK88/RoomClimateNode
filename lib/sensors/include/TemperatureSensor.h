@@ -3,41 +3,44 @@
 
 /**
  * @file TemperatureSensor.h
- * @brief Fachliche Sensorkomponente für die Temperatur.
+ * @brief Defines the application-level temperature sensor component.
  */
 
 /**
- * @class TemperatureSensor
- * @brief Stellt den aktuellen Temperaturwert bereit.
+ * @brief Provides access to temperature measurements.
  *
- * Der TemperatureSensor kapselt den fachlichen Zugriff auf den Temperaturwert.
- * Der konkrete Hardwarezugriff erfolgt über die ISht31SensorDriver-Schnittstelle
- * und bleibt dadurch von dieser Klasse entkoppelt.
+ * Encapsulates application-level access to temperature measurements
+ * through the ISht31SensorDriver interface.
  *
- * Die eigentliche Messung wird vom Sensor-Treiber durchgeführt. Diese Klasse
- * fragt den zuletzt vom Treiber ermittelten Temperaturwert ab.
+ * The actual sensor communication and measurement acquisition are
+ * handled by the underlying driver. This class retrieves the most
+ * recently stored temperature value without triggering a new measurement.
  */
 class TemperatureSensor
 {
     private:
+
         /**
-         * @brief Referenz auf den Sensor-Treiber zur Messwertbereitstellung.
+         * @brief Reference to the underlying SHT31 sensor driver.
          */
         ISht31SensorDriver& sht31SensorDriver;
 
     public:
 
         /**
-         * @brief Erstellt einen TemperatureSensor.
+         * @brief Constructs a temperature sensor.
          *
-         * @param sht31SensorDriver Sensor-Treiber, der den Temperaturwert bereitstellt.
+         * @param sht31SensorDriver Sensor driver providing temperature measurements.
          */
         TemperatureSensor(ISht31SensorDriver& sht31SensorDriver) : sht31SensorDriver(sht31SensorDriver) {}
 
         /**
-         * @brief Gibt den zuletzt ermittelten Temperaturwert zurück.
+         * @brief Returns the most recently stored temperature measurement.
          *
-         * @return Temperaturwert in °C.
+         * Does not trigger a new sensor measurement.
+         *
+         * @return Temperature in degrees Celsius, or the corresponding
+         *         initialization or measurement error value.
          */
         Temperature getTemperature() const;
 };

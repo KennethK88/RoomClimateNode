@@ -2,52 +2,49 @@
 
 /**
  * @file PowerManager.h
- * @brief Power management component for ESP32 deep sleep handling.
+ * @brief Defines the power management component for ESP32 deep sleep operation.
  */
 
 /**
- * @class PowerManager
- * @brief Configures wake-up sources and enters ESP32 deep sleep.
+ * @brief Configures timer-based wake-up and manages deep sleep.
  *
- * The PowerManager encapsulates the platform-specific power management logic
- * required for low-power operation of the room climate node. It configures the
- * timer wake-up source and starts deep sleep after a measurement and publishing
- * cycle has completed.
+ * Encapsulates the platform-specific deep sleep functionality for the
+ * RoomClimateNode on supported ESP32 platforms.
  *
- * Responsibilities:
- * - Configure the ESP32 timer wake-up source
- * - Enter deep sleep mode
+ * The PowerManager configures the timer wake-up source and transitions
+ * the microcontroller into deep sleep after a measurement and publishing cycle.
  *
- * @note After entering deep sleep, the ESP32 stops executing the application.
- * When the timer wake-up occurs, the application starts again from the normal
- * boot sequence.
+ * @note Waking up from deep sleep causes a new application startup rather
+ * than resuming execution at the point where deep sleep was entered.
  */
 class PowerManager
 {
     private:
 
         /**
-         * @brief Configures the timer wake-up source for deep sleep.
+         * @brief Configures the timer wake-up source.
          *
-         * The wake-up interval is taken from the power configuration.
+         * Uses the configured deep sleep duration to set the
+         * timer-based wake-up interval.
          *
-         * @return true if the wake-up source was configured successfully,
-         *         false otherwise.
+         * @return true if configuration succeeds, false otherwise.
          */
         bool configureWakeUp();
 
     public:
 
         /**
-         * @brief Creates a power manager instance.
+         * @brief Constructs a power manager instance.
          */
         PowerManager() = default;
 
         /**
-         * @brief Enters ESP32 deep sleep mode.
+         * @brief Configures wake-up and enters deep sleep.
          *
-         * The method first configures the timer wake-up source. If the wake-up
-         * configuration fails, deep sleep is not entered.
+         * Attempts to configure the timer wake-up source before
+         * entering deep sleep.
+         *
+         * If wake-up configuration fails, deep sleep is not entered.
          */
         void enterDeepSleep();
 };
