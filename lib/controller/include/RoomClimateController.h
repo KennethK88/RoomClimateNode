@@ -1,16 +1,18 @@
 #pragma once
+
 #include "ISht31SensorDriver.h"
-#include <IBatteryDriver.h>
-#include <WiFiConnectionManager.h>
-#include <MqttClientService.h>
 #include "MqttMeasurementPublisher.h"
 #include "TemperatureSensor.h"
 #include "HumiditySensor.h"
-#include <BatterySensor.h>
 #include "SensorCoordinator.h"
 #include "SensorValidator.h"
 #include "StateMachine.h"
 #include "PowerManager.h"
+
+#include <IBatteryDriver.h>
+#include <WiFiConnectionManager.h>
+#include <MqttClientService.h>
+#include <BatterySensor.h>
 #include <FirmwareUpdateService.h>
 #include <MqttOtaRequestReader.h>
 #include <MqttOtaStatusPublisher.h>

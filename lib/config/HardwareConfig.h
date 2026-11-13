@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sdkconfig.h>
+
 /**
  * @file HardwareConfig.h
  * @brief Selects the hardware configuration for the target ESP32 platform.

@@ -1,16 +1,18 @@
 #pragma once
+
 #include "Sht31Driver.h"
-#include <ESP32BatteryDriver.h>
-#include <WiFiConnectionManager.h>
-#include <MqttClientService.h>
 #include "MqttMeasurementPublisher.h"
 #include "PowerManager.h"
 #include "RoomClimateController.h"
+#include "HardwareConfig.h"
+
+#include <ESP32BatteryDriver.h>
+#include <WiFiConnectionManager.h>
+#include <MqttClientService.h>
 #include <FirmwareUpdateService.h>
 #include <MqttOtaRequestReader.h>
 #include <MqttOtaStatusPublisher.h>
 #include <MqttFirmwareVersionPublisher.h>
-#include "HardwareConfig.h"
 
 /**
  * @file RoomClimateFactory.h

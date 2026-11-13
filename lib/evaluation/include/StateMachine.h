@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ValidationResults.h"
 #include "SystemState.h"
 
