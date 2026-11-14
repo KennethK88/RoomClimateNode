@@ -11,7 +11,7 @@ namespace
             BatteryVoltage currentDriverVoltage = BatteryConstants::BATTERY_VOLTAGE_NOT_INITIALIZED;
             void init() override {}
             void readVoltage() override {}
-            BatteryVoltage getVoltage() override {return currentDriverVoltage;}
+            BatteryVoltage getVoltage() const override {return currentDriverVoltage;}
     };
 }
 
