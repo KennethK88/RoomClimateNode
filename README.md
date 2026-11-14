@@ -1,5 +1,6 @@
-[![PlatformIO Native Tests and Build](https://github.com/KennethK88/RoomClimateNode/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/KennethK88/RoomClimateNode/actions/workflows/main.yml)
-[![Deploy Documentation](https://github.com/KennethK88/RoomClimateNode/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/KennethK88/RoomClimateNode/actions/workflows/docs.yml)
+[![Firmware Builds](https://github.com/KennethK88/RoomClimateNode/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/KennethK88/RoomClimateNode/actions/workflows/build.yml)
+[![Native Tests](https://github.com/KennethK88/RoomClimateNode/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/KennethK88/RoomClimateNode/actions/workflows/test.yml)
+[![Build Documentation](https://github.com/KennethK88/RoomClimateNode/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/KennethK88/RoomClimateNode/actions/workflows/docs.yml)
 
 # RoomClimateNode
 
