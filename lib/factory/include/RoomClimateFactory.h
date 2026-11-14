@@ -1,43 +1,44 @@
 #pragma once
+
 #include "Sht31Driver.h"
-#include <ESP32BatteryDriver.h>
-#include <WiFiConnectionManager.h>
-#include <MqttClientService.h>
 #include "MqttMeasurementPublisher.h"
 #include "PowerManager.h"
 #include "RoomClimateController.h"
+#include "HardwareConfig.h"
+
+#include <ESP32BatteryDriver.h>
+#include <WiFiConnectionManager.h>
+#include <MqttClientService.h>
 #include <FirmwareUpdateService.h>
 #include <MqttOtaRequestReader.h>
 #include <MqttOtaStatusPublisher.h>
 #include <MqttFirmwareVersionPublisher.h>
-#include "HardwareConfig.h"
 
 /**
  * @file RoomClimateFactory.h
- * @brief Factory for creating and wiring the room climate node.
+ * @brief Defines the factory responsible for constructing the RoomClimateNode components.
  */
 
 /**
- * @class RoomClimateFactory
- * @brief Creates the concrete components and wires the central controller.
+ * @brief Creates and connects the components required by the RoomClimateNode.
  *
- * The RoomClimateFactory encapsulates the system setup. It creates the concrete
- * sensor, battery, Wi-Fi, MQTT and power management components and wires them
- * with the RoomClimateController.
+ * The RoomClimateFactory acts as the central composition point of the application.
+ * It owns the concrete hardware drivers, communication services, MQTT publishers,
+ * firmware update components, and power management components.
  *
- * This keeps the RoomClimateController decoupled from concrete hardware and
- * communication implementations. In tests, the controller can therefore be
- * used with fake components for most dependencies.
+ * These dependencies are constructed and injected into the RoomClimateController,
+ * keeping component creation separate from the application's control logic.
+ *
+ * The factory manages the lifetime of all components, ensuring that their
+ * dependencies remain valid throughout the controller's lifetime.
  *
  * Responsibilities:
- * - Create concrete sensor, battery and connection components
- * - Create the MQTT-based measurement publisher
- * - Create the power manager used for ESP32 deep sleep handling
- * - Wire the components with the RoomClimateController
- * - Provide a fully constructed controller instance
- *
- * @note The class name RoomClimateController is historically grown. Functionally,
- * this factory currently builds the main controller of a room climate node.
+ * - Construct the SHT31 and battery drivers
+ * - Construct Wi-Fi and MQTT communication services
+ * - Construct measurement and firmware information publishers
+ * - Construct OTA update and request handling components
+ * - Construct the power management component
+ * - Assemble and provide the RoomClimateController
  */
 class RoomClimateFactory
 {
@@ -57,9 +58,12 @@ class RoomClimateFactory
     public:
     
         /**
-         * @brief Returns the fully wired RoomClimateController instance.
+         * @brief Returns the fully constructed RoomClimateController instance.
          *
-         * @return Reference to the constructed RoomClimateController.
+         * @return Reference to the controller owned by this factory.
+         *
+         * @note The returned reference remains valid only while the
+         *       RoomClimateFactory instance exists.
          */
         RoomClimateController& getRoomClimateController();
 };

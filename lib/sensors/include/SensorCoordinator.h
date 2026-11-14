@@ -1,59 +1,66 @@
 #pragma once
+
 #include "TemperatureSensor.h"
 #include "HumiditySensor.h"
-#include <BatterySensor.h>
 #include "Measurements.h"
+
+#include <BatterySensor.h>
 
 /**
  * @file SensorCoordinator.h
- * @brief Bündelt die Messwerte der fachlichen Sensorkomponenten.
+ * @brief Defines the component for collecting sensor measurements.
  */
 
 /**
- * @class SensorCoordinator
- * @brief Fasst Temperatur- und Luftfeuchtigkeitswerte in einer gemeinsamen Datenstruktur zusammen.
+ * @brief Collects temperature, humidity, and battery level measurements.
  *
- * Der SensorCoordinator koordiniert den Zugriff auf die fachlichen
- * Sensorkomponenten und stellt deren aktuelle Werte als konsolidierten
- * Messwertsatz bereit.
+ * The SensorCoordinator provides a central access point for retrieving
+ * measurement values from the application-level sensor components.
  *
- * Die Klasse greift nicht direkt auf die Hardware zu. Der konkrete
- * Hardwarezugriff erfolgt über die jeweiligen Sensortreiber.
+ * It combines temperature, relative humidity, and battery level values
+ * into a single Measurements structure.
+ *
+ * The coordinator does not interact directly with hardware.
+ * Hardware access is handled by the underlying sensor drivers.
  */
 class SensorCoordinator
 {
     private:
 
         /**
-         * @brief Referenz auf die fachliche Temperatursensorkomponente.
+         * @brief Reference to the temperature sensor component.
          */
         TemperatureSensor& tempSens;
 
         /**
-         * @brief Referenz auf die fachliche Luftfeuchtigkeitssensorkomponente.
+         * @brief Reference to the humidity sensor component.
          */
         HumiditySensor& humSens;
 
+        /**
+         * @brief Reference to the battery sensor component.
+         */
         BatterySensor& battSens;
         
     public:
 
         /**
-         * @brief Erstellt einen SensorCoordinator.
+         * @brief Constructs a sensor coordinator.
          *
-         * @param tempSens Referenz auf die Temperatursensorkomponente.
-         * @param humSens Referenz auf die Luftfeuchtigkeitssensorkomponente.
+         * @param tempSens Temperature sensor component.
+         * @param humSens Humidity sensor component.
+         * @param battSens Battery sensor component.
          */
         SensorCoordinator(TemperatureSensor& tempSens, HumiditySensor& humSens, BatterySensor& battSens) : tempSens(tempSens), humSens(humSens), battSens(battSens) {}
         
         /**
-         * @brief Liest die aktuellen Werte der Sensorkomponenten und fasst sie zusammen.
+         * @brief Collects measurement values from all sensor components.
          *
-         * Fragt Temperatur und Luftfeuchtigkeit über die jeweiligen
-         * Sensorkomponenten ab und gibt die Werte als gemeinsames
-         * Measurements-Objekt zurück.
+         * Retrieves temperature, relative humidity, and battery level
+         * values from their respective sensor components and combines
+         * them into a single Measurements structure.
          *
-         * @return Struktur mit den aktuellen Messwerten.
-         */        
+         * @return Structure containing the collected measurement values.
+         */       
         Measurements readAllSensors();
 };

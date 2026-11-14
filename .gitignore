@@ -1,6 +1,22 @@
+# PlatformIO
 .pio/
+
+# IDE
 .vscode/
+
+# Generated documentation
 docs/html/
+
+# Build artifacts
 *.exe
+
+# Local configuration and secrets
 secret_settings.ini
 node_settings.ini
+
+# FreeCAD backup files
+*.FCStd[0-9]*
+*.FCBak
+
+# Sliced 3D printing files
+*.gcode

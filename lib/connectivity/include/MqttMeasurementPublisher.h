@@ -1,18 +1,21 @@
 #pragma once
-#include <MqttClientService.h>
+
 #include "Measurements.h"
+
+#include <MqttClientService.h>
 
 /**
  * @file MqttMeasurementPublisher.h
- * @brief MQTT-based publishing of application-level measurement values.
+ * @brief Defines the MQTT publisher for RoomClimateNode measurements.
  */
 
 /**
- * @brief Converts room climate measurements into MQTT messages.
+ * @brief Publishes room climate measurements via MQTT.
  *
- * This class knows the application-level measurement values and maps them to
- * concrete MQTT topics and payloads. The actual message transmission is
- * delegated to the MqttClientService.
+ * Maps application-specific temperature, humidity, and battery level
+ * measurements to their corresponding MQTT topics and payloads.
+ *
+ * The actual MQTT communication is delegated to MqttClientService.
  */
 class MqttMeasurementPublisher
 {
@@ -22,21 +25,20 @@ class MqttMeasurementPublisher
     public:
 
         /**
-         * @brief Creates an MQTT measurement publisher.
+         * @brief Constructs an MQTT measurement publisher.
          *
-         * @param mqttClientService MQTT service used to send the messages.
+         * @param mqttClientService MQTT service responsible for message transmission.
          */
         MqttMeasurementPublisher(MqttClientService& mqttClientService) : mqttClientService(mqttClientService) {}
 
         /**
-         * @brief Publishes the given measurement values via MQTT.
+         * @brief Publishes temperature, humidity, and battery level measurements.
          *
-         * The method publishes temperature, humidity and battery level values
-         * to their corresponding MQTT topics.
+         * Each measurement is published to its corresponding MQTT topic.
          *
-         * @param measurements The measurement values to publish.
-         * @return true if all measurement values were published successfully,
-         *         false if at least one MQTT publish operation failed.
+         * @param measurements Measurement values to publish.
+         * @return true if all MQTT publish operations succeed,
+         *         false if at least one operation fails.
          */
         bool publish(const Measurements& measurements);
 };

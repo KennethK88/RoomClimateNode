@@ -1,61 +1,61 @@
 #pragma once
+
 #include "Measurements.h"
 #include "ValidationResults.h"
 
 /**
  * @file SensorValidator.h
- * @brief Validates measurement values of the room climate node.
+ * @brief Defines the validation component for RoomClimateNode measurements.
  */
 
 /**
- * @class SensorValidator
- * @brief Checks measurement values for initialization state, error values and valid value ranges.
+ * @brief Validates temperature, humidity, and battery level measurements.
  *
- * The SensorValidator evaluates the acquired measurement values using defined
- * validation rules and marks each value as valid or invalid.
+ * Evaluates sensor measurements against application-specific validation rules
+ * to identify uninitialized, erroneous, or implausible values.
  *
- * Its purpose is to detect uninitialized, erroneous or implausible measurement
- * values early and provide the result to downstream components in a structured
- * form.
+ * The validation results are provided as individual flags within a
+ * ValidationResults structure, allowing each measurement to be
+ * evaluated independently.
  */
 class SensorValidator
 {
     private:
 
         /**
-         * @brief Validates the temperature value.
+         * @brief Validates the temperature measurement.
          *
-         * @param measurements Current measurement values.
-         * @param validationResults Result structure used to store the validation status.
+         * @param measurements Measurement values to validate.
+         * @param validationResults Structure receiving the validation result.
          */
         void validateTemperature(const Measurements& measurements, ValidationResults& validationResults);
 
-         /**
-         * @brief Validates the relative humidity value.
+        /**
+         * @brief Validates the relative humidity measurement.
          *
-         * @param measurements Current measurement values.
-         * @param validationResults Result structure used to store the validation status.
-         */     
+         * @param measurements Measurement values to validate.
+         * @param validationResults Structure receiving the validation result.
+         */   
         void validateHumidity(const Measurements& measurements, ValidationResults& validationResults);
 
         /**
-         * @brief Validates the battery level value.
+         * @brief Validates the battery level measurement.
          *
-         * @param measurements Current measurement values.
-         * @param validationResults Result structure used to store the validation status.
+         * @param measurements Measurement values to validate.
+         * @param validationResults Structure receiving the validation result.
          */
         void validateBatteryLevel(const Measurements& measurements, ValidationResults& validationResults);
 
     public:
 
         /**
-         * @brief Validates all measurement values.
+         * @brief Validates all measurements and returns their validation results.
          *
-         * Performs validation for all values contained in the Measurements object
-         * and combines the results in a common ValidationResults structure.
+         * Evaluates temperature, relative humidity, and battery level
+         * measurements independently.
          *
-         * @param measurements Current measurement values.
-         * @return Structure containing the validation status of all measurement values.
+         * @param measurements Measurement values to validate.
+         * @return Validation results for all measurements.
          */
         ValidationResults validateAllSensors(const Measurements& measurements);
 };

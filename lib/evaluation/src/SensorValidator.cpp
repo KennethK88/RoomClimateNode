@@ -1,6 +1,8 @@
 #include "SensorValidator.h"
-#include <cmath>
+
 #include <BatteryConstants.h>
+
+#include <cmath>
 
 namespace
 {

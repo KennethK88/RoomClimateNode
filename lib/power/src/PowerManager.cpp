@@ -1,5 +1,6 @@
 #include "PowerManager.h"
 #include "PowerConfig.h"
+
 #include <esp_sleep.h>
 
 bool PowerManager::configureWakeUp()

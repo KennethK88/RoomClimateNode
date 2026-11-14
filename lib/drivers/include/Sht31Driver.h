@@ -1,21 +1,24 @@
 #pragma once
+
 #include "ISht31SensorDriver.h"
 #include "Types.h"
-#include <cstdint>
 #include "CommonSensorConstants.h"
+
+#include <cstdint>
 
 /**
  * @file Sht31Driver.h
- * @brief Konkreter Treiber für den SHT31-Temperatur- und Feuchtigkeitssensor.
+ * @brief Defines the hardware-specific driver for the SHT31 temperature and humidity sensor.
  */
 
 /**
- * @brief Liest Temperatur- und Luftfeuchtigkeitswerte vom SHT31-Sensor aus.
+ * @brief Implements temperature and humidity measurement using the SHT31 sensor.
  *
- * Diese Klasse implementiert die ISht31SensorDriver-Schnittstelle und kapselt
- * die hardwarenahe Kommunikation mit dem SHT31-Sensor. Die Messwerte werden
- * durch readMeasurements() aktualisiert und anschließend zwischengespeichert,
- * sodass sie über getTemperature() und getHumidity() abgefragt werden können.
+ * Provides the concrete implementation of the ISht31SensorDriver interface
+ * and encapsulates hardware communication with the SHT31 sensor.
+ *
+ * Measurements are acquired through readMeasurements() and stored internally
+ * for subsequent access through getTemperature() and getHumidity().
  */
 class Sht31Driver : public ISht31SensorDriver
 {
@@ -27,34 +30,39 @@ class Sht31Driver : public ISht31SensorDriver
     public:
 
         /**
-         * @brief Erzeugt einen SHT31-Treiber.
+         * @brief Constructs an SHT31 sensor driver.
          */
         Sht31Driver() = default;
 
         /**
-         * @brief Initialisiert die Kommunikation mit dem SHT31-Sensor.
+         * @brief Initializes communication with the SHT31 sensor.
          */
         void init() override;
 
         /**
-         * @brief Liest die aktuellen Messwerte vom SHT31-Sensor.
+         * @brief Acquires temperature and humidity measurements from the SHT31 sensor.
          *
-         * Die gelesenen Rohdaten werden in Temperatur und Luftfeuchtigkeit
-         * umgerechnet und intern gespeichert.
+         * Triggers a single-shot measurement, reads the raw sensor data,
+         * converts it into temperature and relative humidity values,
+         * and stores the results internally.
+         *
+         * If I2C communication fails or the expected amount of data
+         * cannot be received, both measurements are set to their
+         * corresponding measurement error values.
          */
         void readMeasurements() override;
 
         /**
-         * @brief Gibt den zuletzt gelesenen Temperaturwert zurück.
+         * @brief Returns the most recently stored temperature measurement.
          *
-         * @return Temperaturwert in °C.
+         * @return Temperature in degrees Celsius.
          */
         Temperature getTemperature() override;
 
-         /**
-         * @brief Gibt den zuletzt gelesenen Luftfeuchtigkeitswert zurück.
+        /**
+         * @brief Returns the most recently stored relative humidity measurement.
          *
-         * @return Relative Luftfeuchtigkeit in %.
+         * @return Relative humidity in percent.
          */
         Humidity getHumidity() override;
 };

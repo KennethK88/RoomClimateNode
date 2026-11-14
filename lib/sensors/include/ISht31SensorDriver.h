@@ -1,50 +1,60 @@
 #pragma once
+
 #include "Types.h"
 
 /**
  * @file ISht31SensorDriver.h
- * @brief Schnittstelle für SHT31-kompatible Sensor-Treiber.
+ * @brief Defines the interface for SHT31 sensor drivers.
  */
 
 /**
- * @class ISht31SensorDriver
- * @brief Abstrakte Schnittstelle zur Messwerterfassung von Temperatur und Luftfeuchtigkeit.
+ * @brief Abstract interface for temperature and humidity measurement.
  *
- * Diese Schnittstelle entkoppelt die fachlichen Sensorkomponenten vom
- * konkreten Hardwaretreiber. Implementierungen übernehmen die Initialisierung,
- * das Auslesen des Sensors und die Bereitstellung der zuletzt ermittelten
- * Temperatur- und Luftfeuchtigkeitswerte.
+ * Defines the contract for SHT31 sensor driver implementations,
+ * including sensor initialization, measurement acquisition,
+ * and access to the most recently acquired measurements.
+ *
+ * Decouples application-level sensor components from the concrete
+ * hardware implementation, allowing alternative implementations
+ * and test doubles to be used.
  */
 class ISht31SensorDriver
 {
     public:
 
         /**
-         * @brief Virtueller Destruktor für polymorphe Verwendung.
+         * @brief Virtual destructor for polymorphic use.
          */
         virtual ~ISht31SensorDriver() = default;
 
         /**
-         * @brief Initialisiert den Sensor-Treiber.
+         * @brief Initializes the sensor driver.
          */
         virtual void init() = 0;
 
         /**
-         * @brief Führt eine Messung durch und aktualisiert die intern gespeicherten Messwerte.
+         * @brief Acquires temperature and humidity measurements.
+         *
+         * Triggers a sensor measurement and updates the internally
+         * stored temperature and humidity values.
          */
         virtual void readMeasurements() = 0;
 
         /**
-         * @brief Gibt den zuletzt ermittelten Temperaturwert zurück.
+         * @brief Returns the most recently stored temperature measurement.
          *
-         * @return Temperaturwert in °C.
+         * Does not trigger a new sensor measurement.
+         *
+         * @return Temperature in degrees Celsius.
          */
         virtual Temperature getTemperature() = 0;
-
+        
         /**
-         * @brief Gibt den zuletzt ermittelten Luftfeuchtigkeitswert zurück.
+         * @brief Returns the most recently stored relative humidity measurement.
          *
-         * @return Relative Luftfeuchtigkeit in %.
+         * Does not trigger a new sensor measurement.
+         *
+         * @return Relative humidity in percent.
          */
         virtual Humidity getHumidity() = 0;
 };

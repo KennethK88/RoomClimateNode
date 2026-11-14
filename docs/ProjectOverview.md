@@ -1,68 +1,195 @@
-# Project Overview: AirMonitorController
+# Project Overview: RoomClimateNode
 
 ## Project Goal
 
-The goal of this project is to develop a compact, battery-powered microcontroller-based room climate node. The node measures temperature and humidity values, processes and validates the measurement data locally, and transmits it wirelessly to a smart home system. The system is intended to operate as a low-power sensor node and provide its measurement values for visualization, monitoring and automation in a Home Assistant environment. Due to the fireplace in the living room, an optional separate CO sensor node is planned for this room.
+The goal of this project is to develop a compact, battery-powered
+ESP32-based room climate monitoring node.
+
+The node measures ambient temperature, relative humidity, and battery
+level and transmits the collected data via Wi-Fi and MQTT to a
+Home Assistant environment.
+
+The system is designed for low-power operation using ESP32 deep sleep,
+allowing autonomous operation over extended periods.
+
+The project emphasizes modular software architecture, reusable
+components, hardware abstraction, and maintainability.
 
 
 ## Current Status
 
-The room climate node currently measures temperature and humidity using an SHT31 sensor. The measured values are processed locally, validated and published via Wi-Fi/MQTT to a Mosquitto broker. The broker runs as part of the Home Assistant environment on a Raspberry Pi.
+The RoomClimateNode is operational and deployed in a Home Assistant
+environment.
 
-The project is running successfully on the ESP32 target hardware. Temperature, humidity and battery level values are received by Home Assistant and are assigned to the corresponding room climate node device.
+### Sensor Measurements
 
-Battery-powered operation has been validated. The battery voltage is measured through the board-specific voltage measurement circuit, converted into a battery level percentage and included in the normal measurement publishing flow.
+Temperature and relative humidity are measured using an SHT31 sensor.
 
-Low-power operation using ESP32 deep sleep has been implemented. The node wakes up periodically, connects to Wi-Fi and MQTT, reads the sensor and battery values, publishes the measurements and returns to deep sleep after the measurement cycle. The current deep sleep interval is configured to 15 minutes.
+Battery voltage is measured through the board-specific ADC circuitry
+and converted into a battery level percentage.
+
+The current battery level calculation uses a linear voltage-to-percentage
+mapping. A more accurate discharge curve is planned.
+
+Measurement values are collected by the SensorCoordinator and
+published via MQTT.
+
+A SensorValidator is implemented, but its validation results do not
+currently prevent invalid measurements from being published.
+
+### Communication
+
+The node communicates through Wi-Fi and MQTT with a Mosquitto broker
+running in the Home Assistant environment.
+
+The following information is published:
+
+- Temperature
+- Relative humidity
+- Battery level
+- Firmware version
+- OTA maintenance window status
+
+Home Assistant uses these values for monitoring and visualization.
+
+### Power Management
+
+The node uses ESP32 deep sleep to reduce power consumption.
+
+The current operating cycle is:
+
+1. Wake up from deep sleep.
+2. Initialize hardware and communication components.
+3. Establish Wi-Fi and MQTT connections.
+4. Process potential OTA update requests.
+5. Acquire sensor and battery measurements.
+6. Publish measurement values via MQTT.
+7. Disconnect and return to deep sleep.
+
+The deep sleep interval is currently configured to 15 minutes.
+
+Battery-powered operation has been tested during extended runtime.
+
+### Firmware Updates
+
+Over-the-air firmware updates are supported through an MQTT-controlled
+maintenance window.
+
+An OTA request can be issued through Home Assistant.
+
+During the next regular wake-up cycle, the node processes the request
+and opens a temporary maintenance window.
+
+Within this window, new firmware can be uploaded wirelessly.
+
+The node publishes the maintenance window status via MQTT.
+
+Fully automated OTA deployment is not yet implemented.
+
+### Supported Hardware
+
+The firmware currently supports:
+
+- LOLIN D32 (ESP32)
+- LOLIN C3 Pico (ESP32-C3)
+
+Board-specific configurations are selected at compile time.
+
+The LOLIN D32 is used for the established room climate nodes.
+The LOLIN C3 Pico has been evaluated as an alternative platform.
+
+A dedicated enclosure has been developed for the LOLIN D32 version. The FreeCAD source files and STL models are available in [hardware/enclosure](../hardware/enclosure/).
+
+Further hardware miniaturization may be considered in future revisions.
 
 
-## Planned Functional Scope
+## Software Architecture
 
-- [x] Measure values
-    - [x] Room temperature in °C
-    - [x] Relative humidity in %
-    - [x] Battery level in %
-- [x] Validate measured values
-    - [x] Room temperature in °C
-    - [x] Relative humidity in %
-    - [x] Battery level in %
-- [x] Provide measured values via Wi-Fi/MQTT
-    - [x] Room temperature in °C
-    - [x] Relative humidity in %
-    - [x] Battery level in % 
-- [x] Enable battery-powered operation
-- [x] Put the microcontroller into deep sleep between measurement cycles
-- [ ] Enable firmware updates via over-the-air update (OTA)
-- [ ] Optional: Display system states using an RGB status LED
-    - [ ] Indicate low battery level
-    - [ ] Indicate implausible measured values
-    - [ ] Indicate failed Wi-Fi/MQTT connection
-    - [ ] Indicate fully charged battery while connected to the charger
-- [ ] Optional: Measure CO values using a separate sensor node
+The application follows a modular, component-oriented architecture.
+
+The RoomClimateController coordinates communication, measurement
+acquisition, OTA processing, and power management.
+
+The RoomClimateFactory constructs the required components and
+connects their dependencies.
+
+Hardware-specific functionality is separated from application-level
+sensor components through driver interfaces.
+
+Common functionality is provided by the separate EmbeddedNodeLibs
+library collection.
+
+Reusable components include:
+
+- Battery measurement and battery level calculation
+- Wi-Fi connection management
+- MQTT communication
+- OTA request handling
+- Firmware update services
+- OTA status publishing
+- Firmware version publishing
+
+Additional architecture details are documented using UML class
+and sequence diagrams.
+
+
+## Functional Scope
+
+### Measurement and Communication
+
+- [x] Measure room temperature
+- [x] Measure relative humidity
+- [x] Measure battery voltage
+- [x] Calculate battery level
+- [x] Publish measurements via Wi-Fi/MQTT
+- [x] Integrate measurements into Home Assistant
+- [x] Publish firmware version information
+- [ ] Prevent invalid measurements from being published
+
+### Power Management
+
+- [x] Support battery-powered operation
+- [x] Implement timer-based deep sleep
+- [x] Support periodic measurement and publishing cycles
+- [ ] Implement a non-linear battery discharge curve
+
+### Firmware Updates
+
+- [x] Implement OTA firmware updates
+- [x] Implement MQTT-controlled OTA maintenance windows
+- [x] Publish OTA maintenance window status
+- [ ] Implement fully automated OTA deployment
 
 
 ## Required Hardware
 
-- [x] Microcontroller (ESP32)
-- [x] Battery
-- [x] Charging controller / charging module (integrated on microcontroller board)
-- [x] Temperature and humidity sensor (SHT31)
-- [ ] Enclosure
-- [ ] Optional: RGB LED
-- [ ] Optional: CO sensor for separate sensor node
+- [x] ESP32-based microcontroller
+- [x] Rechargeable LiPo battery
+- [x] Battery charging circuitry integrated into the development board
+- [x] SHT31 temperature and humidity sensor
+- [x] Enclosure for the LOLIN D32
 
 
 ## Test Strategy
 
-- Native tests
-    - Test of the application logic independent of the target hardware
-    - Test of sensor processing, measurement validation and state logic using fake components
-    - Test of battery level calculation and battery-related validation logic
-- Embedded tests
-    - Test of hardware-related functions directly on the microcontroller
-    - Test of sensor integration, Wi-Fi connection and MQTT communication
-    - Test of battery voltage measurement on the target hardware
-- Manual system tests
-    - Test of the complete wake-connect-measure-publish-sleep cycle
-    - Test of MQTT integration with Mosquitto and Home Assistant
-    - Long-running battery-powered operation test
+### Native Tests
+
+- Test application logic independently of target hardware
+- Test sensor measurement validation
+- Test measurement processing using fake components
+- Test applicable error conditions and boundary values
+
+### Embedded Tests
+
+- Verify sensor communication on target hardware
+- Verify battery voltage measurement
+- Verify Wi-Fi and MQTT communication
+- Verify OTA firmware updates
+- Verify deep sleep and timer-based wake-up
+
+### Manual System Tests
+
+- Verify the complete wake-connect-measure-publish-sleep cycle
+- Verify integration with Mosquitto and Home Assistant
+- Monitor battery-powered operation over extended periods
+- Verify firmware version and OTA status reporting

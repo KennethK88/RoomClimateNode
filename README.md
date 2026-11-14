@@ -1,34 +1,44 @@
-[![PlatformIO Native Tests and Build](https://github.com/KennethK88/AirMonitorController/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/KennethK88/AirMonitorController/actions/workflows/main.yml)
-[![Deploy Documentation](https://github.com/KennethK88/AirMonitorController/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/KennethK88/AirMonitorController/actions/workflows/docs.yml)
-
+[![PlatformIO Native Tests and Build](https://github.com/KennethK88/RoomClimateNode/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/KennethK88/RoomClimateNode/actions/workflows/main.yml)
+[![Deploy Documentation](https://github.com/KennethK88/RoomClimateNode/actions/workflows/docs.yml/badge.svg?branch=main)](https://github.com/KennethK88/RoomClimateNode/actions/workflows/docs.yml)
 
 # RoomClimateNode
 
-## Project Goal 
+## Project Goal
 
-The goal of this project is to develop a compact, battery-powered microcontroller-based room climate node. The node measures temperature and humidity values, processes and validates the measurement data locally, and transmits it wirelessly via MQTT to a smart home system. The project focuses on embedded C/C++ development, modular software architecture, testability, CI integration and low-power operation using ESP32 deep sleep.
+The goal of this project is to develop a compact, battery-powered ESP32-based room climate monitoring node. The node measures temperature, relative humidity, and battery level and transmits the collected data via Wi-Fi and MQTT to a Home Assistant environment. The project focuses on embedded C++ development, modular software architecture, reusable components, testability, and low-power operation using ESP32 deep sleep.
 
 
 ## Current Status
 
-Temperature and humidity are measured using an SHT31 sensor. The measurement values are transmitted via Wi-Fi and MQTT to a Mosquitto broker and are consumed by Home Assistant. The current ESP32 implementation supports a wake-measure-publish-sleep cycle using deep sleep. The node wakes up periodically, connects to Wi-Fi and MQTT, reads the sensor and battery level, publishes the measurements and returns to deep sleep. A first battery runtime test has been completed successfully, and further runtime observations are ongoing.
+The RoomClimateNode is operational and integrated into Home Assistant.
+
+Temperature and humidity are measured using an SHT31 sensor. Battery voltage is monitored and converted into a battery level percentage. Measurements are published via Wi-Fi and MQTT to a Mosquitto broker and made available in Home Assistant. The node operates on a periodic wake-connect-measure-publish-sleep cycle with a configured deep sleep interval of 15 minutes. Firmware updates are supported through MQTT-controlled OTA maintenance windows. Firmware version information and OTA status are also published via MQTT. The firmware supports both the LOLIN D32 and LOLIN C3 Pico. Battery-powered operation has been successfully tested, and multiple
+nodes are in use.
+
+Further development and known limitations are documented in the Project Overview and GitHub Issues.
 
 
 ## Technologies
 
-- C/C++
+- C++ / Arduino Framework
 - PlatformIO
-- Testframework Unity
+- Unity Test Framework
 - GitHub Actions
-- ESP32
+- ESP32 / ESP32-C3
 - SHT31
-- WiFi / MQTT
+- Wi-Fi / MQTT
 - Mosquitto
 - Home Assistant
+- Doxygen
+- PlantUML
 
 
-## Further Documentation
+## Documentation
 
-- [Project overview](docs/ProjectOverview.md)
-- [System architecture](docs/SystemArchitecture.puml)
-- [Class diagram](docs/ClassDiagram.puml)
+- [Project Overview](docs/ProjectOverview.md)
+- [System Architecture](docs/SystemArchitecture.puml)
+- [Class Diagram](docs/ClassDiagram.puml)
+- [Measurement Sequence Diagram](docs/MeasurementSequenceDiagram.puml)
+- [OTA Sequence Diagram](docs/OtaSequenceDiagram.puml)
+- [Hardware Wiring](docs/Wiring.md)
+- [Git Conventions](docs/GitConventions.md)

@@ -1,69 +1,76 @@
 @startuml
-title RoomClimateNode – System Architecture
+
+title RoomClimateNode - System Architecture
 
 skinparam componentStyle rectangle
 skinparam shadowing false
 
 ' ============================================================
-' Sensor Node
+' RoomClimateNode
 ' ============================================================
 
 node "RoomClimateNode" as roomNode {
-    
+
     component "SHT31 Sensor" as sht31
-    component "Li-Ion Battery" as battery
-    component "RGB Status LED\n(optional)" as statusLed
-    component "MCU (ESP32)" as mcu
+    component "LiPo Battery" as battery
 
-    component "Driver Layer" as driverLayer
-    component "Application Layer" as applicationLayer
-    component "MQTT Publisher" as publisher
+    node "ESP32 MCU\n(LOLIN D32 / C3 Pico)" as esp32 {
 
-    sht31 --> mcu : I2C
-    battery --> mcu : battery voltage\nvia ADC
-    statusLed <-- mcu : GPIO\nsystem status
+        component "RoomClimateNode\nFirmware" as firmware
+    }
 
-    mcu --> driverLayer : sensor / ADC data
-    driverLayer --> applicationLayer : temperature\nhumidity\nbattery voltage
-
-    applicationLayer --> publisher : validated\nmeasurements
+    sht31 --> esp32 : I2C
+    battery --> esp32 : Power supply\nVoltage monitoring via ADC
 }
 
 ' ============================================================
-' Network / Broker / Smart Home
+' Network and Home Assistant
 ' ============================================================
 
 cloud "Wi-Fi Network" as wifi
 
 node "Raspberry Pi" as pi {
+
     component "Mosquitto Broker" as broker
     component "Home Assistant" as ha
 }
 
 actor "User" as user
+actor "OTA Upload Client" as otaClient
 
-publisher --> wifi : MQTT over Wi-Fi
-wifi --> broker : MQTT messages
+firmware <--> wifi : MQTT\nMeasurements, status,\nOTA requests
 
-broker --> ha : subscribed topics
-ha --> user : dashboard\nnotifications\nautomations
+wifi <--> broker : MQTT over TCP/IP
+
+broker <--> ha : MQTT topics
+
+user <--> ha : Dashboard\nOTA requests
+
+otaClient --> firmware : Firmware upload\nvia Wi-Fi
 
 ' ============================================================
 ' Notes
 ' ============================================================
 
 note right of roomNode
-  Measures room temperature,
-  humidity and battery level.
+    Measures:
+    - Room temperature
+    - Relative humidity
+    - Battery level
 
-  The node wakes up periodically,
-  publishes the measured values
-  and returns to ESP32 deep sleep
-  between measurement cycles.
+    Publishes:
+    - Sensor measurements
+    - Firmware version
+    - OTA maintenance window status
 
-  An optional status LED may indicate
-  local system states such as connection
-  errors or low battery level.
+    Power management:
+    - Timer-based deep sleep
+    - 15-minute sleep interval
+
+    OTA:
+    - MQTT-controlled OTA requests
+    - Temporary maintenance window
+    - Wireless firmware upload
 end note
 
 @enduml
