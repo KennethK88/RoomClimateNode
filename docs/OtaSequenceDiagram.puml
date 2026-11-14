@@ -41,12 +41,21 @@ Broker --> MQTT: Retained request, if one exists
 
 alt Subscription succeeds
   loop Up to 2 s; poll every 50 ms
-    Controller -> RequestReader: update()
-    note right of RequestReader
-      Stops polling early when update()
-      reports that a request was received.
-    end note
-  end
+    Controller -> MQTT: readMessage(topic, SIZE_TOPIC,\npayload, SIZE_PAYLOAD)
+    MQTT --> Controller: Message received (true / false)
+
+    opt Message received
+        Controller -> RequestReader: processMessage(topic, payload)
+        RequestReader --> Controller: Message processed (true / false)
+
+        opt Valid OTA message
+            note over Controller
+                Exit polling loop.
+                Both "true" and "false" are valid payloads.
+            end note
+        end
+    end
+end
 
   Controller -> RequestReader: isOtaRequested()
 
@@ -55,7 +64,7 @@ alt Subscription succeeds
 
     alt Firmware update service initialized
       Controller -> StatusPublisher: publishWindowOpen()
-      StatusPublisher -> MQTT: publish(status, "window_open")
+      StatusPublisher -> MQTT: publish(status, "window_open", retain=true)
       MQTT -> Broker: PUBLISH "window_open"
 
       Controller -> FirmwareService: runMaintenanceWindow()
