@@ -1,0 +1,107 @@
+@startuml
+
+title RoomClimateNode - Regular Measurement Cycle
+
+hide footbox
+autonumber
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 18
+
+actor "ESP32\nstartup" as Startup
+participant "RoomClimate\nController" as Controller
+participant "WiFiConnection\nManager" as WiFi
+participant "MqttClient\nService" as MQTT
+participant "Sht31Driver" as SHT31
+participant "ESP32Battery\nDriver" as Battery
+participant "Sensor\nCoordinator" as Coordinator
+participant "MqttMeasurement\nPublisher" as Publisher
+participant "PowerManager" as Power
+
+note over Startup, Controller
+  Each timer wake-up starts a new application boot.
+  This diagram shows the regular cycle without an OTA request.
+end note
+
+== Initialization ==
+Startup -> Controller: init()
+activate Controller
+Controller -> WiFi: init()
+Controller -> MQTT: init()
+Controller -> SHT31: init()
+Controller -> Battery: init()
+Controller --> Startup: return
+deactivate Controller
+
+== Connection ==
+Startup -> Controller: update()
+activate Controller
+Controller -> WiFi: connect()
+Controller -> WiFi: isConnected()
+WiFi --> Controller: connection status
+
+break Wi-Fi connection failed
+  Controller -> Power: enterDeepSleep()
+  note right of Power
+    Deep sleep is entered only if
+    timer wake-up configuration succeeds.
+  end note
+end
+
+Controller -> MQTT: connect()
+Controller -> MQTT: isConnected()
+MQTT --> Controller: connection status
+
+break MQTT connection failed
+  Controller -> Power: enterDeepSleep()
+end
+
+== OTA status and request check ==
+ref over Controller, MQTT: Publish "window_closed" and firmware version;\nsubscribe and poll for OTA requests (up to 2 s)
+note over Controller
+  Calls MqttOtaStatusPublisher, MqttFirmwareVersionPublisher,
+  and MqttOtaRequestReader. OTA maintenance is omitted here
+  and will be covered in a separate OTA sequence diagram.
+end note
+
+== Measurement acquisition ==
+Controller -> SHT31: readMeasurements()
+Controller -> Battery: readVoltage()
+Controller -> Coordinator: readAllSensors()
+activate Coordinator
+note right of Coordinator
+  Retrieves cached values via TemperatureSensor,
+  HumiditySensor, and BatterySensor.
+  Does not trigger another hardware measurement.
+end note
+Coordinator --> Controller: Measurements
+deactivate Coordinator
+
+note over Controller
+  SensorValidator.validateAllSensors(measurements)
+  StateMachine.calculateState(validationResults)
+  Both results are currently ignored by the publishing logic.
+end note
+
+== MQTT publishing ==
+Controller -> Publisher: publish(measurements)
+activate Publisher
+Publisher -> MQTT: publish(temperature, retain=true)
+MQTT --> Publisher: bool
+Publisher -> MQTT: publish(humidity, retain=true)
+MQTT --> Publisher: bool
+Publisher -> MQTT: publish(battery level, retain=true)
+MQTT --> Publisher: bool
+Publisher --> Controller: true if all succeeded
+deactivate Publisher
+
+== Deep sleep ==
+Controller -> MQTT: disconnect()
+Controller -> Power: enterDeepSleep()
+note right of Power
+  Configures a 15-minute timer wake-up,
+  then starts deep sleep if configuration succeeds.
+end note
+
+deactivate Controller
+
+@enduml

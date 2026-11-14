@@ -1,0 +1,107 @@
+@startuml
+
+title RoomClimateNode - OTA Maintenance Window
+
+hide footbox
+autonumber
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 16
+
+actor "Home Assistant" as HA
+actor "OTA uploader\n(PlatformIO)" as Uploader
+participant "MQTT\nBroker" as Broker
+participant "RoomClimate\nController" as Controller
+participant "MqttClient\nService" as MQTT
+participant "MqttOtaRequest\nReader" as RequestReader
+participant "MqttOtaStatus\nPublisher" as StatusPublisher
+participant "FirmwareUpdate\nService" as FirmwareService
+
+note over HA, Broker
+  Home Assistant can request an OTA maintenance window
+  by publishing "true" to the retained OTA request topic.
+end note
+
+== OTA request ==
+HA -> Broker: PUBLISH OTA request = "true" (retained)
+
+== Next regular wake-up ==
+note over Controller
+  After startup and successful Wi-Fi / MQTT connection.
+  The regular measurement sequence documents these steps.
+end note
+
+Controller -> StatusPublisher: publishWindowClosed()
+StatusPublisher -> MQTT: publish(status, "window_closed", retain=true)
+MQTT -> Broker: PUBLISH "window_closed"
+
+Controller -> RequestReader: subscribe()
+RequestReader -> MQTT: subscribe to OTA request topic
+MQTT -> Broker: SUBSCRIBE OTA request topic
+Broker --> MQTT: Retained request, if one exists
+
+alt Subscription succeeds
+  loop Up to 2 s; poll every 50 ms
+    Controller -> RequestReader: update()
+    note right of RequestReader
+      Stops polling early when update()
+      reports that a request was received.
+    end note
+  end
+
+  Controller -> RequestReader: isOtaRequested()
+
+  alt OTA requested
+    Controller -> FirmwareService: init()
+
+    alt Firmware update service initialized
+      Controller -> StatusPublisher: publishWindowOpen()
+      StatusPublisher -> MQTT: publish(status, "window_open")
+      MQTT -> Broker: PUBLISH "window_open"
+
+      Controller -> FirmwareService: runMaintenanceWindow()
+      activate FirmwareService
+
+      loop Until maintenance window expires (unless the ESP32 restarts)
+        FirmwareService -> FirmwareService: handle()
+        opt OTA upload during maintenance window
+          Uploader -> FirmwareService: Upload firmware via Wi-Fi
+          note over FirmwareService, Controller
+            If successful OTA handling restarts the ESP32,
+            this cycle ends before the final
+            publishWindowClosed() call.
+            Restart behavior depends on the OTA implementation.
+          end note
+        end
+      end
+
+      FirmwareService --> Controller: true (if window finishes normally)
+      deactivate FirmwareService
+      Controller -> StatusPublisher: publishWindowClosed()
+      StatusPublisher -> MQTT: publish(status, "window_closed", retain=true)
+      MQTT -> Broker: PUBLISH "window_closed"
+
+    else Initialization failed
+      note over Controller
+        No maintenance window is opened.
+      end note
+    end
+
+  else No OTA request
+    note over Controller
+      Continue with the regular measurement cycle.
+    end note
+  end
+
+else Subscription failed
+  note over Controller
+    Skip OTA request processing for this cycle.
+  end note
+end
+
+== Regular cycle continues (if no reboot) ==
+note over Controller
+  Read sensor and battery measurements, publish via MQTT,
+  disconnect, and request deep sleep.
+end note
+
+@enduml
