@@ -1,68 +1,46 @@
 # Name des Workflows
-name: Deploy Documentation
+name: Build Documentation
 
 # Wann soll Workflow gestartet werden?
 on:
-  # Nur wenn Build und native Tests im main i.O.
-  workflow_run:
-    workflows: ["PlatformIO Native Tests and Build"]
-    types:
-      - completed
+  push:
+    branches:
+    - "**"
+  pull_request:
     branches:
       - main
   # Run Button fuer Workflow (Unabhaengigkeit von neuen Commits)
   workflow_dispatch:
-
-# Berechtigungen erteilen
-#permissions:
-  # Repo lesen
-  #contents: read
-  # Auf GitHub Pages veroeffentlichen
-  #pages: write
-  # Authentifizierung bei Deploy
-  #id-token: write
-
-# Parallele Deployments verhindern
-#concurrency:
-  #group: pages
-  #cancel-in-progress: false
-
 # Was soll passieren?
 jobs:
   # 1. Job: Documentation
   documentation:
-  # Job ausführen, wenn manuell getriggert oder Build und native Tests i.O.
-    if: ${{github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'}}
     # Ubuntu VM
     runs-on: ubuntu-latest
-    # Umgebung für GitHub Pages Deployment
-    #environment:
-      #name: github-pages
-      # URL direkt im Workflow anzeigen
-      #url: ${{ steps.deployment.outputs.page_url }} 
     # Schritte des Workflows
     steps:
-      # 1. Schritt: Checkout auf VM
-      - name: Checkout
+      # 1. Schritt: Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
-      # 2. Schritt: Doxygen und Graphviz installieren
+        with:
+          persist-credentials: false
+      # 2. Schritt: Checkout Submodule
+      - name: Checkout Private Submodules
+        env:
+          SUBMODULE_TOKEN: ${{ secrets.CI_SUBMODULE_TOKEN }}
+        run: |
+          git -c "url.https://x-access-token:${SUBMODULE_TOKEN}@github.com/.insteadOf=https://github.com/" \
+            submodule update --init --recursive
+      # 3. Schritt: Doxygen und Graphviz installieren
       - name: Install Doxygen and Graphviz
         run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
-      # 3. Schritt: Doxygen ausführen
+      # 4. Schritt: Doxygen ausführen
       - name: Run Doxygen
         run: doxygen docs/Doxyfile
-      # 4. Schritt: Generierte Documentation Artefakte (unter docs/html) hochladen
+      # 5. Schritt: Generierte Documentation Artefakte (unter docs/html) hochladen
       - name: Upload documentation artifact
         uses: actions/upload-artifact@v4
         with:
           name: doxygen-html
-          path: docs/html  
-      # 4. Schritt: Generierte Documentation Artefakte (unter docs/html) auf GitHub Pages hochladen
-      #- name: Upload GitHub Pages artifact
-        #uses: actions/upload-pages-artifact@v4
-        #with:
-          #path: docs/html
-      # 5. Schritt: Documentation auf GitHub Pages veröffentlichen
-      #- name: Deploy to GitHub Pages
-        #id: deployment
-       #uses: actions/deploy-pages@v4
+          path: docs/html
+          if-no-files-found: error
