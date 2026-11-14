@@ -98,7 +98,8 @@ Board-specific configurations are selected at compile time.
 The LOLIN D32 is used for the established room climate nodes.
 The LOLIN C3 Pico has been evaluated as an alternative platform.
 
-A dedicated enclosure has been developed for the LOLIN D32 version.
+A dedicated enclosure has been developed for the LOLIN D32 version. The FreeCAD source files and STL models are available in [hardware/enclosure](../hardware/enclosure/).
+
 Further hardware miniaturization may be considered in future revisions.
 
 
