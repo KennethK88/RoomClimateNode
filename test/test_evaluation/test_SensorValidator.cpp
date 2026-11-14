@@ -4,6 +4,11 @@
 #include <CommonSensorConstants.h>
 #include <cmath>
 
+namespace
+{
+    constexpr BatteryLevel BATTERY_LEVEL_DUMMY_VALID = 50;
+}
+
 void test_all_sensors_not_initialized_should_be_invalid()
 {
     // Arrange
@@ -31,7 +36,7 @@ void test_all_sensors_valid_values_should_be_valid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
     
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -50,7 +55,7 @@ void test_temperature_not_initialized_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_NOT_INITIALIZED;
     measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
     
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -69,7 +74,7 @@ void test_temperature_equals_max_valid_should_be_valid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_MAX_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -88,7 +93,7 @@ void test_temperature_equals_min_valid_should_be_valid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_MIN_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -107,7 +112,7 @@ void test_temperature_equals_nan_should_be_invalid()
 
     measurements.temperature = NAN;
     measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -126,7 +131,7 @@ void test_temperature_below_min_valid_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_MIN_VALID - 0.5f;
     measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -145,7 +150,7 @@ void test_temperature_above_max_valid_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_MAX_VALID + 0.5f;
     measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -164,7 +169,7 @@ void test_temperature_measurement_error_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_MEASUREMENT_ERROR;
     measurements.humidity = SensorConstants::HUMIDITY_DUMMY_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
     
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -183,7 +188,7 @@ void test_humidity_not_initialized_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_NOT_INITIALIZED;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -202,7 +207,7 @@ void test_humidity_equals_max_valid_should_be_valid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_MAX_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -221,7 +226,7 @@ void test_humidity_equals_min_valid_should_be_valid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_MIN_VALID;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -240,7 +245,7 @@ void test_humidity_equals_nan_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
     measurements.humidity = NAN;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -259,7 +264,7 @@ void test_humidity_below_min_valid_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_MIN_VALID - 0.5f;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -278,7 +283,7 @@ void test_humidity_above_max_valid_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_MAX_VALID + 0.5f;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
@@ -297,7 +302,7 @@ void test_humidity_measurement_error_should_be_invalid()
 
     measurements.temperature = SensorConstants::TEMPERATURE_DUMMY_VALID;
     measurements.humidity = SensorConstants::HUMIDITY_MEASUREMENT_ERROR;
-    measurements.batteryLevel = BatteryConstants::BATTERY_LEVEL_DUMMY_VALID;
+    measurements.batteryLevel = BATTERY_LEVEL_DUMMY_VALID;
 
     // Act
     ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
