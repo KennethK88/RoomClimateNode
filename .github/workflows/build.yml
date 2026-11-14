@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [node01, node02, node03, node04, node05, node06]
+        environment: [node01, node02, node03, node04, node05, node05_c3_pico, node06]
     # Ubuntu VM
     runs-on: ubuntu-latest
     # Schritte des Workflows
