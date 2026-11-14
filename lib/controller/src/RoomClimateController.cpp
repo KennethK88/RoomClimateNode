@@ -6,6 +6,10 @@
 
 namespace
 {
+    constexpr std::size_t SIZE_PAYLOAD = 32;
+    constexpr std::size_t SIZE_TOPIC = 64;
+    char topic[SIZE_TOPIC];
+    char payload[SIZE_PAYLOAD];
     constexpr Milliseconds OTA_REQUEST_READ_WINDOW_MS = 2000;
     constexpr Milliseconds OTA_REQUEST_POLL_INTERVAL_MS = 50;
 }
@@ -36,12 +40,17 @@ void RoomClimateController::update()
     }
     mqttOtaStatusPublisher.publishWindowClosed();
     mqttFirmwareVersionPublisher.publishFirmwareVersion();
+
     if (mqttOtaRequestReader.subscribe())
     {
         const Milliseconds startTime = millis();
         while ((millis() - startTime) < OTA_REQUEST_READ_WINDOW_MS)
         {
-            if (mqttOtaRequestReader.update()) break;
+            if (mqttClientService.readMessage(topic, SIZE_TOPIC, payload, SIZE_PAYLOAD))
+            {
+                if (mqttOtaRequestReader.processMessage(topic, payload)) break;
+            }
+
             vTaskDelay(pdMS_TO_TICKS(OTA_REQUEST_POLL_INTERVAL_MS));
         }
 
