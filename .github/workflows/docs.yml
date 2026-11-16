@@ -20,12 +20,12 @@ jobs:
   # 1. Job: Documentation
   documentation:
     # Ubuntu VM
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     # Schritte des Workflows
     steps:
       # 1. Schritt: Checkout Repository
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
       # 2. Schritt: Checkout Submodule

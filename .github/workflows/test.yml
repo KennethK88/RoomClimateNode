@@ -18,12 +18,12 @@ jobs:
   # 1. Job: Native Tests
   native-tests:
     # Ubuntu VM
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     # Schritte des Workflows
     steps:
       # 1. Schritt: Checkout Repository
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
       # 2. Schritt: Checkout Submodule
@@ -35,7 +35,7 @@ jobs:
             submodule update --init --recursive
       # 3. Schritt: Python installieren, da Platform IO hierdrauf basiert
       - name: Install Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.x"
       # 4. Schritt: PlatformIO installieren
