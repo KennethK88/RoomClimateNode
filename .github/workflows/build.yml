@@ -9,7 +9,10 @@ on:
   pull_request:
     branches:
     - main
-    
+
+permissions:
+  contents: read    
+
 # Was soll passieren?
 jobs:
   # 1. Job: Build ESP32

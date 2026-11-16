@@ -11,6 +11,10 @@ on:
       - main
   # Run Button fuer Workflow (Unabhaengigkeit von neuen Commits)
   workflow_dispatch:
+
+permissions:
+  contents: read
+
 # Was soll passieren?
 jobs:
   # 1. Job: Documentation
