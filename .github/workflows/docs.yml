@@ -20,12 +20,12 @@ jobs:
   # 1. Job: Documentation
   documentation:
     # Ubuntu VM
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     # Schritte des Workflows
     steps:
       # 1. Schritt: Checkout Repository
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
       # 2. Schritt: Checkout Submodule
@@ -43,7 +43,7 @@ jobs:
         run: doxygen docs/Doxyfile
       # 5. Schritt: Generierte Documentation Artefakte (unter docs/html) hochladen
       - name: Upload documentation artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: doxygen-html
           path: docs/html
