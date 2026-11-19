@@ -1,10 +1,19 @@
+#include "Sht31Driver.h"
+#include "Types.h"
+
 #include <unity.h>
-#include <Sht31Driver.h>
-#include <Types.h>
+
+namespace
+{
+    constexpr Temperature MIN_ROOM_TEMPERATURE = 15.0f;
+    constexpr Temperature MAX_ROOM_TEMPERATURE = 30.0f;
+    constexpr Humidity MIN_ROOM_HUMIDITY = 20.0f;
+    constexpr Humidity MAX_ROOM_HUMIDITY = 80.0f;
+}
 
 void test_sht31_driver_should_measure_room_temperature_range()
 {
-    // NOTE: Dieser Test setzt einen angeschlossenen SHT31 Sensor bei Raumtemperatur voraus.
+    // NOTE: This test requires a connected SHT31 sensor under typical room temperature conditions.
 
     // Arrange
     Sht31Driver sht31Driver;
@@ -12,15 +21,16 @@ void test_sht31_driver_should_measure_room_temperature_range()
 
     // Act
     sht31Driver.readMeasurements();
-    Temperature temperature = sht31Driver.getTemperature();
+    const Temperature temperature = sht31Driver.getTemperature();
 
     // Assert
-    TEST_ASSERT_TRUE(temperature >= 15.0f && temperature <= 30.0f);
+    TEST_ASSERT_GREATER_OR_EQUAL_FLOAT(MIN_ROOM_TEMPERATURE, temperature);
+    TEST_ASSERT_LESS_OR_EQUAL_FLOAT(MAX_ROOM_TEMPERATURE, temperature);
 }
 
 void test_sht31_driver_should_measure_room_humidity_range()
 {
-    // NOTE: Dieser Test setzt einen angeschlossenen SHT31 Sensor unter typischen Raumklimabedingungen voraus.
+    // NOTE: This test requires a connected SHT31 sensor under typical indoor humidity conditions.
 
     // Arrange
     Sht31Driver sht31Driver;
@@ -28,8 +38,9 @@ void test_sht31_driver_should_measure_room_humidity_range()
 
     // Act
     sht31Driver.readMeasurements();
-    Humidity humidity = sht31Driver.getHumidity();
+    const Humidity humidity = sht31Driver.getHumidity();
 
     // Assert
-    TEST_ASSERT_TRUE(humidity >= 20.0f && humidity <= 80.0f);
+    TEST_ASSERT_GREATER_OR_EQUAL_FLOAT(MIN_ROOM_HUMIDITY, humidity);
+    TEST_ASSERT_LESS_OR_EQUAL_FLOAT(MAX_ROOM_HUMIDITY, humidity);
 }

@@ -184,8 +184,6 @@ and sequence diagrams.
 - Verify sensor communication on target hardware
 - Verify battery voltage measurement
 - Verify Wi-Fi and MQTT communication
-- Verify OTA firmware updates
-- Verify deep sleep and timer-based wake-up
 
 ### Manual System Tests
 
@@ -193,3 +191,5 @@ and sequence diagrams.
 - Verify integration with Mosquitto and Home Assistant
 - Monitor battery-powered operation over extended periods
 - Verify firmware version and OTA status reporting
+- Verify OTA firmware updates
+- Verify deep sleep and timer-based wake-up

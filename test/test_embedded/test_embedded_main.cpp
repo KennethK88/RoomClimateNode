@@ -1,18 +1,17 @@
 #include <Arduino.h> 
 #include <unity.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
-// Wird vor JEDEM Test aufgerufen
 void setUp()
 {
 
 }
 
-// Wird nach JEDEM Test aufgerufen
 void tearDown()
 {
-    // Hier könntest du aufräumen
-}
 
+}
 
 // WiFiConnectionManager
 void test_wifi_connection_manager_should_establish_wifi_connection();
@@ -29,7 +28,7 @@ void test_esp32_battery_driver_should_measure_battery_voltage_in_valid_range();
 
 void setup()
 {  
-    delay(5000); // NOTE: Großes Delay
+    vTaskDelay(pdMS_TO_TICKS(5000));
     UNITY_BEGIN();
 
     // WiFiConnectionManager
@@ -50,5 +49,5 @@ void setup()
 
 void loop()
 {
-    //
+
 }
