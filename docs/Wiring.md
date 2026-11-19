@@ -33,3 +33,15 @@ The LiPo battery supplies the microcontroller through its board-specific battery
   - `HardwareConfigC3Pico.h`
 - The appropriate configuration is selected at compile time
   through `HardwareConfig.h`.
+
+## Hardware References
+
+The following official manufacturer documentation provides additional technical details, datasheets, and board schematics.
+
+| Hardware | Documentation |
+|----------|---------------|
+| LOLIN D32 | [Board Documentation & Schematic](https://www.wemos.cc/en/latest/d32/d32.html) |
+| LOLIN C3 Pico | [Board Documentation & Schematic](https://docs.wemos.cc/en/latest/c3/c3_pico.html) |
+| ESP32 | [ESP32 Series Datasheet](https://documentation.espressif.com/esp32_datasheet_en.html) |
+| ESP32-C3 | [ESP32-C3 Series Datasheet](https://documentation.espressif.com/esp32-c3_datasheet_en.html) |
+| SHT31 | [Sensirion SHT3x-DIS Datasheet (PDF)](https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf) |
