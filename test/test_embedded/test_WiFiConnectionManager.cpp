@@ -1,10 +1,10 @@
-#include <unity.h>
 #include <WiFiConnectionManager.h>
-#include <Arduino.h>
+
+#include <unity.h>
 
 void test_wifi_connection_manager_should_establish_wifi_connection()
 {
-    // NOTE: Dieser Test setzt WiFi Empfang samt korrekter Zugangsdaten voraus.
+    // NOTE: This test requires Wi-Fi coverage and valid credentials.
 
     // Arrange
     WiFiConnectionManager wifiConnectionManager;
@@ -12,8 +12,7 @@ void test_wifi_connection_manager_should_establish_wifi_connection()
 
     // Act
     wifiConnectionManager.connect();
-    delay(5000); // Warten bis Verbindung aufgebaut ist
-    bool wifiConnected = wifiConnectionManager.isConnected();
+    const bool wifiConnected = wifiConnectionManager.isConnected();
 
     // Assert
     TEST_ASSERT_TRUE(wifiConnected);
