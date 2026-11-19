@@ -44,9 +44,9 @@ The RoomClimateNode is operational and integrated into Home Assistant. Multiple 
 ## Documentation
 
 - [Project Overview](docs/ProjectOverview.md)
-- [System Architecture](docs/SystemArchitecture.puml)
-- [Class Diagram](docs/ClassDiagram.puml)
-- [Measurement Sequence Diagram](docs/MeasurementSequenceDiagram.puml)
-- [OTA Sequence Diagram](docs/OtaSequenceDiagram.puml)
+- System Architecture: [Diagram](docs/SystemArchitecture.svg) | [PlantUML Source](docs/SystemArchitecture.puml)
+- Class Diagram: [Diagram](docs/ClassDiagram.svg) | [PlantUML Source](docs/ClassDiagram.puml)
+- Measurement Sequence Diagram: [Diagram](docs/MeasurementSequenceDiagram.svg) | [PlantUML Source](docs/MeasurementSequenceDiagram.puml)
+- OTA Sequence Diagram: [Diagram](docs/OtaSequenceDiagram.svg) | [PlantUML Source](docs/OtaSequenceDiagram.puml)
 - [Hardware Wiring](docs/Wiring.md)
 - [Git Conventions](docs/GitConventions.md)
