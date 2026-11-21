@@ -1,7 +1,7 @@
-# Name des Workflows
+# Workflow name
 name: Build Documentation
 
-# Wann soll Workflow gestartet werden?
+# Workflow triggers
 on:
   push:
     branches:
@@ -9,39 +9,37 @@ on:
   pull_request:
     branches:
       - main
-  # Run Button fuer Workflow (Unabhaengigkeit von neuen Commits)
+  # Allow manual execution without new commits
   workflow_dispatch:
 
 permissions:
   contents: read
 
-# Was soll passieren?
+# Jobs
 jobs:
   # 1. Job: Documentation
   documentation:
-    # Ubuntu VM
+    # Ubuntu runner
     runs-on: ubuntu-26.04
-    # Schritte des Workflows
+
+    # Workflow steps
     steps:
-      # 1. Schritt: Checkout Repository
+      # 1. Step: Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v7
         with:
           persist-credentials: false
-      # 2. Schritt: Checkout Submodule
-      - name: Checkout Private Submodules
-        env:
-          SUBMODULE_TOKEN: ${{ secrets.CI_SUBMODULE_TOKEN }}
-        run: |
-          git -c "url.https://x-access-token:${SUBMODULE_TOKEN}@github.com/.insteadOf=https://github.com/" \
-            submodule update --init --recursive
-      # 3. Schritt: Doxygen und Graphviz installieren
+          submodules: recursive
+
+      # 2. Step: Install Doxygen and Graphviz
       - name: Install Doxygen and Graphviz
         run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
-      # 4. Schritt: Doxygen ausführen
+
+      # 3. Step: Generate documentation
       - name: Run Doxygen
         run: doxygen docs/Doxyfile
-      # 5. Schritt: Generierte Documentation Artefakte (unter docs/html) hochladen
+
+      # 4. Step: Upload generated documentation artifacts (docs/html)
       - name: Upload documentation artifact
         uses: actions/upload-artifact@v7
         with:
