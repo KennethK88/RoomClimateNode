@@ -14,6 +14,8 @@ namespace
     constexpr Milliseconds OTA_REQUEST_POLL_INTERVAL_MS = 50;
 }
 
+RoomClimateController::RoomClimateController(ISht31SensorDriver& sht31SensorDriver, IBatteryDriver& batteryDriver, WiFiConnectionManager& wifiConnectionManager, MqttClientService& mqttClientService, MqttMeasurementPublisher& mqttMeasurementPublisher, FirmwareUpdateService& firmwareUpdateService, MqttOtaRequestReader& mqttOtaRequestReader, MqttOtaStatusPublisher& mqttOtaStatusPublisher, MqttFirmwareVersionPublisher& mqttFirmwareVersionPublisher, PowerManager& powerManager) : sht31SensorDriver(sht31SensorDriver), batteryDriver(batteryDriver), wifiConnectionManager(wifiConnectionManager), mqttClientService(mqttClientService), mqttMeasurementPublisher(mqttMeasurementPublisher), firmwareUpdateService(firmwareUpdateService), mqttOtaRequestReader(mqttOtaRequestReader), mqttOtaStatusPublisher(mqttOtaStatusPublisher), mqttFirmwareVersionPublisher(mqttFirmwareVersionPublisher), powerManager(powerManager), temperatureSensor(sht31SensorDriver), humiditySensor(sht31SensorDriver), batterySensor(batteryDriver), sensorCoordinator(temperatureSensor, humiditySensor, batterySensor) {}
+
 void RoomClimateController::init()
 {
     // NOTE: Wi-Fi must currently be initialized before I2C.
