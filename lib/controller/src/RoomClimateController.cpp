@@ -71,7 +71,6 @@ void RoomClimateController::update()
     batteryDriver.readVoltage();
     const Measurements measurements = sensorCoordinator.readAllSensors();
     const ValidationResults validationResults = sensorValidator.validateAllSensors(measurements);
-    const SystemState systemState = stateMachine.calculateState(validationResults);
     mqttMeasurementPublisher.publish(measurements);
     mqttClientService.disconnect();
     powerManager.enterDeepSleep();
