@@ -78,8 +78,7 @@ deactivate Coordinator
 
 note over Controller
   SensorValidator.validateAllSensors(measurements)
-  StateMachine.calculateState(validationResults)
-  Both results are currently ignored by the publishing logic.
+  Validation results are currently ignored by the publishing logic.
 end note
 
 == MQTT publishing ==
