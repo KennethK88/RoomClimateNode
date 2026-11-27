@@ -6,7 +6,6 @@
 #include "HumiditySensor.h"
 #include "SensorCoordinator.h"
 #include "SensorValidator.h"
-#include "StateMachine.h"
 #include "PowerManager.h"
 
 #include <IBatteryDriver.h>
@@ -77,8 +76,6 @@ class RoomClimateController
 
         // Evaluation
         SensorValidator sensorValidator;
-        StateMachine stateMachine;
-
  
     public:
 
@@ -132,8 +129,8 @@ class RoomClimateController
          * and battery measurements, collects the results through the
          * SensorCoordinator, and publishes them via MQTT.
          *
-         * @note Measurement validation and system state evaluation are currently
-         * performed, but their results do not affect MQTT publishing.
+         * @note Measurement validation is currently performed, but its
+         * results do not affect MQTT publishing.
          *
          * @note If Wi-Fi or MQTT connectivity cannot be established, the
          * measurement cycle is aborted and deep sleep is requested.

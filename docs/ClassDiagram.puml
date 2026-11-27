@@ -63,20 +63,11 @@ package "RoomClimateNode" {
             +humidityValid : bool
             +batteryLevelValid : bool
         }
-
-        enum SystemState {
-            Normal
-            Error
-        }
     }
 
     package "Evaluation" {
         class SensorValidator {
             +validateAllSensors(measurements : const Measurements&) : ValidationResults
-        }
-
-        class StateMachine {
-            +calculateState(results : const ValidationResults&) : SystemState
         }
     }
 
@@ -189,7 +180,6 @@ RoomClimateController *-- HumiditySensor
 RoomClimateController *-- BatterySensor
 RoomClimateController *-- SensorCoordinator
 RoomClimateController *-- SensorValidator
-RoomClimateController *-- StateMachine
 
 ' ============================================================
 ' Injected references held by controller
@@ -221,8 +211,6 @@ SensorCoordinator ..> Measurements
 
 SensorValidator ..> Measurements
 SensorValidator ..> ValidationResults
-StateMachine ..> ValidationResults
-StateMachine ..> SystemState
 
 MqttMeasurementPublisher --> MqttClientService
 MqttMeasurementPublisher ..> Measurements
@@ -235,10 +223,6 @@ MqttOtaRequestReader --> MqttClientService
 MqttOtaStatusPublisher --> MqttClientService
 MqttFirmwareVersionPublisher --> MqttClientService
 
-note right of StateMachine
-  Currently invoked, but its result is not used.
-  Planned for removal (separate refactoring issue).
-end note
 
 note right of SensorValidator
   Validation results are currently not used
